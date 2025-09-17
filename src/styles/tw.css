@@ -4,8 +4,8 @@
 /* using gruvbox light HARD and gruvbox dark HARD themes */
 
 @theme {
-  --font-title: "EB Garamond", serif;
-  --font-text: "EB Garamond", serif;
+  --font-title: "Newsreader", serif;
+  --font-text: "Newsreader", serif;
   --font-code: "Geist Mono", monospace;
 
   --color-gruvbox-light-bg: #f9f5d7;

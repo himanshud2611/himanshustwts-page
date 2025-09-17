@@ -34,7 +34,7 @@ const { post }: PostProps = Astro.props;
 const { Content, frontmatter } = post;
 ---
 
-<Layout title={frontmatter.title}>
+<Layout title={frontmatter.title} wide={false}>
   <h1 class="text-3xl font-bold mb-4">{frontmatter.title}</h1>
   {
     frontmatter.tags && frontmatter.tags.length > 0 && (

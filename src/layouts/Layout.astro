@@ -1,11 +1,13 @@
 ---
 export interface Props {
   title: string;
+  wide?: boolean;
 }
 
 import "../styles/tw.css";
+import Header from '../components/Header.astro';
 
-const { title } = Astro.props;
+const { title, wide = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -38,7 +40,7 @@ const { title } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Geist+Mono:wght@100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Geist+Mono:wght@100..900&display=swap"
       rel="stylesheet"
     />
     <link
@@ -49,180 +51,23 @@ const { title } = Astro.props;
     />
     <title>{title}</title>
     <style>
-      body * {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      .animate-element {
-        transition:
-          opacity 0.6s ease-out,
-          transform 0.6s ease-out;
-      }
-
-      .animate-element.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      /* Removed appear animation */
     </style>
   </head>
   <body
-    class="flex flex-col break-all min-h-screen items-center bg-gruvbox-light-bg text-gruvbox-light dark:bg-gruvbox-dark-bg dark:text-gruvbox-dark"
+    class="flex flex-col min-h-screen items-center bg-gruvbox-light-bg text-gruvbox-light dark:bg-gruvbox-dark-bg dark:text-gruvbox-dark"
   >
-    <div class="w-full sm:w-4/5 py-6 sm:py-8 md:py-16 lg:w-3/5 px-6 md:w-2/3">
-      <nav class="flex justify-between gap-4 mb-8">
-        <div class="flex gap-4">
-          <a class="navlink" href="/">Home</a>
-          <a class="navlink" href="/posts">Posts</a>
+    <div class="w-full sm:w-4/5 py-6 sm:py-8 md:py-12 lg:w-3/5 px-6 md:w-2/3 max-w-4xl relative">
+      <Header wide={wide} />
+      <main class="break-words prose prose-lg dark:prose-invert max-w-none">
+        <div class="not-prose">
+          <slot />
         </div>
-        <p class="cursor-pointer" id="theme-toggle">toggle theme</p>
-      </nav>
-      <main class="break-keep">
-        <slot />
       </main>
     </div>
   </body>
   <script>
-    (function () {
-      function setupPageAnimations() {
-        const body = document.body;
-        const elementsToAnimate: Element[] = [];
-
-        function collectElements(
-          parent: Element,
-          currentLevel: number,
-          maxLevel: number,
-        ) {
-          if (currentLevel > maxLevel) return;
-
-          Array.from(parent.children).forEach((child) => {
-            if (child.tagName !== "SCRIPT") {
-              elementsToAnimate.push(child);
-              collectElements(child, currentLevel + 1, maxLevel);
-            }
-          });
-        }
-
-        collectElements(document.body, 1, 4);
-
-        elementsToAnimate.forEach((el) => {
-          el.classList.add("animate-element");
-        });
-
-        setTimeout(() => {
-          elementsToAnimate.forEach((el, index) => {
-            setTimeout(() => {
-              el.classList.add("visible");
-            }, index * 200);
-          });
-        }, 50);
-      }
-
-      setupPageAnimations();
-
-      const markdownContent = document.querySelector(".markdown-content");
-      if (!markdownContent) {
-        setupPageAnimations();
-        return;
-      }
-
-      const headings = markdownContent.querySelectorAll("h1, h2, h3, h4");
-      if (headings.length === 0) {
-        setupPageAnimations();
-        return;
-      }
-
-      interface HeadingData {
-        id: string;
-        text: string | null;
-      }
-      const headingData: HeadingData[] = [];
-      headings.forEach((heading, index) => {
-        if (!heading.id) {
-          heading.id = `heading-${index}`;
-        }
-        headingData.push({
-          id: heading.id,
-          text: heading.textContent,
-        });
-      });
-
-      const timelineContainer = document.createElement("div");
-      timelineContainer.className = "timeline-container";
-
-      const timelineItems = document.createElement("div");
-      timelineItems.className = "timeline-items flex flex-col items-end";
-
-      headingData.forEach((heading) => {
-        const timelineItem = document.createElement("div");
-        timelineItem.className = "timeline-item";
-        timelineItem.setAttribute("data-section", heading.id);
-
-        const timelineLink = document.createElement("a");
-        timelineLink.href = `#${heading.id}`;
-        timelineLink.className = "timeline-link";
-
-        const timelineDot = document.createElement("div");
-        timelineDot.className = "timeline-dot bg-gruvbox-light-bg-lighter";
-
-        const timelineText = document.createElement("span");
-        timelineText.className = "timeline-text text-sm";
-        timelineText.textContent = heading.text;
-
-        timelineLink.appendChild(timelineDot);
-        timelineItem.appendChild(timelineLink);
-        timelineItem.appendChild(timelineText);
-        timelineItems.appendChild(timelineItem);
-      });
-
-      timelineContainer.appendChild(timelineItems);
-      document.body.appendChild(timelineContainer);
-
-      const timelineItemElements = document.querySelectorAll(".timeline-item");
-      const sectionIds = Array.from(timelineItemElements).map((item) =>
-        item.getAttribute("data-section"),
-      );
-      const sections = sectionIds.map((id) =>
-        document.getElementById(id as string),
-      );
-
-      function getElementTop(element: HTMLElement): number {
-        let top = 0;
-        do {
-          top += element.offsetTop || 0;
-          element = element.offsetParent as HTMLElement;
-        } while (element);
-        return top;
-      }
-
-      function getActiveSection() {
-        const scrollPosition = window.scrollY;
-        for (let i = 0; i < sections.length; i++) {
-          const section = sections[i];
-          const sectionTop = getElementTop(section as HTMLElement);
-          if (sectionTop > scrollPosition + 100) {
-            return i === 0 ? sections[0] : sections[i - 1];
-          }
-        }
-        return sections[sections.length - 1];
-      }
-
-      function updateActiveTimelineItem() {
-        const activeSection = getActiveSection();
-        const activeId = activeSection?.id;
-        timelineItemElements.forEach((item) => {
-          if (item.getAttribute("data-section") === activeId) {
-            item.classList.add("active");
-          } else {
-            item.classList.remove("active");
-          }
-        });
-      }
-
-      window.addEventListener("scroll", updateActiveTimelineItem);
-      updateActiveTimelineItem();
-    })();
-
+    // Theme toggle functionality
     document
       .getElementById("theme-toggle")
       ?.addEventListener("click", function () {

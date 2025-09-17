@@ -1,0 +1,23 @@
+---
+export interface Props {
+  href: string;
+  icon: string;
+  title: string;
+  subtitle: string;
+}
+
+const { href, icon, title, subtitle } = Astro.props;
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="group flex items-center p-4 space-x-4 rounded-lg bg-gruvbox-light-bg-alt dark:bg-gruvbox-dark-bg-alt hover:bg-gruvbox-light-accent/10 dark:hover:bg-gruvbox-dark-accent/10 transition-all"
+>
+  <Fragment set:html={icon} />
+  <div>
+    <h3 class="font-bold text-lg group-hover:text-gruvbox-light-accent dark:group-hover:text-gruvbox-dark-accent transition-colors">{title}</h3>
+    <p class="text-sm text-gruvbox-light-bg-lighter dark:text-gruvbox-dark-bg-lighter">{subtitle}</p>
+  </div>
+</a>

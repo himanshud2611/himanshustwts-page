@@ -1,0 +1,98 @@
+---
+import { Icon } from 'astro-icon/components'
+---
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  {/* GradientLogs Newsletter */}
+  <div class="group relative overflow-hidden rounded-lg bg-neutral-900/[0.03] border-black/10 border dark:border-white/10">
+    <div class="absolute inset-0 dark:bg-gruvbox-dark-accent/5 transition-opacity"></div>
+    <div class="relative p-8 space-y-6">
+      <div class="space-y-2">
+        <div class="flex items-center gap-3">
+          <img 
+            src="/gradientlogs.webp" 
+            alt="GradientLogs logo" 
+            class="w-8 h-8 object-contain rounded-lg"
+          />
+          <h3 class="text-xl font-medium">GradientLogs</h3>
+        </div>
+        <p class="text-gruvbox-light/70 dark:text-gruvbox-dark/70 pt-2">
+          Deep dives into ML architectures, hands-on implementation insights, and musings on culture and arts.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex items-start gap-3">
+          <Icon name="tabler:certificate" class="shrink-0 w-5 h-5 mt-1 text-gruvbox-light/50 dark:text-gruvbox-dark/50" />
+          <div class="space-y-1">
+            <h4 class="font-medium">Focused Deep Dives</h4>
+            <p class="text-sm text-gruvbox-light/60 dark:text-gruvbox-dark/60">Breaking down complex architectures into intuitive concepts</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <Icon name="tabler:notebook" class="shrink-0 w-5 h-5 mt-1 text-gruvbox-light/50 dark:text-gruvbox-dark/50" />
+          <div class="space-y-1">
+            <h4 class="font-medium">Random Musings</h4>
+            <p class="text-sm text-gruvbox-light/60 dark:text-gruvbox-dark/60">Thoughts on culture, art, and everything in between</p>
+          </div>
+        </div>
+      </div>
+
+      <a 
+        href="https://himanshustwts.substack.com"
+        class="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-gruvbox-light-accent dark:text-gruvbox-dark-accent border border-current rounded-lg hover:bg-gruvbox-light-accent/5 dark:hover:bg-gruvbox-dark-accent/5 transition-colors"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Subscribe to GradientLogs
+        <Icon name="tabler:arrow-right" class="w-3.5 h-3.5" />
+      </a>
+    </div>
+  </div>
+
+  {/* GroundZero Newsletter */}
+  <div class="group relative overflow-hidden rounded-lg bg-neutral-900/[0.03] border-black/10 border dark:border-white/10">
+    <div class="absolute inset-0 dark:bg-gruvbox-dark-accent/5 transition-opacity"></div>
+    <div class="relative p-8 space-y-6">
+      <div class="space-y-2">
+        <div class="flex items-center gap-3">
+          <img 
+            src="/groundzero.webp" 
+            alt="Ground Zero logo" 
+            class="w-8 h-8 object-contain rounded-lg"
+          />
+          <h3 class="text-xl font-medium">Spotlights by GroundZero</h3>
+        </div>
+        <p class="text-gruvbox-light/70 dark:text-gruvbox-dark/70 pt-2">
+          Your friendly neighborhood newsletter exploring AI/ML and tech, with occasional notes and summaries.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex items-start gap-3">
+          <Icon name="tabler:bolt" class="shrink-0 w-5 h-5 mt-1 text-gruvbox-light/50 dark:text-gruvbox-dark/50" />
+          <div class="space-y-1">
+            <h4 class="font-medium">Latest Developments</h4>
+            <p class="text-sm text-gruvbox-light/60 dark:text-gruvbox-dark/60">Keeping you updated on the fast-paced AI landscape and breakthroughs</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <Icon name="tabler:message-circle" class="shrink-0 w-5 h-5 mt-1 text-gruvbox-light/50 dark:text-gruvbox-dark/50" />
+          <div class="space-y-1">
+            <h4 class="font-medium">Technical Discussions</h4>
+            <p class="text-sm text-gruvbox-light/60 dark:text-gruvbox-dark/60">Expert conversations with occasional summaries and key insights</p>
+          </div>
+        </div>
+      </div>
+
+      <a 
+        href="https://groundzero1.substack.com"
+        class="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-gruvbox-light-accent dark:text-gruvbox-dark-accent border border-current rounded-lg hover:bg-gruvbox-light-accent/5 dark:hover:bg-gruvbox-dark-accent/5 transition-colors"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Subscribe to GroundZero
+        <Icon name="tabler:arrow-right" class="w-3.5 h-3.5" />
+      </a>
+    </div>
+  </div>
+</div>

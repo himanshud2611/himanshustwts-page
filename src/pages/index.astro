@@ -1,9 +1,334 @@
 ---
-import Layout from '../layouts/Layout.astro';
-const { Content, frontmatter } = await import('../content/index.mdx');
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/Section.astro";
+import ExternalLinkIcon from "../components/ExternalLinkIcon.astro";
+import Newsletter from "../components/Newsletter.astro";
+import { Icon } from "astro-icon/components";
+
+const title = "Himanshu — AI Researcher & SDE";
+
+const experience = [
+    {
+        role: "Product & Growth",
+        company: "Bhindi AI",
+        companyUrl: "https://bhindi.io",
+        iconPath: "/bindiai.webp",
+        date: "Mar 2025 - Present",
+        description:
+            "[Founding Team] We are eliminating the friction between user intent and workflow execution.",
+    },
+    {
+        role: "Grants",
+        company: "Upsurge Grants",
+        companyUrl: "https://grants.upsurge.io",
+        iconPath: "/upsurge.webp",
+        date: "Feb 2025 - Present",
+        description:
+            "We offer non-dilutive microgrants for builders in deeptech. Apply now - grants.upsurge.io",
+    },
+    {
+        role: "AI Research",
+        company: "Bluebrain",
+        companyUrl: "https://x.com/BluebrainAI",
+        iconPath: "/bluebrain.webp",
+        date: "Feb 2025 - Present",
+        description:
+            "Learning, building, and iterating at the intersection of AI and real-world challenges.",
+    },
+    {
+        role: "ML Engineer",
+        company: "SproutsAI",
+        companyUrl: "https://www.sproutsai.com",
+        iconPath: "/sproutsai.webp",
+        date: "Oct 2024 - Feb 2025",
+        description:
+            "Built end-to-end autonomous agentic AI systems for hiring automation, data enrichment, and document processing.",
+    },
+    {
+        role: "Research Intern",
+        company: "IITB Trust Lab",
+        companyUrl: "https://trustlab.iitb.ac.in/",
+        iconPath: "/trustlab.webp",
+        date: "Jun 2024 - Aug 2024",
+        description:
+            "Collaborated on 'Domain Knowledge based Q/A for LLMs', optimizing and fine-tuning LLMs for open-ended medical question answering.",
+    },
+];
 ---
-<Layout title={frontmatter.title}>
-			<div class="markdown-content">
-				<Content />
-			</div>
+
+<Layout title={title}>
+    <div class="space-y-16 max-w-3xl">
+        {/* Hero Section */}
+        <div class="space-y-6">
+            <div>
+                <h1 class="text-4xl font-medium mb-2">himanshu</h1>
+                <p
+                    class="text-lg text-gruvbox-light/70 dark:text-gruvbox-dark/70"
+                >
+                    cooking in da lab at <a
+                        href="https://x.com/upsurgelabs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
+                        >Upsurge<ExternalLinkIcon /></a
+                    >
+                </p>
+            </div>
+
+            <p
+                class="text-lg max-w-[480px] leading-relaxed text-gruvbox-light/90 dark:text-gruvbox-dark/90"
+            >
+                nice to meet you!! i'm himanshu, working on ai products &
+                research. this is my little corner of the internet :)
+            </p>
+
+            <div class="flex flex-wrap gap-6 text-sm">
+                <a
+                    href="https://twitter.com/himanshustwts"
+                    class="inline-flex items-center text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24">
+                        <path
+                            fill="currentColor"
+                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                        ></path>
+                    </svg>
+                    <span>@himanshustwts</span>
+                    <ExternalLinkIcon />
+                </a>
+                <a
+                    href="https://x.com/groundzero_twt"
+                    class="inline-flex items-center text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24">
+                        <path
+                            fill="currentColor"
+                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                        ></path>
+                    </svg>
+                    <span>Ground Zero</span>
+                    <ExternalLinkIcon />
+                </a>
+            </div>
+        </div>
+
+        {/* Work Experience */}
+        <Section title="what i do">
+            <div class="space-y-6">
+                <p>
+                    At <a
+                        href="https://www.youtube.com/@Ground_ZeroYT"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
+                        >Ground Zero<ExternalLinkIcon /></a
+                    >, I host podcasts with interesting people in AI and Tech.
+                    Stay tuned for exciting launches soon.
+                </p>
+                <div
+                    class="relative border-l border-gruvbox-light/30 dark:border-gruvbox-dark/30 ml-2 pt-2"
+                >
+                    {
+                        experience.map((exp, index) => (
+                            <div
+                                class={`relative ml-6 ${index < experience.length - 1 ? "mb-8" : ""}`}
+                            >
+                                <div class="absolute w-3 h-[1px] bg-gruvbox-light/30 dark:bg-gruvbox-dark/30 -left-6 top-[0.8rem]" />
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-4">
+                                        {exp.iconPath && (
+                                            <img
+                                                src={exp.iconPath}
+                                                alt={`${exp.company} logo`}
+                                                class="w-10 h-10 object-contain flex-shrink-0 rounded-lg"
+                                                loading="lazy"
+                                            />
+                                        )}
+                                        <div class="flex flex-col justify-center">
+                                            <h3 class="font-medium">
+                                                {exp.role} •{" "}
+                                                {exp.companyUrl ? (
+                                                    <a
+                                                        href={exp.companyUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity"
+                                                    >
+                                                        {exp.company}
+                                                        <ExternalLinkIcon />
+                                                    </a>
+                                                ) : (
+                                                    exp.company
+                                                )}
+                                            </h3>
+                                            <p class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70">
+                                                {exp.date}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3">
+                                        {exp.description.includes(
+                                            "grants.upsurge.io"
+                                        ) ? (
+                                            <>
+                                                We offer non-dilutive
+                                                microgrants for builders in
+                                                deeptech.{" "}
+                                                <a
+                                                    href="https://grants.upsurge.io"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
+                                                >
+                                                    Apply now
+                                                    <ExternalLinkIcon />
+                                                </a>
+                                            </>
+                                        ) : (
+                                            exp.description
+                                        )}
+                                    </p>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </Section>
+
+        {/* About Section */}
+        <Section title="what excites me">
+            <div class="prose prose-lg dark:prose-invert max-w-none">
+                <p>
+                    In my spare time, you might find me diving deep into AI
+                    space, listening to music and posting on X. Lowkey
+                    geopolitics excites me.
+                </p>
+            </div>
+        </Section>
+
+        {/* Content Creation */}
+        <Section title="find me online">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div
+                    class="group relative p-6 bg-neutral-900/[0.02] dark:bg-neutral-900/[0.05] rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 transition-colors"
+                >
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <Icon
+                                name="tabler:brand-x"
+                                class="w-5 h-5 text-gruvbox-light/70 dark:text-gruvbox-dark/70"
+                            />
+                            <h3 class="font-medium">Writing & Discussions</h3>
+                        </div>
+                        <p
+                            class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70"
+                        >
+                            Follow my thoughts and insights about AI/ML,
+                            architectures, and tech on Twitter.
+                        </p>
+                        <div class="flex items-center gap-2">
+                            <a
+                                href="https://twitter.com/himanshustwts"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-gruvbox-light-accent dark:text-gruvbox-dark-accent border border-current rounded-lg hover:bg-gruvbox-light-accent/5 dark:hover:bg-gruvbox-dark-accent/5 transition-colors"
+                            >
+                                @himanshustwts<ExternalLinkIcon />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="group relative p-6 bg-neutral-900/[0.02] dark:bg-neutral-900/[0.05] rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 transition-colors"
+                >
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <Icon
+                                name="tabler:video"
+                                class="w-5 h-5 text-gruvbox-light/70 dark:text-gruvbox-dark/70"
+                            />
+                            <h3 class="font-medium">Podcasts & Videos</h3>
+                        </div>
+                        <p
+                            class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70"
+                        >
+                            Check out AI/ML deep dives and conversations with
+                            interesting people in tech.
+                        </p>
+                        <div class="flex items-center gap-2">
+                            <a
+                                href="/podcasts"
+                                class="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-gruvbox-light-accent dark:text-gruvbox-dark-accent border border-current rounded-lg hover:bg-gruvbox-light-accent/5 dark:hover:bg-gruvbox-dark-accent/5 transition-colors"
+                            >
+                                Watch episodes
+                                <Icon
+                                    name="tabler:player-play"
+                                    class="w-4 h-4"
+                                />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Section>
+
+        {/* Newsletter Section */}
+        <Section title="stay in the loop">
+            <Newsletter />
+        </Section>
+
+        {/* Connect Section */}
+        <Section title="let's connect">
+            <p class="mb-4">
+                Want to discuss AI, collaborate on projects, or just chat about
+                tech? Feel free to reach out!
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a
+                    href="mailto:himanshu.dubey8853@gmail.com"
+                    class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
+                >
+                    Email me<ExternalLinkIcon />
+                </a>
+                <span class="text-gruvbox-light/70 dark:text-gruvbox-dark/70"
+                    >•</span
+                >
+                <a
+                    href="https://calendly.com/hdubey261102/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
+                >
+                    Schedule a call<ExternalLinkIcon />
+                </a>
+            </div>
+        </Section>
+
+        <div class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70 -mt-10">
+            <p class="mt-2">
+                feel free to DM me on <a
+                    href="https://twitter.com/himanshustwts"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-colors mr-1"
+                    ><svg
+                        class="w-4 h-4 -mr-1 ml-1 mb-1 inline"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                        ></path>
+                    </svg>
+                    <ExternalLinkIcon />
+                </a> for quick chats!
+            </p>
+            <p class="text-base mt-6">cyaa!</p>
+        </div>
+    </div>
 </Layout>

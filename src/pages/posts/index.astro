@@ -41,7 +41,39 @@ const sortedPosts = allPosts.sort((a, b) => {
   return dateB - dateA;
 });
 ---
-<Layout title="All Posts">
+<Layout title="All Posts" wide={true}>
+  <div class="mb-8 relative overflow-hidden rounded-xl bg-gradient-to-r from-gruvbox-light-accent/5 to-gruvbox-light/5 dark:from-gruvbox-dark-accent/10 dark:to-gruvbox-dark/10 border border-gruvbox-light-accent/20 dark:border-gruvbox-dark-accent/20">
+    <div class="relative p-4 sm:p-6">
+      <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+        <img 
+          src="/gradientlogs.webp" 
+          alt="GradientLogs logo" 
+          class="w-10 h-10 rounded-lg"
+        />
+        <div class="flex-1">
+          <h2 class="text-lg font-medium mb-2">Subscribe to GradientLogs ✨</h2>
+          <p class="text-gruvbox-light/70 dark:text-gruvbox-dark/70 mb-4 text-sm sm:text-base">Deep dives into ML architectures and thoughts on culture, art, and everything in between.</p>
+          <div class="flex justify-start">
+            <a 
+              href="https://himanshustwts.substack.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gruvbox-light-accent dark:text-gruvbox-dark-accent border border-current rounded-lg hover:bg-gruvbox-light-accent/5 dark:hover:bg-gruvbox-dark-accent/5 transition-colors"
+            >
+              Subscribe to Newsletter
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="mb-6">
     <input 
       type="text" 

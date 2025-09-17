@@ -13,6 +13,15 @@ const { title, wide = false } = Astro.props;
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N52R3HCY8K"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-N52R3HCY8K');
+    </script>
+
     <script is:inline>
       (function () {
         const savedTheme = localStorage.getItem("theme");

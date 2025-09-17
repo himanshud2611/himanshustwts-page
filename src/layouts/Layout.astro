@@ -32,10 +32,22 @@ const { title, wide = false } = Astro.props;
         <meta name="title" content={title} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
-        <meta property="og:image" content="/meta.png" />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:image" content="/meta.png" />
+        <meta property="og:image" content="https://wisp.rex.wf/x/himanshustwts" />
+        <meta property="og:description" content="AI Researcher & SDE. Building at the intersection of AI and real-world challenges." />
+        {/* X (Twitter) 2025 Meta Tags */}
+        <meta name="x:card" content="summary" />
+        <meta name="x:site" content="@himanshustwts" />
+        <meta name="x:creator" content="@himanshustwts" />
+        <meta name="x:title" content={title} />
+        <meta name="x:description" content="AI Researcher & SDE. Building at the intersection of AI and real-world challenges." />
+        <meta name="x:image" content="https://wisp.rex.wf/x/himanshustwts" />
+        {/* Legacy Twitter Tags for Backward Compatibility */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@himanshustwts" />
+        <meta name="twitter:creator" content="@himanshustwts" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content="AI Researcher & SDE. Building at the intersection of AI and real-world challenges." />
+        <meta name="twitter:image" content="https://wisp.rex.wf/x/himanshustwts" />
       <meta name="generator" content={Astro.generator} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

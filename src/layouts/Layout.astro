@@ -29,19 +29,17 @@ const { title, wide = false } = Astro.props;
           type="image/png"
           href="https://wisp.rex.wf/x/himanshustwts"
         />
-        <meta name="title" content={title} />
-        <meta property="og:type" content="website" />
+        <meta name="description" content="ai research x product, staying upwind" />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="profile" />
         <meta property="og:title" content={title} />
-        <meta property="og:image" content="https://wisp.rex.wf/x/himanshustwts" />
         <meta property="og:description" content="ai research x product, staying upwind" />
-        {/* X (Twitter) 2025 Meta Tags */}
-        <meta name="x:card" content="summary" />
-        <meta name="x:site" content="@himanshustwts" />
-        <meta name="x:creator" content="@himanshustwts" />
-        <meta name="x:title" content={title} />
-        <meta name="x:description" content="ai research x product, staying upwind" />
-        <meta name="x:image" content="https://wisp.rex.wf/x/himanshustwts" />
-        {/* Legacy Twitter Tags for Backward Compatibility */}
+        <meta property="og:image" content="https://wisp.rex.wf/x/himanshustwts" />
+        <meta property="og:image:width" content="400" />
+        <meta property="og:image:height" content="400" />
+        
+        {/* Twitter */}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@himanshustwts" />
         <meta name="twitter:creator" content="@himanshustwts" />

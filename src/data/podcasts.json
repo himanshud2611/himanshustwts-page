@@ -2,6 +2,17 @@
   "last_updated": "2025-09-16",
   "podcasts": [
     {
+        "title": "Model is the Product | Common Corpus, Mid-Training, Open Science",
+        "description": "Bringing an exciting pod with Pierre-Carl Langlais (aka Alexandar Doria). We'd discussed about pre-training recipes, common corpus, mid-training, open science, and more.",
+        "thumbnail": "https://i.ytimg.com/vi/ZZKMWyU6UlI/maxresdefault.jpg",
+        "url": "https://www.youtube.com/watch?v=ZZKMWyU6UlI",
+        "views": 590,
+        "uploaded_time": "2025-10-05T12:00:00Z",
+        "duration": "2.07 hours",
+        "duration_seconds": 7481,
+        "channel_name": "GroundZero YT"
+    },
+    {
       "title": "The Lore of 20yo ML Researcher at Prime Intellect | RL, Agents and Intelligence",
       "description": "Bringing an exciting pod with Kalomaze (20 yo ML researcher, prime intellect). Discussed training, fine-tuning, RL, scaling of LLMs, and interesting TPOT lores.",
       "thumbnail": "https://i.ytimg.com/vi/tnfFn-uQ6WA/maxresdefault.jpg",
@@ -10,8 +21,7 @@
       "uploaded_time": "2025-09-03T12:23:34",
       "duration": "1.7 hours",
       "duration_seconds": 6112,
-      "channel_name": "GroundZero YT",
-      "pinned": true
+      "channel_name": "GroundZero YT"
     },
     {
       "title": "LLMs for Everyone | Pre-training, Fine-Tuning, Scaling RL, Open Source | Daniel Han, Unsloth",
@@ -33,8 +43,7 @@
       "uploaded_time": "2025-07-19T10:29:00",
       "duration": "1.25 hours",
       "duration_seconds": 4547,
-      "channel_name": "GroundZero YT",
-      "pinned": true
+      "channel_name": "GroundZero YT"
     },
     {
       "title": "RL, Reasoning, Reward Hacking, AI Timeline and Post AGI | Will Brown (Research at Prime Intellect)",

@@ -1,16 +1,24 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ExternalLinkIcon from "../components/ExternalLinkIcon.astro";
-import podcastsData from '../data/podcasts.json';
+import { fetchPlaylistVideos } from '../lib/youtube';
 
-// Sort podcasts by pinned status first, then by upload date for better chronological order
-const sortedPodcasts = [...podcastsData.podcasts].sort((a, b) => {
-  // First sort by pinned status
-  if (a.pinned && !b.pinned) return -1;
-  if (!a.pinned && b.pinned) return 1;
-  // Then sort by upload date (most recent first)
-  return new Date(b.uploaded_time).getTime() - new Date(a.uploaded_time).getTime();
-});
+let podcastsData: { podcasts: any[], last_updated: string } | null = null;
+let error: string | null = null;
+
+try {
+  podcastsData = await fetchPlaylistVideos();
+} catch (e: any) {
+  console.error('Failed to fetch podcasts:', e);
+  error = e.message || 'Failed to load podcasts';
+  podcastsData = {
+    podcasts: [],
+    last_updated: new Date().toISOString().split('T')[0]
+  };
+}
+
+const sortedPodcasts = podcastsData.podcasts;
+const buildTimestamp = podcastsData.last_updated;
 
 function formatViews(views: number): string {
   if (views >= 1000) {
@@ -48,57 +56,108 @@ const title = "Podcasts — Himanshu"
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {sortedPodcasts.map((podcast) => (
-        <a 
-          href={podcast.url}
-          target="_blank"
-          rel="noopener noreferrer" 
-          class="group block"
-        >
-          <article class="p-3 pb-1 rounded-xl border border-gruvbox-light/20 dark:border-gruvbox-dark/10 transition-all duration-300 hover:border-gruvbox-light-accent/30 dark:hover:border-gruvbox-dark-accent/30 hover:bg-gruvbox-light/[0.02] dark:hover:bg-gruvbox-dark/[0.02]">
-            <div class="aspect-video relative overflow-hidden rounded-lg bg-gruvbox-light/5 dark:bg-gruvbox-dark/5">
-              <img 
-                src={podcast.thumbnail} 
-                alt={podcast.title}
-                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-              />
-              <div class="absolute bottom-2 right-2 bg-black/80 backdrop-blur-sm text-white px-2 py-1 text-xs rounded-md">
-                {podcast.duration}
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-            <div class="space-y-3 p-2">
-              <h2 class="font-medium group-hover:text-gruvbox-light-accent dark:group-hover:text-gruvbox-dark-accent transition-colors line-clamp-2">
-                {podcast.title}
-              </h2>
-              <p class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70 line-clamp-2">
-                {podcast.description}
-              </p>
-              <div class="pt-3 flex items-center gap-3 text-xs text-gruvbox-light/60 dark:text-gruvbox-dark/60 border-t border-gruvbox-light/20 dark:border-gruvbox-dark/10">
-                <span class="flex items-center">
-                  <svg class="w-3.5 h-3.5 mr-1 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                  {formatViews(podcast.views)} views
-                </span>
-                <span>•</span>
-                <span class="flex items-center">
-                  <svg class="w-3.5 h-3.5 mr-1 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  {formatDate(podcast.uploaded_time)}
-                </span>
-              </div>
-            </div>
-          </article>
-        </a>
-      ))}
-    </div>
+    {error && (
+      <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+        <p class="text-red-600 dark:text-red-400">
+          Error loading podcasts: {error}. Please try again later.
+        </p>
+      </div>
+    )}
 
-    <p class="text-xs text-gruvbox-light/40 dark:text-gruvbox-dark/40 text-right">
-      Last updated: {formatDate(podcastsData.last_updated)}
-    </p>
+    {sortedPodcasts.length === 0 && !error && (
+      <div class="text-center py-12 text-gruvbox-light/50 dark:text-gruvbox-dark/50">
+        <p>No podcasts available at the moment.</p>
+      </div>
+    )}
+
+    {sortedPodcasts.length > 0 && (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {sortedPodcasts.map((podcast) => (
+          <a 
+            href={podcast.url}
+            target="_blank"
+            rel="noopener noreferrer" 
+            class="group block"
+          >
+            <article class="p-3 pb-1 rounded-xl border border-gruvbox-light/20 dark:border-gruvbox-dark/10 transition-all duration-300 hover:border-gruvbox-light-accent/30 dark:hover:border-gruvbox-dark-accent/30 hover:bg-gruvbox-light/[0.02] dark:hover:bg-gruvbox-dark/[0.02]">
+              <div class="aspect-video relative overflow-hidden rounded-lg bg-gruvbox-light/5 dark:bg-gruvbox-dark/5">
+                <img 
+                  src={podcast.thumbnail} 
+                  alt={podcast.title}
+                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                />
+                <div class="absolute bottom-2 right-2 bg-black/80 backdrop-blur-sm text-white px-2 py-1 text-xs rounded-md">
+                  {podcast.duration}
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <div class="space-y-3 p-2">
+                <h2 class="font-medium group-hover:text-gruvbox-light-accent dark:group-hover:text-gruvbox-dark-accent transition-colors line-clamp-2">
+                  {podcast.title}
+                </h2>
+                <p class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70 line-clamp-2">
+                  {podcast.description}
+                </p>
+                <div class="pt-3 flex items-center gap-3 text-xs text-gruvbox-light/60 dark:text-gruvbox-dark/60 border-t border-gruvbox-light/20 dark:border-gruvbox-dark/10">
+                  <span class="flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    {formatViews(podcast.views)} views
+                  </span>
+                  <span>•</span>
+                  <span class="flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {formatDate(podcast.uploaded_time)}
+                  </span>
+                </div>
+              </div>
+            </article>
+          </a>
+        ))}
+      </div>
+    )}
+
+    <div class="text-xs text-gruvbox-light/40 dark:text-gruvbox-dark/40 text-right">
+      <p id="last-updated" data-timestamp={buildTimestamp}>
+        Last updated: {formatDate(buildTimestamp)}
+      </p>
+    </div>
   </div>
 </Layout>
+
+<script>
+  function updateRelativeTime() {
+    const element = document.getElementById('last-updated');
+    if (!element) return;
+    
+    const timestamp = element.getAttribute('data-timestamp');
+    if (!timestamp) return;
+    
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    let timeAgo = '';
+    if (diffMins < 1) {
+      timeAgo = 'just now';
+    } else if (diffMins < 60) {
+      timeAgo = `${diffMins} minute${diffMins === 1 ? '' : 's'} ago`;
+    } else if (diffHours < 24) {
+      timeAgo = `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
+    } else {
+      timeAgo = `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+    }
+    
+    element.textContent = `Last updated: ${timeAgo}`;
+  }
+  
+  updateRelativeTime();
+  setInterval(updateRelativeTime, 60000);
+</script>

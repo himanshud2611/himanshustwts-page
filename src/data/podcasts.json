@@ -1,0 +1,82 @@
+{
+  "last_updated": "2025-09-16",
+  "podcasts": [
+    {
+        "title": "Model is the Product | Common Corpus, Mid-Training, Open Science",
+        "description": "Bringing an exciting pod with Pierre-Carl Langlais (aka Alexandar Doria). We'd discussed about pre-training recipes, common corpus, mid-training, open science, and more.",
+        "thumbnail": "https://i.ytimg.com/vi/ZZKMWyU6UlI/maxresdefault.jpg",
+        "url": "https://www.youtube.com/watch?v=ZZKMWyU6UlI",
+        "views": 590,
+        "uploaded_time": "2025-10-05T12:00:00Z",
+        "duration": "2.07 hours",
+        "duration_seconds": 7481,
+        "channel_name": "GroundZero YT"
+    },
+    {
+      "title": "The Lore of 20yo ML Researcher at Prime Intellect | RL, Agents and Intelligence",
+      "description": "Bringing an exciting pod with Kalomaze (20 yo ML researcher, prime intellect). Discussed training, fine-tuning, RL, scaling of LLMs, and interesting TPOT lores.",
+      "thumbnail": "https://i.ytimg.com/vi/tnfFn-uQ6WA/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=tnfFn-uQ6WA",
+      "views": 1272,
+      "uploaded_time": "2025-09-03T12:23:34",
+      "duration": "1.7 hours",
+      "duration_seconds": 6112,
+      "channel_name": "GroundZero YT"
+    },
+    {
+      "title": "LLMs for Everyone | Pre-training, Fine-Tuning, Scaling RL, Open Source | Daniel Han, Unsloth",
+      "description": "Daniel Han talks about early career trajectory, founding Unsloth, GTM strategy, LLM pre-training, fine-tuning, scaling RL, YC support, and much more.",
+      "thumbnail": "https://i.ytimg.com/vi/v9c00Ty5Z7U/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=v9c00Ty5Z7U",
+      "views": 2288,
+      "uploaded_time": "2025-08-16T12:27:33",
+      "duration": "1.4 hours",
+      "duration_seconds": 5058,
+      "channel_name": "GroundZero YT"
+    },
+    {
+      "title": "Soham Parekh Unplugged with Himanshu | GroundZero YT",
+      "description": "An in-person episode featuring Soham Parekh, detailing his journey, experiences, reflections, and how he balanced multiple Silicon Valley roles simultaneously.",
+      "thumbnail": "https://i.ytimg.com/vi/jXMI62nqu58/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=jXMI62nqu58",
+      "views": 15741,
+      "uploaded_time": "2025-07-19T10:29:00",
+      "duration": "1.25 hours",
+      "duration_seconds": 4547,
+      "channel_name": "GroundZero YT"
+    },
+    {
+      "title": "RL, Reasoning, Reward Hacking, AI Timeline and Post AGI | Will Brown (Research at Prime Intellect)",
+      "description": "Will Brown discusses career trajectory, GenAI Handbook, RL, self-improving agents, AI timeline, reward hacking, post-AGI landscape, and experimental research mindset.",
+      "thumbnail": "https://i.ytimg.com/vi/Jxdbq7vCYxc/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=Jxdbq7vCYxc",
+      "views": 3582,
+      "uploaded_time": "2025-06-22T07:39:17",
+      "duration": "1.72 hours",
+      "duration_seconds": 6205,
+      "channel_name": "GroundZero YT"
+    },
+    {
+      "title": "Post-Training, RL, Experiments and Indic AI | Tokenbender",
+      "description": "Tokenbender shares insights on post-training, RL, reasoning, post-AGI landscape, experiments, and challenges in Indic AI.",
+      "thumbnail": "https://i.ytimg.com/vi/Wnn4wrIht2s/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=Wnn4wrIht2s",
+      "views": 3442,
+      "uploaded_time": "2025-06-01T09:30:06",
+      "duration": "2.3 hours",
+      "duration_seconds": 8335,
+      "channel_name": "GroundZero YT"
+    },
+    {
+      "title": "ML Research | Career in Japan | AI4Bharat | GroundZero AI Talks EP01 with Raj Dabre",
+      "description": "GroundZero AI Talks EP01 with Raj Dabre covers machine learning research, trends, career in Japan, and the road ahead.",
+      "thumbnail": "https://i.ytimg.com/vi/iMrg8Px_aaY/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=iMrg8Px_aaY",
+      "views": 1768,
+      "uploaded_time": "2025-01-12T09:14:33",
+      "duration": "1.5 hours",
+      "duration_seconds": 5452,
+      "channel_name": "GroundZero YT"
+    }
+  ]
+}

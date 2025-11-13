@@ -1,10 +1,19 @@
 # build output
 dist/
-# generated types
+build/
 .astro/
 
 # dependencies
 node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# environment variables
+.env
+.env.local
+.env.production
+.env.production.local
 
 # logs
 npm-debug.log*
@@ -12,13 +21,20 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
-.DS_Store
-
-# jetbrains setting folder
+# IDE
+.vscode/
 .idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel/
+
+# misc
+.cache/
+*.tsbuildinfo

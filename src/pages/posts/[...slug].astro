@@ -40,9 +40,9 @@ const { Content, frontmatter } = post;
   <h1 class="text-3xl font-bold mb-4">{frontmatter.title}</h1>
   {
     frontmatter.tags && frontmatter.tags.length > 0 && (
-      <div class="tags mb-4">
+      <div class="tags mb-4 flex flex-wrap gap-2">
         {frontmatter.tags.map((tag: string) => (
-          <span class="tag dark:bg-gruvbox-dark-accent/10 dark:text-gruvbox-dark-accent bg-gruvbox-light-accent/10 font-code! text-xs text-gruvbox-light-accent px-3 py-1 mr-2">
+          <span class="tag dark:bg-gruvbox-dark-accent/10 dark:text-gruvbox-dark-accent bg-gruvbox-light-accent/10 font-code! text-xs text-gruvbox-light-accent px-3 py-1">
             {tag}
           </span>
         ))}

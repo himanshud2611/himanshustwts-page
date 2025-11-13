@@ -5,8 +5,11 @@ import mdx from '@astrojs/mdx';
 import icon from "astro-icon";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import vercel from '@astrojs/vercel/serverless'; // <-- changed
 
 export default defineConfig({
+  output: 'server',
+  adapter: vercel({}), // <-- changed
   integrations: [icon(), mdx({
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex]

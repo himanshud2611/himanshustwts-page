@@ -1,5 +1,8 @@
 ---
+export const prerender = true;
+
 import Layout from '../layouts/Layout.astro';
+
 const { Content, frontmatter } = await import('../content/404.mdx');
 ---
 <Layout title={frontmatter.title} wide={false}>

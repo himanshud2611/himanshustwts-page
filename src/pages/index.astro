@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
 import ExternalLinkIcon from "../components/ExternalLinkIcon.astro";
@@ -9,6 +11,15 @@ const title = "Himanshu";
 
 const experience = [
     {
+        role: "Product Lead",
+        company: "Anannas AI",
+        companyUrl: "https://anannas.ai",
+        iconPath: "/anannas.webp",
+        date: "Sep 2025 - Present",
+        description:
+            "[Founding Team] Access 500+ models at optimized latency and cost through a single API.",
+    },
+    {
         role: "Product & Growth",
         company: "Bhindi AI",
         companyUrl: "https://bhindi.io",
@@ -18,13 +29,13 @@ const experience = [
             "[Founding Team] We are eliminating the friction between user intent and workflow execution.",
     },
     {
-        role: "Grants",
+        role: "Grants Lead",
         company: "Upsurge Grants",
         companyUrl: "https://grants.upsurge.io",
         iconPath: "/upsurge.webp",
-        date: "Feb 2025 - Present",
+        date: "Aug 2025 - Present",
         description:
-            "We offer non-dilutive microgrants for builders in deeptech. Apply now - grants.upsurge.io",
+            "[Grants Lead] We offer non-dilutive microgrants for builders in deeptech. Apply now - grants.upsurge.io",
     },
     {
         role: "AI Research",
@@ -207,15 +218,9 @@ const experience = [
             </div>
         </Section>
 
-        {/* About Section */}
-        <Section title="what excites me">
-            <div class="prose prose-lg dark:prose-invert max-w-none">
-                <p>
-                    In my spare time, you might find me diving deep into AI
-                    space, listening to music and posting on X. Lowkey
-                    geopolitics excites me.
-                </p>
-            </div>
+        {/* Newsletter Section */}
+        <Section title="stay in the loop">
+            <Newsletter />
         </Section>
 
         {/* Content Creation */}
@@ -284,9 +289,15 @@ const experience = [
             </div>
         </Section>
 
-        {/* Newsletter Section */}
-        <Section title="stay in the loop">
-            <Newsletter />
+        {/* About Section */}
+        <Section title="what excites me">
+            <div class="prose prose-lg dark:prose-invert max-w-none">
+                <p>
+                    In my spare time, you might find me diving deep into AI
+                    space, listening to music and posting on X. Lowkey
+                    geopolitics excites me.
+                </p>
+            </div>
         </Section>
 
         {/* Connect Section */}

@@ -1,0 +1,183 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ExternalLinkIcon from "../components/ExternalLinkIcon.astro";
+import { Icon } from "astro-icon/components";
+
+const title = "Community x Content";
+
+const leftItems = [
+  {
+    title: "Lightspeed x Devfolio",
+    subtitle: "Hackathon Mentor",
+    image: "/content-images/devfolio-logo.png",
+    type: "logo",
+    links: [
+      { label: "Announcement", url: "https://x.com/himanshustwts/status/1936508489041596784?s=20" },
+      { label: "Hack Picks", url: "https://x.com/devfolio/status/1946205107772858394?s=20" },
+    ]
+  },
+  {
+    title: "AI4Bharat",
+    subtitle: "Session on SigLIP",
+    image: "/content-images/ai4bharat-logo.png",
+    type: "logo",
+    links: [
+      { label: "Watch Video", url: "https://youtu.be/m5WTjzpMsjs?si=9JMRcrzubt6GxAz_" }
+    ]
+  },
+  {
+    title: "Hackerrank",
+    subtitle: "Speaker Session",
+    image: "/content-images/hackerrank-logo.png",
+    type: "logo",
+    links: [
+      { label: "LinkedIn Post", url: "https://www.linkedin.com/posts/himanshud2611_id-the-pleasure-being-part-of-the-speaker-activity-7365666508481441793-9c8C?utm_source=share&utm_medium=member_desktop&rcm=ACoAADjR6_0BtCzfvYosbFlqFq9KeAq8YcaIFsQ" }
+    ]
+  },
+  {
+    title: "GroundZero",
+    subtitle: "Community & Content",
+    image: "/groundzero.webp",
+    type: "logo",
+    links: [
+        { label: "YouTube", url: "https://youtube.com/@Ground_ZeroYT" },
+        { label: "Twitter", url: "https://x.com/groundzero_twt" }
+    ]
+  },
+  {
+    title: "BITS Pilani Goa",
+    subtitle: "Talk/Workshop",
+    image: "/content-images/bits-logo-wide.webp",
+    type: "logo-wide",
+    links: [
+      { label: "LinkedIn Post", url: "https://www.linkedin.com/posts/himanshud2611_last-week-i-got-to-do-a-talk-workshop-at-activity-7373189866463039488-BJbN?utm_source=share&utm_medium=member_desktop&rcm=ACoAADjR6_0BtCzfvYosbFlqFq9KeAq8YcaIFsQ" }
+    ]
+  }
+];
+
+const rightItems = [
+  {
+    title: "Network School x Devfolio",
+    subtitle: "Evolution of AI Session",
+    image: "/content-images/netowkr-school-wide-logo.jpg",
+    type: "cover",
+    links: [
+      { label: "Listen to Broadcast", url: "https://x.com/i/broadcasts/1lPKqvAlNWdGb" }
+    ]
+  },
+  {
+    title: "Bizpodroohie",
+    subtitle: "Podcast Appearance",
+    image: "/content-images/bizpodroohie-yt-thumbnail.jpg",
+    type: "cover",
+    links: [
+      { label: "Watch Episode", url: "https://youtu.be/9lx0oZJ-ylg?si=RhlsGU1fvDoz-t_e" }
+    ]
+  }
+];
+---
+
+<Layout title={title}>
+  <div class="space-y-12 max-w-3xl">
+    <div class="space-y-4">
+      <h1 class="text-3xl md:text-4xl font-medium">Community x Content</h1>
+      <p class="text-lg text-gruvbox-light/70 dark:text-gruvbox-dark/70">
+        Talks, sessions, mentorship, and other community engagements.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-9 gap-6 md:gap-4 items-start">
+      {/* Left Column */}
+      <div class="grid grid-cols-2 gap-x-4 gap-y-6 md:col-span-4">
+        {leftItems.map((item) => (
+          <div class={`group flex flex-col gap-2 ${item.type === 'logo-wide' ? 'col-span-2' : 'col-span-1'}`}>
+             <div class={`relative w-full overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white ${item.type === 'logo' ? 'aspect-square' : ''}`}>
+                <img 
+                  src={item.image} 
+                  alt={item.title} 
+                  class={`w-full transition-transform duration-500 group-hover:scale-105 ${item.type === 'logo-wide' ? 'h-auto' : 'h-full object-cover'}`}
+                />
+                {/* Links */}
+                <div class="absolute top-2 right-2 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {item.links.map((link) => (
+                    <a 
+                      href={link.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="flex items-center justify-center p-1.5 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full text-gruvbox-light dark:text-gruvbox-dark hover:scale-110 transition-transform shadow-sm border border-neutral-200 dark:border-neutral-800"
+                      title={link.label}
+                    >
+                      {link.url.includes('youtube.com') || link.url.includes('youtu.be') ? (
+                        <Icon name="tabler:brand-youtube" class="w-4 h-4" />
+                      ) : link.url.includes('x.com') || link.url.includes('twitter.com') ? (
+                        <Icon name="tabler:brand-x" class="w-4 h-4" />
+                      ) : (
+                        <ExternalLinkIcon />
+                      )}
+                    </a>
+                  ))}
+                </div>
+                {item.links.length > 0 && (
+                  <a href={item.links[0].url} target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-10" aria-label={item.links[0].label}></a>
+                )}
+             </div>
+             <div class="space-y-0.5">
+                <h3 class="text-sm font-medium text-gruvbox-light dark:text-gruvbox-dark leading-tight group-hover:text-gruvbox-light-accent dark:group-hover:text-gruvbox-dark-accent transition-colors">
+                  {item.title}
+                </h3>
+                <p class="text-xs text-gruvbox-light/60 dark:text-gruvbox-dark/60">
+                  {item.subtitle}
+                </p>
+             </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Right Column */}
+      <div class="flex flex-col gap-6 md:gap-8 md:col-span-5">
+        {rightItems.map((item) => (
+          <div class="group flex flex-col gap-3">
+             <div class="relative aspect-video w-full overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-800">
+                <img 
+                  src={item.image} 
+                  alt={item.title} 
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Links */}
+                <div class="absolute top-3 right-3 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {item.links.map((link) => (
+                    <a 
+                      href={link.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="flex items-center justify-center p-2 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full text-gruvbox-light dark:text-gruvbox-dark hover:scale-110 transition-transform shadow-sm border border-neutral-200 dark:border-neutral-800"
+                      title={link.label}
+                    >
+                      {link.url.includes('youtube.com') || link.url.includes('youtu.be') ? (
+                        <Icon name="tabler:brand-youtube" class="w-4 h-4" />
+                      ) : link.url.includes('x.com') || link.url.includes('twitter.com') ? (
+                        <Icon name="tabler:brand-x" class="w-4 h-4" />
+                      ) : (
+                        <ExternalLinkIcon />
+                      )}
+                    </a>
+                  ))}
+                </div>
+                {item.links.length > 0 && (
+                  <a href={item.links[0].url} target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-10" aria-label={item.links[0].label}></a>
+                )}
+             </div>
+             <div class="space-y-1">
+                <h3 class="font-medium text-gruvbox-light dark:text-gruvbox-dark leading-tight group-hover:text-gruvbox-light-accent dark:group-hover:text-gruvbox-dark-accent transition-colors">
+                  {item.title}
+                </h3>
+                <p class="text-sm text-gruvbox-light/60 dark:text-gruvbox-dark/60">
+                  {item.subtitle}
+                </p>
+             </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>

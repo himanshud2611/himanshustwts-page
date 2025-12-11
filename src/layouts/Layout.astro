@@ -85,13 +85,4 @@ const { title, wide = false } = Astro.props;
       </main>
     </div>
   </body>
-  <script>
-    // Theme toggle functionality
-    document
-      .getElementById("theme-toggle")
-      ?.addEventListener("click", function () {
-        const isDark = document.documentElement.classList.toggle("dark");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-      });
-  </script>
 </html>

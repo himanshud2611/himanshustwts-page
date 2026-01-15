@@ -34,6 +34,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const { slug } = Astro.params;
 const { post }: PostProps = Astro.props;
 const { Content, frontmatter } = post;
+
+// Redirect if redirect URL is provided
+if (frontmatter.redirect) {
+  return Astro.redirect(frontmatter.redirect);
+}
 ---
 
 <Layout title={frontmatter.title} wide={false}>

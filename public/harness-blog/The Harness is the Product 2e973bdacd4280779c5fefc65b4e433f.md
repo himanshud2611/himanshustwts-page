@@ -1,8 +1,4 @@
----
-title: The Harness is the Product
-date: 15 Jan 2026
-tags: [product, ai]
----
+# The Harness is the Product
 
 Everyone is poasting about how beastly models have become. Opus 4.5, GPT-5.2-Codex, Gemini-3-Pro and the recent Chinese ones (from the likes of GLM 4.7 and Minimax-M2.1). If you've shipped anything real with these models, you might have acknowledged that harness matters more than weights. In other words, we have same model with different scaffoldings with completely different outcomes.
 
@@ -22,15 +18,15 @@ Let's go into a bit detail.
 
 It might sound trivial but it's not. How many iterations before you force a checkpoint? How do you handle reasoning spirals? When do you inject a "step back" nudge?
 
-![image.png](/the-harness-is-the-product/image.png)
+![image.png](The%20Harness%20is%20the%20Product/image.png)
 
 Anthropic's [research blog](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) on long-running agents found that even Opus 4.5 on the Claude Agent SDK would fail at multi-day tasks without an *initializer agent* that sets up context and a progress file that bridges context windows. 
 
-![image 1.png](/the-harness-is-the-product/image%201.png)
+![image.png](The%20Harness%20is%20the%20Product/image%201.png)
 
 The loop is where you encode your philosophy about autonomy vs control. If it is too tight, the agent might feels lobotomized and if it is too loose, the model might start burning tokens. Cursor [found](https://cursor.com/blog/codex-model-harness) that preserving reasoning traces was critical for codex model performance - dropping them significantly degraded output quality. Effectively its a harness decision, not a model capability.
 
-![image 2.png](/the-harness-is-the-product/image%202.png)
+![image.png](The%20Harness%20is%20the%20Product/image%202.png)
 
 **The Execution Environment.**
 
@@ -42,19 +38,19 @@ This is the quiet hard problem. Models have finite windows. Codebases and work c
 
 [Codebase Indexing](https://cursor.com/docs/context/semantic-search) in Cursor:
 
-![image 3.png](/the-harness-is-the-product/image%203.png)
+![image.png](The%20Harness%20is%20the%20Product/image%203.png)
 
 [Compaction](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) in Claude Code:
 
-![image 4.png](/the-harness-is-the-product/image%204.png)
+![image.png](The%20Harness%20is%20the%20Product/image%204.png)
 
 [claude . md](https://code.claude.com/docs/en/memory) scratchpad persists across sessions:
 
-![image 5.png](/the-harness-is-the-product/image%205.png)
+![image.png](The%20Harness%20is%20the%20Product/image%205.png)
 
 Apparently: garbage context in, garbage actions out. Anthropic explicitly calls out that context management enables agents to work "for an arbitrarily long time" - but *only if the harness is doing intelligent windowing.*
 
-![image 6.png](/the-harness-is-the-product/image%206.png)
+![image.png](The%20Harness%20is%20the%20Product/image%206.png)
 
 The big labs have figured out that the harness is the product surface where value accrues. Anthropic built CC as a general agent harness, then realized it was too powerful to stay in the terminal. [Boris](https://x.com/bcherny/status/2010809450844831752?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E2010809450844831752%7Ctwgr%5Ebf872184458e2d93ca836ead22974bc79fe43cdd%7Ctwcon%5Es1_&ref_url=https%3A%2F%2Fventurebeat.com%2Ftechnology%2Fanthropic-launches-cowork-a-claude-desktop-agent-that-works-in-your-files-no) noticed people using CC for vacation research, slide decks, wedding photo recovery, oven control. The underlying agent was good but the interface was limiting to normies. So they built Cowork in 1.5 weeks using CC itself - to bring the *same harness to non-developers*.
 
@@ -67,6 +63,6 @@ Cursor took a different path - build the harness into an IDE (give visual contro
 
 As models converge in capability, differentiation shifts to harness quality. [Philipp](https://www.philschmid.de/agent-harness-2026) mentioned that "the harness is the dataset" - the trajectories your harness captures become your competitive advantage.
 
-![image 7.png](/the-harness-is-the-product/image%207.png)
+![image.png](The%20Harness%20is%20the%20Product/image%207.png)
 
 Labs will use harness telemetry to detect exactly when models drift, then feed that back into training. The training and inference environments are converging. The harness is becoming the feedback loop that is going to shape the next generation of models.

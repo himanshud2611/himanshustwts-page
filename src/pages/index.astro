@@ -35,7 +35,7 @@ const experience = [
         iconPath: "/upsurge.webp",
         date: "Aug 2025 - Feb 2026",
         description:
-            "We offer non-dilutive microgrants for builders in deeptech. Apply now - grants.upsurge.io",
+            "We offer non-dilutive microgrants for builders in deeptech.",
     },
     {
         role: "AI Research",
@@ -150,85 +150,103 @@ const experience = [
                         rel="noopener noreferrer"
                         class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
                         >Ground Zero<ExternalLinkIcon /></a
-                    >, I host podcasts with interesting people in AI and Tech. We recently launched SIGNALS and Community Blogs at GroundZero. <a
+                    >, I host podcasts with interesting people in AI and Tech. We recently launched SIGNALS and Community Blogs. <a
                         href="https://www.groundzeroai.in/launch-soon"
                         target="_blank"
                         rel="noopener noreferrer"
                         </a>
                 </p>
-                <div
-                    class="relative border-l border-gruvbox-light/30 dark:border-gruvbox-dark/30 ml-2 pt-2"
+                {/* Previous Life Accordion */}
+                <button
+                    id="previous-life-toggle"
+                    class="flex items-center gap-1 text-left font-medium hover:opacity-80 transition-opacity cursor-pointer decoration-dotted underline"
                 >
-                    {
-                        experience.map((exp, index) => (
-                            <div
-                                class={`relative ml-6 ${index < experience.length - 1 ? "mb-8" : ""}`}
-                            >
-                                <div class="absolute w-3 h-[1px] bg-gruvbox-light/30 dark:bg-gruvbox-dark/30 -left-6 top-[0.8rem]" />
-                                <div class="space-y-1">
-                                    <div class="flex items-center gap-4">
-                                        {exp.iconPath && (
-                                            <img
-                                                src={exp.iconPath}
-                                                alt={`${exp.company} logo`}
-                                                class="w-10 h-10 object-contain flex-shrink-0 rounded-lg"
-                                                loading="lazy"
-                                            />
-                                        )}
-                                        <div class="flex flex-col justify-center">
-                                            <h3 class="font-medium">
-                                                {exp.role} •{" "}
-                                                {exp.companyUrl ? (
-                                                    <a
-                                                        href={exp.companyUrl}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity"
-                                                    >
-                                                        {exp.company}
-                                                        <ExternalLinkIcon />
-                                                    </a>
-                                                ) : (
-                                                    exp.company
-                                                )}
-                                            </h3>
-                                            <p class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70">
-                                                {exp.date}
-                                            </p>
+                    <span>Previous Life</span>
+                    <svg
+                        id="previous-life-arrow"
+                        class="inline-block w-3 h-3 ml-0.5 mb-0.5 transition-transform duration-200 text-gruvbox-light-accent dark:text-gruvbox-dark-accent"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                    </svg>
+                </button>
+
+                <div
+                    id="previous-life-content"
+                    class="hidden overflow-hidden transition-all duration-300"
+                >
+                    <div
+                        class="relative border-l border-gruvbox-light/30 dark:border-gruvbox-dark/30 ml-2 pt-4"
+                    >
+                        {
+                            experience.map((exp, index) => (
+                                <div
+                                    class={`relative ml-6 ${index < experience.length - 1 ? "mb-8" : ""}`}
+                                >
+                                    <div class="absolute w-3 h-[1px] bg-gruvbox-light/30 dark:bg-gruvbox-dark/30 -left-6 top-[0.8rem]" />
+                                    <div class="space-y-1">
+                                        <div class="flex items-center gap-4">
+                                            {exp.iconPath && (
+                                                <img
+                                                    src={exp.iconPath}
+                                                    alt={`${exp.company} logo`}
+                                                    class="w-10 h-10 object-contain flex-shrink-0 rounded-lg"
+                                                    loading="lazy"
+                                                />
+                                            )}
+                                            <div class="flex flex-col justify-center">
+                                                <h3 class="font-medium">
+                                                    {exp.role} •{" "}
+                                                    {exp.companyUrl ? (
+                                                        <a
+                                                            href={exp.companyUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity"
+                                                        >
+                                                            {exp.company}
+                                                            <ExternalLinkIcon />
+                                                        </a>
+                                                    ) : (
+                                                        exp.company
+                                                    )}
+                                                </h3>
+                                                <p class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70">
+                                                    {exp.date}
+                                                </p>
+                                            </div>
                                         </div>
+                                        <p class="mt-3">
+                                            {exp.description}
+                                        </p>
                                     </div>
-                                    <p class="mt-3">
-                                        {exp.description.includes(
-                                            "grants.upsurge.io"
-                                        ) ? (
-                                            <>
-                                                We offer non-dilutive
-                                                microgrants for builders in
-                                                deeptech.{" "}
-                                                <a
-                                                    href="https://grants.upsurge.io"
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
-                                                >
-                                                    Apply now
-                                                    <ExternalLinkIcon />
-                                                </a>
-                                            </>
-                                        ) : (
-                                            exp.description
-                                        )}
-                                    </p>
                                 </div>
-                            </div>
-                        ))
-                    }
+                            ))
+                        }
+                    </div>
                 </div>
+
+                <script>
+                    const toggle = document.getElementById('previous-life-toggle');
+                    const content = document.getElementById('previous-life-content');
+                    const arrow = document.getElementById('previous-life-arrow');
+
+                    toggle?.addEventListener('click', () => {
+                        content?.classList.toggle('hidden');
+                    });
+                </script>
             </div>
         </Section>
 
         {/* Newsletter Section */}
-        <Section title="stay in the loop">
+        <Section title="stay in the loop" class="mt-12">
             <Newsletter />
         </Section>
 

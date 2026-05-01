@@ -7,7 +7,7 @@ tags: [genai,ml,ai]
 
 Hey people! Hope you’re doing well:)
 
-I got a thought to start learning diffusion models again, I once left till learning it’s architecture. 
+I got a thought to start learning diffusion models again, I once left till learning its architecture. 
 
 This time I’m gonna cover from scratch, making intuitions, diving into mathematics, ideas and ending to implementation.
 
@@ -54,7 +54,7 @@ The basic idea behind GAN is to have two neural networks competing against each 
 
 ---
 
-**What does ‘Adversarial’ means in GANs?**
+**What does ‘Adversarial’ mean in GANs?**
 
 The discriminator gets better at telling ‘fake’ from ‘real’, while generator gets better at fooling the discriminator. The ‘adversarial’ process tries to push the generator to create data that is increasingly similar to real data.
 
@@ -76,7 +76,7 @@ To summarise, this back-and-forth process continues.
 
 **generator** → gets better at ‘fooling’ the discriminator
 
-**discriminator** → sharpens it’s ability to identify fakes.
+**discriminator** → sharpens its ability to identify fakes.
 
 this game results in → generator producing incredibly realistic image. whoo! 
 
@@ -85,7 +85,6 @@ this game results in → generator producing incredibly realistic image. whoo!
 A common use case of GAN can be ‘Image Generation’. GANs takes dataset of real images as input such as images of human faces(Ayanokoji in anime), and learn the underlying patterns. Generator model in GAN then produces entirely new, real-looking face images (Ayanokoji in real) that have never existed before. There can be many such use cases of GANs.
 
 > *GANs produces outputs in high quality but most of the times they are difficult to train. This stems from adversarial setup can cause problems like vanishing gradients or mode collapse (generator keeps producing similar outputs). We will dive into architecture to understand this phenomenon.*
-> 
 
 ---
 
@@ -102,13 +101,12 @@ We can ask about two things a generative model to do -
 1. **Density estimation**
 
 > the goal is to model underlying probability distribution of the data. It helps answer “What is probability of seeing this particular data point”
-> 
 
 ![density estimation ](/diffusion/image.png)
 
 density estimation 
 
-1. **Try to learn function (or program) that can generate more samples from the same training distribution.**
+2. **Try to learn function (or program) that can generate more samples from the same training distribution.**
 
 > here, the goal is to generate new data points that looks similar to the data used in training. in the analogy of artist mentioned above, after observing enough arts, the artist can create new similar paintings but aren’t exact copies as training dataset. It helps answer “Can you create new examples that look like the data I’ve trained you on?”
 
@@ -118,7 +116,7 @@ generate more samples from training distribution
 
 The **approach** GAN takes to generative modelling is - two different agents playing a game against each other.
 
-where one agent (generator network) is generating data and tries to fool the the discriminator network,
+where one agent (generator network) is generating data and tries to fool the discriminator network,
 
 while other agent (discriminator network) tries to examine the data if it is real or fake.
 
@@ -144,24 +142,24 @@ Let’s breakdown the above architecture step-by-step with intuition -
 - The Discriminator is trained to classify real images correctly by outputting **D(x) ~ 1** (i.e., "this is real").
 - If the data is real, the Discriminator's objective is to ensure **D(x) is close to 1**.
 
-1. **Generator** (Right side)
+2. **Generator** (Right side)
 - the goal is to generate data that **looks real** in order to fool the Discriminator.
 
 **How it works?**
 
-- The Generator takes in a **random noise vector z. [**z is sort of randomness that allow G to output many different images instead of outputting only one realistic image**]**
+- The Generator takes in a **random noise vector z**. (z is sort of randomness that allows G to output many different images instead of outputting only one realistic image)
 - Using a differentiable function **G(z)**, it produces an output (which is a fake data sample, like a fake image).
 - This fake data is passed to the Discriminator (D), which will attempt to classify it as **real** or **fake**.
 - The Generator’s objective is to **fool the Discriminator**, i.e., to produce fake data so realistic that the Discriminator outputs **D(G(z)) ~ 1** (i.e., "this looks real") and vice versa.
 
 The **Adversarial process** goes like - 
-the generator tries to generate fake data **G(z)** such that the discriminator classifies it as **real. t**his means the Generator is trained to maximize **D(G(z)) ≈ 1.** the ****more realistic the generated data becomes, the harder it is for the discriminator to correctly identify the fake data, pushing the discriminator to improve.
+the generator tries to generate fake data **G(z)** such that the discriminator classifies it as **real**. This means the Generator is trained to maximize **D(G(z)) ≈ 1**. The more realistic the generated data becomes, the harder it is for the discriminator to correctly identify the fake data, pushing the discriminator to improve.
 
 ---
 
 **GAME THEORY analogy to understand GAN: diving into Loss Functions**
 
-If both D and G have unlimited capabilities, the Nash Equilibrium [ a situation where no player could gain by changing their own strategy**]** corresponds to G producing perfect samples (that comes from same distribution as training data). 
+If both D and G have unlimited capabilities, the Nash Equilibrium (a situation where no player could gain by changing their own strategy) corresponds to G producing perfect samples (that comes from same distribution as training data). 
 
 In other terms, the G generating fake data that is indistinguishable from real data.
 
@@ -175,9 +173,9 @@ Loss function in a GAN captures the adversarial setup described above. It consis
 
 **Objective**: **maximize** the probability of correctly classifying real data as real and fake data as fake. 
 
-it is done by maximizing real data log likelihood ***log D(x)*** (x is real data sampled from training set). 
+it is done by maximizing real data log likelihood $log D(x)$ (x is real data sampled from training set). 
 
-also, maximizing fake data log likelihood ***log(1-D(G(z))* (**G(z) is the fake data generated by G from random noise ‘z’**)**
+also, maximizing fake data log likelihood $log(1-D(G(z)))$ (G(z) is the fake data generated by G from random noise ‘z’)
 
 The discriminator loss is given as: 
 
@@ -185,7 +183,7 @@ $$
 L_D = - \left( \mathbb{E}_{x \sim p_{\text{data}}(x)} [\log D(x)] + \mathbb{E}_{z \sim p_z(z)} [\log(1 - D(G(z)))] \right)
 $$
 
-1. **Generator’s Loss**
+2. **Generator’s Loss**
 
 **Objective**: **minimize** the discriminator’s ability to detect that the data it generates is fake or to fool the discriminator into thinking that G(z) is real as we saw above.  
 
@@ -208,15 +206,15 @@ $$
 This is a zero-sum game where - 
 
 - G is minimizing the loss function (minimize the D’s ability to tell G(z) is fake)
-- D is maximizing the same function (maximize D(x) for real data and minimize D(G(z)) for fake data.
+- D is maximizing the same function (maximize D(x) for real data and minimize D(G(z)) for fake data)
 
  
 
 ---
 
-This is pretty much about GANs and I guess you got the idea behind it’s working with an intuition. I am thinking to add a section on ‘Issues with GANs’ but without proofs that wouldn’t make much sense. I’ll add the section with more insights in few days. 
+This is pretty much about GANs and I guess you got the idea behind its working with an intuition. I am thinking to add a section on ‘Issues with GANs’ but without proofs that wouldn’t make much sense. I’ll add the section with more insights in few days. 
 
-If you read and got every essence of article till here, relax a bit. You really did a great job, drink some water. Try to think more, ask your self some questions - try solving those by your own.
+If you read and got every essence of article till here, relax a bit. You really did a great job, drink some water. Try to think more, ask yourself some questions - try solving those by your own.
 
 If you find any difficulty, drop me a DM on X.
 
@@ -281,7 +279,7 @@ this ‘z’ can be sampled from the distribution, P(z).
 
 we are looking to find a posterior distribution P(z|x).
 
-P(z|x) → given the input dataset what would be most likely ‘z’ values that we ca have. 
+P(z|x) → given the input dataset what would be most likely ‘z’ values that we can have. 
 
 Idea is to map input images to a latent space using a neural network.
 
@@ -311,7 +309,7 @@ VAE consist of three components:
 
 ![image.png](/diffusion/image4.png)
 
-**Let’s dive deep into VAE architecture and understanding it’s inner working**-
+**Let’s dive deep into VAE architecture and understanding its inner working**-
 
 So, the **Encoder** takes in the input data (an image, x) and maps it into latent variable ‘z’. The latent variable is not just a deterministic point but is instead sampled from a distribution.
 
@@ -337,7 +335,7 @@ $$
 -D_{KL}\left[q_{\phi}(z|x) \parallel p_{\theta}(z)\right] + \mathbb{E}_{q_{\phi}(z|x)}\left[\log(p_{\theta}(x|z))\right]
 $$
 
-- The KL divergence (first term above) loss tell “how similar the two divergences are”. if they are exactly the same, we get 0 (optimum value).
+- The KL divergence (first term above) loss tells “how similar the two divergences are”. if they are exactly the same, we get 0 (optimum value).
 
 This loss imposes a prior (p(z)) on the latent space to ensure the encoded representation follow a standard normal distribution → N(0,I).
 
@@ -362,9 +360,8 @@ I think, you’ve pretty much got the idea behind VAEs.
 For the sake of summarising a detailed description above, 
 
 > think X is a image data passed to Encoder which maps it to latent space (Z). It tries to reconstruct same X using Decoder from the Z we’ve obtained. The loss function to be optimized is done by image-by-image basis.
-> 
 
-**Visual Autoencoders (VAEs) - an Ayanokoji Story**
+**Variational Autoencoders (VAEs) - an Ayanokoji Story**
 
 imagine we’ve an input dataset (kiyo-art) which includes different styles of Ayanokoji paintings. the VAE process goes like:-
 
@@ -391,5 +388,3 @@ Thank you for joining me on this journey. If you have any questions, feedback, o
 Can’t wait to publish next one, Diffusion Models!
 
 Take care :)
-
-[https://embed.notionlytics.com/wt/ZXlKM2IzSnJjM0JoWTJWVWNtRmphMlZ5U1dRaU9pSmhTVFZMYUdZMlkySlNiVUkxU1RreVJEbDJheUlzSW5CaFoyVkpaQ0k2SWpFd1ptSmhOR0kyWVRObVlUZ3dORFU0WkRFMlpUVTRNRE0yT0RjMU56UTNJbjA9](https://embed.notionlytics.com/wt/ZXlKM2IzSnJjM0JoWTJWVWNtRmphMlZ5U1dRaU9pSmhTVFZMYUdZMlkySlNiVUkxU1RreVJEbDJheUlzSW5CaFoyVkpaQ0k2SWpFd1ptSmhOR0kyWVRObVlUZ3dORFU0WkRFMlpUVTRNRE0yT0RjMU56UTNJbjA9)

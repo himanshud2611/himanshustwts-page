@@ -1,6 +1,6 @@
 ---
 title: Python GIL - Global Interpreter Lock
-date: 8 Oct 2024 
+date: 8 Oct 2024
 tags: [python]
 ---
 
@@ -14,7 +14,7 @@ It is the smallest unit of tasks that can be executed by an OS. A program can be
 
 **Process**
 
-A program under execution is called a process. It can have multiple programs.
+A program under execution is called a process. It can have multiple threads.
 
 **What is the difference between single-threaded and multi-threaded?**
 
@@ -26,7 +26,7 @@ single-threaded programs can be imagined as single lines going from the entry po
 
 Global Interpreter Lock
 
-Python Interpreter is like a Virtual Machine. The thread is basically a POSEX or OS thread.
+Python Interpreter is like a Virtual Machine. The thread is basically a POSIX or OS thread.
 
 The interpreter doesn’t manage the thread by itself, it gives instructions to the OS and manages the thread.
 
@@ -36,7 +36,7 @@ So, GIL tries to manage the memory which the interpreter occupies.
 
 ![Untitled](/gil/image.png)
 
-                                                                                      
+
 
 In python, threads aren’t running in parallel. Threads are running in serial.
 
@@ -46,13 +46,13 @@ Before we talk about serial execution above, let’s talk about GIL.
 
 The Memory Manager which is run by interpreter isn’t thread safe. Here, GIL performs a check on state of the thread whether the thread is running/waiting. Based on the state of the thread, GIL proceeds ahead.
 
-GIL keeps on checking the thread on 100 ticks. Tick is bytecode-instruction executed by interpreter. 
+GIL keeps on checking the thread on 100 ticks. Tick is bytecode-instruction executed by interpreter.
 
 [1 Tick = 1 bytecode-instruction]
 
 GIL checks for 100 bytecode-instructions and when the ins are executed, it checks whether the thread is waiting or still running.
 
-{'import'} dis → to know # of ticks
+import dis → to know # of ticks
 
 
 ![Untitled](/gil/image1.png)
@@ -64,7 +64,7 @@ In the graph, these are all different tasks that are trying to do different thin
 
 So, multi-threading in Python is actually Coordinated Multi-Tasking.
 
-The check for 100 ticks is validated for Python 2, it is removed in advent of Python3. As there are many cons here (see in graph)
+The check for 100 ticks is validated for Python 2, it is removed with the advent of Python 3. As there are many cons here (see in graph)
 
 → T3 was waiting for a certain point to get GIL
 
@@ -76,7 +76,7 @@ so, the low-priority thread might starve for the GIL lock and CPU time
 
 **Second disadvantage** → When a thread releases the GIL it signals the waiting threads to acquire the GIL.
 
-Suppose thread at T3 releases the GIL it will signal to both threads T1 and T2 that the GIL is free and ready for acquisition. So, the threads T1 and T2 will be in battle to acquire GIL and CPU time. 
+Suppose thread at T3 releases the GIL it will signal to both threads T1 and T2 that the GIL is free and ready for acquisition. So, the threads T1 and T2 will be in battle to acquire GIL and CPU time.
 
 **Third disadvantage** → Signaling overhead! (release signal to thread, waiting for threads to acquire the signal, etc.)
 
@@ -100,7 +100,7 @@ CPU Bound threads are more prioritized as compared to I/O Bound threads(starves!
 
 So, GIL has long been a controversial feature in Python, as it limits true parallelism in CPU-bound tasks due to the lock that prevents multiple native threads from executing Python bytecode at the same time. This has been particularly limiting for CPU-intensive tasks like numerical computations or image processing.
 
-IN the Python 3.13 release (October 8, 2024) they have attempted experimental **GIL-free mode** to remove this limitation. It will allow threads to execute Python code concurrently on multiple cores, improving the performance of multi-threaded applications.
+In Python 3.13 release (October 8, 2024) they have attempted experimental **GIL-free mode** to remove this limitation. It will allow threads to execute Python code concurrently on multiple cores, improving the performance of multi-threaded applications.
 
 Check release here: [https://www.python.org/downloads/release/python-3130/](https://www.python.org/downloads/release/python-3130/)
 

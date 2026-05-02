@@ -7,27 +7,27 @@ tags: [rl,ml]
 
 Let’s start with Ayanokoji’s story!
 
-He quietly sits in class 1-D, observing. He doesn’t ask questions, doesn’t seek attention, yet every move he takes is precise.You may have observed h**e** doesn’t just act at random though he is learns, refine his strategies, and adapt to his environment.
+He quietly sits in class 1-D, observing. He doesn’t ask questions, doesn’t seek attention, yet every move he takes is precise. You may have observed he doesn’t just act at random though he learns, refines his strategies, and adapt to his environment.
 
 Now, let’s dive into RL!
 
-Before we start exploring, let’s understand what an Agent and an Environment is!
+Before we start exploring, let’s understand what an Agent and an Environment are!
 
 **Agent**
 
 The **agent** is the learner or decision-maker. It interacts with the environment, takes actions, and learns from the feedback (rewards/penalties). The interaction is through trial and error while performing actions.
 
 > **Ayanokoji**, analyzing his classmates and making strategic moves.
-> 
+>
 
 **Environment**
 
 The **environment** is everything the agent interacts with. It provides **states**, receives the agent’s **actions**, and gives **rewards** as feedback.
 
 > The **Advanced Nurturing High School**, full of unpredictable students and hidden rules (for Ayanokoji).
-> 
+>
 
-One important note here is, each action executed is without any supervision because that’s how we as human learn (through interaction).
+One important note here is, each action executed is without any supervision because that’s how we as humans learn (through interaction).
 
 RL is just a computational approach of learning from actions.
 
@@ -41,9 +41,9 @@ RL is just a computational approach of learning from actions.
 
 The RL Process is a loop of state, action, reward and next state.
 
-RL models decision making in an interactive environment where an agent learns to take actions to maximize cumulative rewards. 
+RL models decision making in an interactive environment where an agent learns to take actions to maximize cumulative rewards.
 
-The process follows Markov Decision Process (MDP), which consists of: 
+The process follows Markov Decision Process (MDP), which consists of:
 
 - State Space (S): The set of all possible states $s_t$  that can be in.
 - Action Space (A): The set of all possible actions $a_t$  that can take.
@@ -61,29 +61,29 @@ We will look into more RL terminologies:
 ### States, Observation and Action Spaces
 
 > Imagine Ayanokoji in **Classroom of the Elites**. He always operates with **perfect awareness** of situations, analyzing every variable. If he knows everything about a scenario—his classmates' intentions, hidden motives, and all external factors—that’s a **state** (complete information).
-> 
+>
 > But most students don’t see the full picture. They only perceive what’s right in front of them—fragments of the truth. That’s an **observation** (partial information).
-> 
+>
 > **Fully vs. Partially Observed Environments**
-> 
+>
 > - **Fully Observed:** If Ayanokoji has access to all relevant data, he can make perfect decisions.
 > - **Partially Observed:** If he lacks key details (e.g., another class's secret plan), he must strategize under uncertainty—just like RL agents in real-world applications.
 >
 > So much like Ayanokoji, RL agents must decide whether they have **all the facts** or just **a piece of the puzzle**—and act accordingly.
-> 
-> The set of all the valid actions in a given environment is often called the **action space.** There are two types of action spaces, **Discrete** and **Continuous**.
-> 
-> **Discrete action spaces** are where only a finite number of moves are available to the agent. 
 >
-> In **continuous action spaces**, the agent fine-tune every move like a robot adjusting its joints. In robotics, actions aren’t just "move left" or "move right"—they involve continuous adjustments in angles and forces.
+> The set of all the valid actions in a given environment is often called the **action space.** There are two types of action spaces, **Discrete** and **Continuous**.
+>
+> **Discrete action spaces** are where only a finite number of moves are available to the agent.
+>
+> In **continuous action spaces**, the agent fine-tunes every move like a robot adjusting its joints. In robotics, actions aren’t just "move left" or "move right"—they involve continuous adjustments in angles and forces.
 
 ### **Policies**
 
-A **policy** is a rule used by an agent to decide what actions to take.
+A **policy** is a rule used by an agent to decide what actions to take.
 
-> In *Classroom of the Elite*, Ayanokoji **never acts randomly**. 
-> Every decision follows a **policy** which is ****a rule that tells him **what action to take in a given situation**.
-> 
+> In *Classroom of the Elite*, Ayanokoji **never acts randomly**.
+> Every decision follows a **policy** which is **a rule** that tells him **what action to take in a given situation**.
+>
 > Imagine Ayanokoji is in a situation (let’s call it **state $s_t$)** The policy is like his **mindset**, deciding what **action** $a_t$ he should take:
 
 $$
@@ -134,12 +134,12 @@ A trajectory is a sequence of **states** and **actions** over time, like a story
  $$
  \tau = (s_0, a_0, s_1, a_1, . . . )
  $$
- 
+
  **1. Starting point : The First State $(s_0)$**
- 
- - The first state of the world is **not chosen by the agent** but sampled from a **start-state distribution** (ρ0​).
+
+ - The first state of the world is **not chosen by the agent** but sampled from a **start-state distribution** (ρ0).
  - Let’s say Ayanokoji didn't choose to be in Class 1-D; he was placed there randomly, much like how an RL agent starts in a random initial state.
- 
+
  $$
  s_0 \sim \rho_0(\cdot)
  $$
@@ -160,7 +160,7 @@ $$
 s_{t+1} \sim P(\cdot \mid s_t, a_t)
 $$
 
-We’ve discussed about fixed and random policies above.
+We’ve discussed fixed and random policies above.
 
 
 ### **Reward Functions**
@@ -187,7 +187,7 @@ This is useful when there's a clear **ending**, like an exam or a competition.
 
 ### **Infinite-Horizon Discounted Return**
 
-What if the **game never ends**? Ayanokoji plays **the long game**, carefully planning years ahead. But future rewards matter **less** than immediate ones. 
+What if the **game never ends**? Ayanokoji plays **the long game**, carefully planning years ahead. But future rewards matter **less** than immediate ones.
 
 RL models this with a **discount factor** $\gamma \in (0,1)$ making near-term rewards more valuable:
 
@@ -210,14 +210,14 @@ In RL, this is known as the **exploration-exploitation tradeoff**. Let’s break
 
 **The Trade-off Intuition**
 
-- **Exploration** (Try new things)
-    
+- **Exploration** (Try new things)
+
     → Gathering information about the environment, even if it doesn’t immediately maximize rewards.
-    
-- **Exploitation** (Use what you know)
-    
+
+- **Exploitation** (Use what you know)
+
     → Taking actions that **already seem best** based on known rewards.
-    
+
 
 Let’s understand this better:
 
@@ -227,7 +227,7 @@ OR if he only kept gathering information forever, he’d **never act** and would
 
 **Key trade-off:** When should he **gather more data** vs. **use what he already knows to win**?
 
-We need to balance how much we **explore the environment** and how much we **exploit what we know about the environment.**
+We need to balance how much we **explore the environment** and how much we **exploit what we know about the environment.**
 
 Hope you enjoyed this (pretty much Ayanokoji story lol). I’ll come up with value functions, approaches to solving RL problems, and implementations (yes, we’ll train our RL agent) in next blog (coming soon).
 siuuuuuu!!

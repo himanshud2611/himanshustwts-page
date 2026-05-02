@@ -7,7 +7,7 @@ tags: [ai, talks]
 
 hey there! so i was in my research lab looking upto diffusion papers especially with the recent breakthroughs by Inference Labs and others. i got stuck on a thought **"why is generative modeling such a challenging problem?"**
 
-did a lot of backprop and arrived at some key insights that explain why this problem is so fundamentally difficult and we can even back it up with mathematical proofs and empirical evidence."
+did a lot of backprop and arrived at some key insights that explain why this problem is so fundamentally difficult and we can even back it up with mathematical proofs and empirical evidence.
 
 so, we all know generative modelling promises the ability to generate realistic images, text, and even music from scratch. Though, beneath the surface, it faces an enormous challenge i.e the space of possible data is **unimaginably large**, and we only have access to a minuscule fraction of real-world sample!!
 
@@ -15,9 +15,9 @@ so, we all know generative modelling promises the ability to generate realistic 
 
 let's consider a sample example. Imagine you clicked a picture from your phone that comes out to be 2304 * 4096 pixels. (just checked dim of last pic i've clicked lol)
 
-we know each pixel has three channels (Red, Green and Blue) and each channel can take value between (0, 255). This means the total number of possible images is: 256^(230440963) which is approximately equivalent to** ~ 10^(70000000)!! **This is insane, far exceeding the number of atoms in the observable universe ~10^80.
+we know each pixel has three channels (Red, Green and Blue) and each channel can take value between (0, 255). This means the total number of possible images is: 256^(230440963) which is approximately equivalent to **~ 10^(70000000)!!** This is insane, far exceeding the number of atoms in the observable universe ~10^80.
 
-let's look how does it compare to real data!
+let's see how it compares to real data!
 
 One of the largest image datasets, ImageNet, contains only about 15 million images (1.5 × 10^7). Compared to the vast space of possible images, this means we have access to only:
 
@@ -31,7 +31,7 @@ that's essentially nothing. almost every possible image has never been seen befo
 
 One naive approach would be to store all images and simply look them up when needed. However, even if we stored every pixel of every ImageNet image, it wouldn’t even scratch the surface of all possible images. We must learn a compact, structured representation of natural images rather than memorizing them.
 
-Let's imagine you're trying to learn english by memorizing every sentence ever spoken. it’s impossible! instead, you must learn the underlying grammar and structure. generative models aim to do the same with images, text, and other data.
+Let's imagine you're trying to learn English by memorizing every sentence ever spoken. it’s impossible! instead, you must learn the underlying grammar and structure. generative models aim to do the same with images, text, and other data.
 
 ### Solution?
 
@@ -39,6 +39,6 @@ instead of memorizing images, generative models try to approximate the true data
 
 intuitively, this means that the model must fill in the gaps from limited training data and generalize well to new samples.
 
-so this is why generative modeling is hard**: we are trying to approximate an unimaginably large distribution using only a tiny subset of data.**
+so this is why generative modeling is hard: **we are trying to approximate an unimaginably large distribution using only a tiny subset of data.**
 
 cyaa :)

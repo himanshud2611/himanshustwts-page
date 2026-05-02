@@ -10,7 +10,7 @@ Now, you’re very keen to learn and play piano. However, you’ve already playe
 
 Now, imagine if we could similarly teach a machine — letting it use the knowledge it already has to learn something new quickly!!
 
-In this blog, we’ll explore the foundations and implementation of  Transfer Learning from very scratch (building intuitions) covering the following topics:
+In this blog, we’ll explore the foundations and implementation of Transfer Learning from very scratch (building intuitions) covering the following topics:
 
 - WHY Transfer Learning?
 - Practical scenarios
@@ -32,7 +32,7 @@ If we train a model to classify birds and cats we use the same model modified a 
 
 > *model used to train on birds → same model used to train on bees
 model used to train on cats → same model used to train on dogs*
-> 
+>
 
 If we train the new model of bees and dogs, it can be time-consuming. That would take multiple days/weeks as well as compute.
 
@@ -44,7 +44,7 @@ This approach of Transfer Learning achieved good performance results and that is
 
 ## PRACTICAL SCENARIOS
 
-You may be interested what are some models we use daily that incorporate the idea of Transfer Learning. I’ve got you covered, let’s explore some of them.
+You may be interested in what are some models we use daily that incorporate the idea of Transfer Learning. I’ve got you covered, let’s explore some of them.
 
 1. **BERT** (Bidirectional Encoder Representations from Transformer)
 
@@ -71,7 +71,7 @@ In the architecture of Transfer Learning, we have two tasks:
 
 Let’s take an example of both NLP and Vision to understand this architecture.
 
-**NLP** 
+**NLP**
 
 ![image.png](/tlb/image1.png)
 
@@ -95,7 +95,7 @@ Let’s go through it step by step:
 
 A domain consists of a feature space *X* and a marginal probability distribution *P(X).*
 
-For example, in an image classification task, X could represent pixel values, and P(X) describes how images are distributed across this feature space.
+For example, in an image classification task, X could represent pixel values, and P(X) describes how images are distributed across this feature space.
 
 $$
 D = \{ X, P(X) \}
@@ -103,7 +103,7 @@ $$
 
 - **Task(T)**
 
-A task consists of a label space *Y* and an objective function *f:X→Y*, which *maps features to labels*. 
+A task consists of a label space *Y* and an objective function *f:X→Y*, which *maps features to labels*.
 
 In a typical classification setting, this is the function that predicts labels given input features.
 
@@ -111,7 +111,7 @@ $$
 D = \{ Y, f(X) \}
 $$
 
-Here, the goal is to transfer knowledge from a source domain Dₛ and source task Tₛ to a target domain Dₜ and target task Tₜ. 
+Here, the goal is to transfer knowledge from a source domain Dₛ and source task Tₛ to a target domain Dₜ and target task Tₜ.
 
 The underlying assumption is that the source and target domains or tasks share some common structure, though they aren’t identical.
 
@@ -146,17 +146,17 @@ $$
 y = W_n a_{n-1} + b_n
 $$
 
-**Wᵢ**→ Weight matrics, 
+**Wᵢ**→ Weight matrics,
 
-**bᵢ**→ biases, 
+**bᵢ**→ biases,
 
-*σ* is (ReLU) non-linear activation function.
+*σ* is (ReLU) non-linear activation function.
 
-Each layer *i* outputs an activation a**ᵢ**, which is then passed to the next layer.
+Each layer *i* outputs an activation aᵢ, which is then passed to the next layer.
 
 **Parameter Sharing**
 
-In transfer learning, the parameters W1, W2, W3 . . . Wm, from earlier layers (lower-level features) are "frozen" and shared between the source task and the target task. 
+In transfer learning, the parameters W1, W2, W3 . . . Wm, from earlier layers (lower-level features) are "frozen" and shared between the source task and the target task.
 
 These parameters represent learned knowledge θs from the source domain.
 
@@ -168,7 +168,7 @@ $$
 
 θs → set of weights optimized during training on the source data Xs.
 
-- For the **target task**, instead of learning a completely new set of parameters *θt* from scratch, transfer learning starts from *θs* and fine-tunes the parameters to adapt them to the target data *Xt*.
+- For the **target task**, instead of learning a completely new set of parameters *θt* from scratch, transfer learning starts from *θs* and fine-tunes the parameters to adapt them to the target data *Xt*.
 
 **Loss Function and Optimization**
 
@@ -200,16 +200,16 @@ $$
 L_t(\theta) = \frac{1}{N_t} \sum_{i=1}^{N_t} \ell(f_t(x_i), y_i)
 $$
 
-The parameters *θ* are initialized from the pre-trained model, and then fine-tuned on the target task:
+The parameters *θ* are initialized from the pre-trained model, and then fine-tuned on the target task:
 
 $$
 \theta_t = \arg \min_{\theta} L_t(\theta) \text{ with initialization } \theta = \hat{\theta}_s
 $$
 
-Here, we initialize the network using θs, the learned parameters from the source task, instead of random initialization. 
+Here, we initialize the network using θs, the learned parameters from the source task, instead of random initialization.
 
 > This saves computation, speeds up convergence, and helps the model achieve better performance with fewer target task examples
-> 
+>
 
 I hope this makes sense to you about **why** and **how** we are using the parameters from the source task :)
 
@@ -221,13 +221,13 @@ I hope this makes sense to you about **why** and **how** we are using the parame
 
 Let’s try to interpret transfer learning through the lens of Bayesian learning.
 
-- Pre-training on the source task can be seen as learning a **prior distribution** over parameters (Prior from the source task):
+- Pre-training on the source task can be seen as learning a **prior distribution** over parameters (Prior from the source task):
 
 $$
-p(\theta \mid D_s)     
+p(\theta \mid D_s)
 $$
 
-- When we transfer to the target task, we perform **Bayesian updating** by incorporating the target data (Posterior):
+- When we transfer to the target task, we perform **Bayesian updating** by incorporating the target data (Posterior):
 
 $$
 p(\theta \mid D_t) \propto p(D_t \mid \theta) p(\theta \mid D_s)
@@ -235,23 +235,23 @@ $$
 
 Target task data *Dt* updates the prior form to the posterior.
 
-Summarising the mathematical intuition above, 
+Summarising the mathematical intuition above,
 
 > Transfer learning builds on the principle of reusing previously learned parameters *θs* as an initialization for learning a new task *θt.*
 By sharing learned knowledge, it accelerates training, improves generalization, and reduces the data requirements for the target task.
-> 
+>
 
-​
+
 
 ---
 
 ## Hands-on Implementation
 
-Now, we will implement transfer learning from scratch using PyTorch (I’ll try explaining to you every step in this implementation). 
+Now, we will implement transfer learning from scratch using PyTorch (I’ll try explaining to you every step in this implementation).
 
 **IDEA:**
 
-We will use a pre-trained model on a **source task** (like Imagenet) and transfer that knowledge to a **target task** (such as classifying flowers in the **Oxford 102 Flowers** dataset).
+We will use a pre-trained model on a **source task** (like Imagenet) and transfer that knowledge to a **target task** (such as classifying flowers in the **Oxford 102 Flowers** dataset).
 
 ![image.png](/tlb/image3.png)
 
@@ -261,17 +261,17 @@ We will use a pre-trained model on a **source task** (like Imagenet) and transfe
 
 **Step 2**: Loading and Preprocessing the dataset
 
-The Oxford 102 Flowers dataset consists of 102 flower categories. 
+The Oxford 102 Flowers dataset consists of 102 flower categories.
 
 Let's load the dataset and apply necessary transformations such as resizing, cropping, and normalizing.
 
 ![image.png](/tlb/image5.png)
 
-To match the ResNET’s input’s size, we resize the images to
+To match the ResNet’s input’s size, we resize the images to
 
 224×224, convert them to tensors and normalize them using ImageNet’s mean and standard deviation.
 
-**Step 3**: Loading the pre-trained ResNET18 Model
+**Step 3**: Loading the pre-trained ResNet18 Model
 
 ![image.png](/tlb/image6.png)
 
@@ -304,7 +304,7 @@ Let me share a PyTorch tip for you:
 > reset current stored grad to 0
 > backprop loss to get new grad
 > optimization
-> 
+>
 
 Let me explain what we’ve executed above:
 
@@ -330,7 +330,7 @@ Here,
 - model.eval() sets the model to evaluation mode, which disables operations like dropout.
 
 > Dropout is a technique to make models more generalizable by forcing the model to learn with redundancy, reducing overfitting, and ultimately leading to better performance on new data.
-> 
+>
 - We use torch.no_grad() to skip computing gradients, making evaluation faster. The model predicts labels on the validation set, and we compute the accuracy.
 
 **End Result**:
@@ -341,6 +341,6 @@ Validation Accuracy: 78.63%
 
 Through this blog, we’ve delved deep into the concepts and mathematical foundations of transfer learning with a hands-on implementation from scratch.
 
-Thank you for joining me on this journey. If you have any questions, or feedback, or would like to share your experiences, feel free to reach out. 
+Thank you for joining me on this journey. If you have any questions, or feedback, or would like to share your experiences, feel free to reach out.
 
 Take Care :)

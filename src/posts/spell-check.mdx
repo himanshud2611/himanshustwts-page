@@ -1,5 +1,5 @@
 ---
-title: Decoding Spell Chckers
+title: Decoding Spell Checkers
 tags: [python, cp]
 date: 12 Aug 2024
 ---
@@ -9,7 +9,7 @@ you might wonder how this idea came to me to write a blog on this. so, my team w
 <br/>
 
 while typing a text chat to someone, often we do spell errors. (i do a lot) let the text be, "it is sill raining bro". here sill is misspelled. it may give plausible suggestions like, did you mean: "still", "ill", "till". words considered plausible are those with an edit distance of one.
-this program was actually published in 1971 by Ralph but actually this has a problem. probably, you've guessed it. not all spelling errors would've only one edit distance. if i write 'spetlin" it has edit distance of 2, replacing 't' with 'l' and adding 'g' to make it "spelling".
+this program was actually published in 1971 by Ralph but actually this has a problem. probably, you've guessed it. not all spelling errors would've only one edit distance. if i write 'spetlin' it has edit distance of 2, replacing 't' with 'l' and adding 'g' to make it "spelling".
 
 the difference could be:
 
@@ -17,19 +17,19 @@ the difference could be:
 2. single letter deletion ("ill")
 3. substitution of one letter with another ("till")
 
-so what? we needed to find a way to calculate plausible words beyond one edit distance. but how do even quantify edit distance? in 1965, Lenin has already published his famous Levensthein Distance Algorithm. It wasn't actually designed for spellcheckers but later this algorithm find a huge use case for same.
+so what? we needed to find a way to calculate plausible words beyond one edit distance. but how do even quantify edit distance? in 1965, Levenshtein has already published his famous Levenshtein Distance Algorithm. It wasn't actually designed for spellcheckers but later this algorithm find a huge use case for same.
 
 <br/>
 
-Let's dive deep into Levensthein Distance Algorithm first, by finding edit distance between two words. let the words be "map" and "bat", with intuition the edit comes out to be 2(m:b, p:t). as Ralph's program, in this case as well we can opt for 3 operations: insertions, deletions and substitution.
+Let's dive deep into Levenshtein Distance Algorithm first, by finding edit distance between two words. let the words be "map" and "bat", with intuition the edit comes out to be 2(m:b, p:t). as Ralph's program, in this case as well we can opt for 3 operations: insertions, deletions and substitution.
 
-let's prove this with LD Algorithm, The Levensthein distance between two strings a, b (of length |a| and |b|) is given by lev(a, b). Look the cases we are defining carefully,
+let's prove this with LD Algorithm, The Levenshtein distance between two strings a, b (of length |a| and |b|) is given by lev(a, b). Look the cases we are defining carefully,
 
 1. lev(map, bat) = |map| if |bat| = 0
 2. lev(map, bat) = |bat| if |map| = 0
 3. lev(map, bat) = lev(tail(map), tail(bat)) if head(map) = head(bat) i.e. if first letter of two words are same.
 
-so we have gone through all the edge cases and it is sure now a move must must be performed after this. edit distance (ED = 1)
+so we have gone through all the edge cases and it is sure now a move must be performed after this. edit distance (ED = 1)
 
 we have three possible routes we can take:
 min \{lev(ap, can) -> insert , lev(map, at) -> delete, lev(ap, at) -> substitute}
@@ -41,7 +41,7 @@ if you see, this was purely a mathematical concept and wasn't designed to solve 
 
 now, around 1974 there comes an interesting MIT research which introduced a ground breaking solution to the inefficiency LD algorithm. Guess what, the solution was Dynamic Programming!!
 
-(DP: breaking down a complex problem into sub-problems and solving each of these sub-problems just once and storing the solutions. so the algorithm avoid excessive repetitive work as seen in LD recursive approach).
+(DP: breaking down a complex problem into sub-problems and solving each of these sub-problems just once and storing the solutions. so the algorithm avoids excessive repetitive work as seen in LD recursive approach).
 
 with the new approach, let's find the edit distance between "goat" and "pole". we will build a matrix and find the edit distance between substrings and build calculations as we go. remember, the operations will remain the same.
 
@@ -89,13 +89,13 @@ in our case, the edit distance between "goat" and "pole" is the value in dp[4][4
 
 <br/>
 
-though there are more optimizations possible with this approach as well, like maybe don't compute edit distance immediately. check if the word exists in the dictionary to see if it is spelled correctly first before computing it's edit distance to other words.
+though there are more optimizations possible with this approach as well, like maybe don't compute edit distance immediately. check if the word exists in the dictionary to see if it is spelled correctly first before computing its edit distance to other words.
 
 we are very close to wrap up this blog. actually spell checkers went really far from here. nowadays, we incorporate NLP to understand context of the sentence in order to suggest more appropriate word corrections.
 
-it's too late (4:28 am now), i haven't guessed this will be a long post. i'll upload the python code of above approaches by eve today. you may try out coding yourself, pseudocode being given.
+it's too late (4:28 am now), i haven't guessed this will be a long post. i'll upload the python code of above approaches by evening today. you may try out coding yourself, pseudocode being given.
 
 <br/>
 
-i've used spell checker at least 50 times while writing this blog. so yeah, it feel i'd learnt and covered a cool thing.
+i've used spell checker at least 50 times while writing this blog. so yeah, it feels i'd learnt and covered a cool thing.
 will be posting another blog very soon!

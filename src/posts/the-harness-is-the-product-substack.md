@@ -1,4 +1,4 @@
-Everyone is poasting about how beastly models have become. Opus 4.5, GPT-5.2-Codex, Gemini-3-Pro and the recent Chinese ones (from the likes of GLM 4.7 and Minimax-M2.1). If you've shipped anything real with these models, you might have acknowledged that harness matters more than weights. In other words, we have same model with different scaffoldings with completely different outcomes.
+Everyone is posting about how beastly models have become. Opus 4.5, GPT-5.2-Codex, Gemini-3-Pro and the recent Chinese ones (from the likes of GLM 4.7 and Minimax-M2.1). If you've shipped anything real with these models, you might have acknowledged that harness matters more than weights. In other words, we have the same model with different scaffoldings with completely different outcomes.
 
 So, **what is harness?** It's everything that isn't the model.
 
@@ -10,7 +10,7 @@ So, **what is harness?** It's everything that isn't the model.
 
 When people say "Claude Code is mind blowing" they're not just saying Claude (or Opus) is good but actually saying Anthropic built a harness that lets MODEL be good at being an agent. Cursor, Mogra, Aider - these are all harnesses.
 
-Let's go into a bit detail.
+Let's go into a bit of detail.
 
 **The Loop.**
 
@@ -18,11 +18,11 @@ It might sound trivial but it's not. How many iterations before you force a chec
 
 [IMAGE: image.png - Upload this image in Substack]
 
-Anthropic's [research blog](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) on long-running agents found that even Opus 4.5 on the Claude Agent SDK would fail at multi-day tasks without an *initializer agent* that sets up context and a progress file that bridges context windows. 
+Anthropic's [research blog](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) on long-running agents found that even Opus 4.5 on the Claude Agent SDK would fail at multi-day tasks without an *initializer agent* that sets up context and a progress file that bridges context windows.
 
 [IMAGE: image 1.png - Upload this image in Substack]
 
-The loop is where you encode your philosophy about autonomy vs control. If it is too tight, the agent might feels lobotomized and if it is too loose, the model might start burning tokens. Cursor [found](https://cursor.com/blog/codex-model-harness) that preserving reasoning traces was critical for codex model performance - dropping them significantly degraded output quality. Effectively its a harness decision, not a model capability.
+The loop is where you encode your philosophy about autonomy vs control. If it is too tight, the agent might feel lobotomized and if it is too loose, the model might start burning tokens. Cursor [found](https://cursor.com/blog/codex-model-harness) that preserving reasoning traces was critical for codex model performance - dropping them significantly degraded output quality. Effectively it's a harness decision, not a model capability.
 
 [IMAGE: image 2.png - Upload this image in Substack]
 
@@ -42,7 +42,7 @@ This is the quiet hard problem. Models have finite windows. Codebases and work c
 
 [IMAGE: image 4.png - Upload this image in Substack]
 
-[claude . md](https://code.claude.com/docs/en/memory) scratchpad persists across sessions:
+[CLAUDE.md](https://code.claude.com/docs/en/memory) scratchpad persists across sessions:
 
 [IMAGE: image 5.png - Upload this image in Substack]
 
@@ -50,12 +50,12 @@ Apparently: garbage context in, garbage actions out. Anthropic explicitly calls 
 
 [IMAGE: image 6.png - Upload this image in Substack]
 
-The big labs have figured out that the harness is the product surface where value accrues. Anthropic built CC as a general agent harness, then realized it was too powerful to stay in the terminal. [Boris](https://x.com/bcherny/status/2010809450844831752?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E2010809450844831752%7Ctwgr%5Ebf872184458e2d93ca836ead22974bc79fe43cdd%7Ctwcon%5Es1_&ref_url=https%3A%2F%2Fventurebeat.com%2Ftechnology%2Fanthropic-launches-cowork-a-claude-desktop-agent-that-works-in-your-files-no) noticed people using CC for vacation research, slide decks, wedding photo recovery, oven control. The underlying agent was good but the interface was limiting to normies. So they built Cowork in 1.5 weeks using CC itself - to bring the *same harness to non-developers*.
+The big labs have figured out that the harness is the product surface where value accrues. Anthropic built CC as a general agent harness, then realized it was too powerful to stay in the terminal. [Boris](https://x.com/bcherny/status/2010809450844831752) noticed people using CC for vacation research, slide decks, wedding photo recovery, oven control. The underlying agent was good but the interface was limiting to normies. So they built Cowork in 1.5 weeks using CC itself - to bring the *same harness to non-developers*.
 
-This is the strategic insight here. Start with developers because they tolerate rough edges and give signal. Build the harness for that hard use case. Then generalize. Anthropic now has CC (terminal), Cowork (desktop), Claude in chrome (browser), all running on the same claude agent sdk. 
+This is the strategic insight here. Start with developers because they tolerate rough edges and give signal. Build the harness for that hard use case. Then generalize. Anthropic now has CC (terminal), Cowork (desktop), Claude in Chrome (browser), all running on the same claude agent sdk.
 **One harness, Multiple surfaces.** And the SDK is now available for anyone to build custom agents - finance, customer support, personal assistants. We are witnessing harness becoming the platform.
 
-Cursor took a different path - build the harness into an IDE (give visual control and diff views + support multiple models). They're explicitly tuning their harness per model - renaming tools to match shell equivalents for codex, preserving reasoning traces and adjusting prompts. 
+Cursor took a different path - build the harness into an IDE (give visual control and diff views + support multiple models). They're explicitly tuning their harness per model - renaming tools to match shell equivalents for codex, preserving reasoning traces and adjusting prompts.
 
 **The Metadata Pattern.**
 

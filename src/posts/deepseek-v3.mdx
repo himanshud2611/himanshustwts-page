@@ -18,10 +18,10 @@ TL;DR
 
 The architecture of **DeepSeek-v3** incorporates innovative techniques like the **Mixture of Experts** (671B and 37B activated per token), **Multi-Head Latent Attention (MHLA)**, and a pretraining process using **14.8T tokens**. The model undergoes **Supervised Fine-Tuning (SFT)** and **Reinforcement Learning (RL)** to enhance performance. Key architectural improvements include the **Load Balancing Strategy** (auxiliary-loss-free) and the **Multi-Token-Prediction Objective (MTP)**, which boosts both performance and inference speed. The model employs FP8 mixed precision during pretraining to address communication bottlenecks and integrates reasoning capabilities distilled from **DeepSeek R1 series models** into **DeepSeek-v3.**
 
-![Andrez Karpathy on Deepseek v3](/dsv3/image.png)
+![Andrej Karpathy on Deepseek v3](/dsv3/image.png)
 
 
-### Pre-training, context length extension, post-training-
+### Pre-training, context length extension, post-training
 
 ![image](/dsv3/image1.png)
 
@@ -29,7 +29,7 @@ The architecture of **DeepSeek-v3** incorporates innovative techniques like the 
 
 **Architecture**: Load Balancing Strategy - auxiliary-loss-free-strategy, Multi-Token-Prediction Objective (MTP) - model perf, inference acceleration
 
-**Pre-Training**: FP8 mixed precision training framework, overcome the communication bottleneck 
+**Pre-Training**: FP8 mixed precision training framework, overcome the communication bottleneck
 
 **Post-Training:** distill reasoning capabilities from the long Cot Model - Deepseek R1 series models into standard LLMs (DeepSeek-v3). pipeline incorporates the verification and reflection patterns of R1 into the model.
 
@@ -72,19 +72,19 @@ So, the standard MHA computes each attention head's query, key, and value matric
 
 Think of attention as a sophisticated lookup system.
 
-BASIC BUILDING BLOCKS - 
+BASIC BUILDING BLOCKS -
 
 - You have an input token $h_t$ that needs to interact with other tokens
 - let’s say d is the embedding dimension (how rich your token rep is)
 - $n_h$ is the number of attention heads (like having multiple perspectives, X comment section?)
 - $d_h$ is the dimension per head (each perspective’s detail level)
 
-The Three core transformations would look like this - 
+The Three core transformations would look like this -
 
 > q_t = W_Q @ h_t  # What am I looking for? (Query)
 k_t = W_K @ h_t  # What do I contain? (Key)
 v_t = W_V @ h_t  # What's my actual content? (Value)
-> 
+>
 
 ![Deepseek-v2 paper- page 6](/dsv3/image6.png)
 
@@ -100,25 +100,25 @@ First, let’s understand what we need to cache!
 $[K1|K2|...|Knh] = n_h * d_h elements for keys$
 
 
-$V1|V2|...|Vnh] = n_h * d_h elements for values$
+$[V1|V2|...|Vnh] = n_h * d_h elements for values$
 
-<br/> 
- 
+<br/>
+
 Total per token: $2 * n_h * d_h$ elements
- 
+
  sequence_length = L
  elements_per_token = $2 * n_h * d_h$
  total_memory = sequence_length * elements_per_token
  = $2 * n_h * d_h * L$
- 
+
 
 As sequence length (L) grows, this linear scaling of 2nhdh elements per token becomes a significant memory constraint, so architectures like MQA, GQA, and MLA were developed to reduce this memory footprint.
 
 Now let’s look at those architectures. We will dive deep into MLA though covering the basics of other archs.
 
-![Attention architecures - Deepseek v2 paper - page 7](/dsv3/image7.png)
+![Attention architectures - Deepseek v2 paper - page 7](/dsv3/image7.png)
 
-Attention architecures - Deepseek v2 paper - page 7
+Attention architectures - Deepseek v2 paper - page 7
 
 Standard MHA (Multi-Head Attention)
 
@@ -161,7 +161,7 @@ key = W_up_k @ c_kv  # Reconstruct key when needed
 value = W_up_v @ c_kv # Reconstruct value when needed
 ```
 
-In MLA, they incorporate a super smart idea of forming matrices via a down and up projection. The distinction is instead of storing K and V in the KV cache, we can store a small slither of C instead!
+In MLA, they incorporate a super smart idea of forming matrices via a down and up projection. The distinction is instead of storing K and V in the KV cache, we can store a small sliver of C instead!
 
 $$
 C = X *D, Q = X * W_q, K = C *  W_{uk}, V = C * W_{uv}
@@ -188,38 +188,38 @@ tokens_memory = sequence_length * l  # Much smaller!
 model_params = 2 * (n_h * d_h * l)   # Fixed, one-time cost
 ```
 
-So while MLA does have large projection matrices, they're part of the model parameters (stored once) rather than per-token memory requirements. 
+So while MLA does have large projection matrices, they're part of the model parameters (stored once) rather than per-token memory requirements.
 
 The per-token memory (what we need to cache during inference) is just the small l-dimensional vector!
 This is why MLA achieves such significant memory savings during inference - you're only storing small compressed vectors for each token instead of full key-value pairs.
 
 ### Decoupled Rotary Position Embedding (RoPE) in MLA
 
-The RoPE problem with MLA - 
+The RoPE problem with MLA -
 
 > Traditional RoPE applies position encoding to both K and Q
-> 
-> 
+>
+>
 > This becomes problematic with compressed KV pairs because matrix multiplication isn't commutative
-> 
+>
 > So in MLA, we can't merge RoPE with compressed representations efficiently
-> 
+>
 
 Solution - **Decoupled RoPE**
 
 ```python
-# New approach - dECOUPLEDrOpe:
+# New approach - decoupled RoPE:
 # 1. Separate position-aware queries
 q_R = RoPE(W^QR @ c_q)    # Position-aware queries
 k_R = RoPE(W^KR @ h_t)    # Position-aware shared key
 
 # 2. Split into heads and concatenate
-q_t,i = [q_R_1, q_R_2, ..., q_R_nh] 
-k_t = [k_R_1, k_R_2]            
+q_t,i = [q_R_1, q_R_2, ..., q_R_nh]
+k_t = [k_R_1, k_R_2]
 
 # 3. Concatenate for final attention
-q_full = [q_t,1; q_t,2]              
-k_full = [k_t,1; k_t,2]             
+q_full = [q_t,1; q_t,2]
+k_full = [k_t,1; k_t,2]
 ```
 
 Memory Requirements comparison of MHA, GQA, MQA, and MLA!
@@ -245,7 +245,7 @@ Insights:
 - Memory efficiency close to MQA
 - Performance similar to MHA
 - Solves the RoPE compatibility through decoupling
- 
+
 
 ![image.png](/dsv3/deepseekv3_comp_atten.jpg)
 
@@ -262,7 +262,7 @@ Imagine you're running a large community with diverse challenges— content plan
 > In machine learning, the Mixture of Experts (MoEs) model adopts a similar philosophy. It uses a "team" of expert neural nets, each specializing in different aspects of the data. When presented with an input, the model intelligently decides which expert(s) to involve, ensuring efficient computation and better specialization.
 
 The expert selection process happens dynamically at each step of computation, where different experts can be activated even within the same sequence. The router network continuously evaluates which expert(s) should handle each part of the input or generation, making this a fine-grained, token-level division of labor rather than a coarse query-level split.
-> 
+>
 
 ![MoEs Layer from the Switch Transformer Paper](/dsv3/image8.png)
 
@@ -275,7 +275,7 @@ MOE architecture consists of the following 2 components-
 - Experts
 - Gating Network
 
-Spare MOE layers are used instead of feed-forward-network (FFN) layers. These layers have a certain number of experts, and each expert is a neural net.
+Sparse MOE layers are used instead of feed-forward-network (FFN) layers. These layers have a certain number of experts, and each expert is a neural net.
 
 There is a Gating Network or Router, that determines which tokens are sent to which expert.
 
@@ -300,7 +300,7 @@ MOE Layers. [https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-mixt
 
 ## DeepSeekMoE
 
-In section 2.1.2 of DeepSeek-v3 paper, it is mentioned that: 
+In section 2.1.2 of DeepSeek-v3 paper, it is mentioned that:
 
 > “Basic Architecture of DeepSeekMoE. For Feed-Forward Networks (FFNs), DeepSeek-V3 employs the DeepSeekMoE architecture (Dai et al., 2024). Compared with traditional MoE architectures like GShard (Lepikhin et al., 2021), DeepSeekMoE uses finer-grained experts and isolates some experts as shared ones.”
 
@@ -312,9 +312,9 @@ Let’s understand these “experts” first.
 Imagine the large community you were running. You have:
 
 - Shared Tools (Shared Experts): These are common resources like meeting rooms or printers that everyone uses regardless of their department.
- 
+
 - Specialized Teams (Routed Experts): Each team is highly specialized for specific tasks, and only a subset of these teams is called upon for a given problem.
- 
+
 
 DeepSeekMOE mimics the above set of experts.
 
@@ -344,7 +344,7 @@ $N_r$: Number of routed experts
 
 $\text{FFN}_i^{(s)}(\mathbf{u}_t)$: The $i_{th}$ shared expert processes the input $u_t$
 
-$\text{FFN}_i^{(r)}(\mathbf{u}_t)$: The $i_{th}$ routed expert processes $u_t$ , but its output is scaled by gating weight 
+$\text{FFN}_i^{(r)}(\mathbf{u}_t)$: The $i_{th}$ routed expert processes $u_t$ , but its output is scaled by gating weight
 
 1. **Gating Weights for Routed Experts**
 
@@ -358,7 +358,7 @@ $$
 
 Here,
 
-$g'_{i,t}$: intermediate gating score, indicating the relevance of the $i-th$routed expert for the current input.
+$g'_{i,t}$: intermediate gating score, indicating the relevance of the $i$-th routed expert for the current input.
 
 $g_{i,t}$: normalized gating weight, ensuring that all gating weights sums to 1.
 
@@ -367,7 +367,7 @@ $g_{i,t}$: normalized gating weight, ensuring that all gating weights sums to 1.
 The intermediate gating score $g'_{i,t}$ is defined as:
 
 $$
-g_{i,t}' = \begin{cases} s_{i,t} & \text{if } s_{i,t} \in \text{Top}_k(\{s_{j,t}|1 \leq j \leq N_t\}, k_r) \\0 & \text{otherwise}\end{cases}
+g_{i,t}' = \begin{cases} s_{i,t} & \text{if } s_{i,t} \in \text{Top}_k(\{s_{j,t}|1 \leq j \leq N_t\}, k_r) \\0 & \text{otherwise}\end{cases}
 $$
 
 
@@ -401,9 +401,9 @@ Sigmoid(.): ensures the score is between 0 and 1
 Intuitively, the routed experts act like "specialists" trained to handle certain types of input. The affinity score measures how well an expert aligns with the given input.
 
 
-## Auxillary-Loss-Free-Load-Balancing
+## Auxiliary-Loss-Free-Load-Balancing
 
-  
+
 
 In MoE models, each token gets routed to different experts. Without balancing, some experts get overloaded while others sit idle:
 
@@ -416,11 +416,11 @@ token_distribution = {
 }
 ```
 
-   
+
 
 ![image.png](/dsv3/image11.png)
 
-  
+
 Let’s try to understand the above Bias-Based Routing for DeepseekMoE more intuitively with an interesting analogy.
 
 (To intuitively understand the idea behind this, just zoom the image below. This will make sense)
@@ -435,7 +435,7 @@ Here, the bias term is only used for routing.
 
 > Routing Decision: score_for_routing = original_affinity + bias
 Actual Usage: gating_value = original_affinity
-> 
+>
 
 ```python
 For each expert after each training step:
@@ -484,14 +484,14 @@ The beauty is that it maintains quality (original affinity scores) while achievi
 
 A note from my side
 
-This is all for this blog. I hope you enjoyed reading it. Through this blog, we’ve delved deep into the concepts and mathematical foundations with intuition from the groundup.
+This is all for this blog. I hope you enjoyed reading it. Through this blog, we’ve delved deep into the concepts and mathematical foundations with intuition from the ground up.
 
 Thank you for joining me on this journey. If you have any questions, or feedback, or would like to share your experiences, feel free to reach out. Let's continue to learn and innovate together!
 
 Can’t wait to publish the next one, PPO and GPQA in Deepseek r1 from first principles!
 
-Read this blog by cneuralnets to get a general idea of Deepseek-r1: 
+Read this blog by cneuralnets to get a general idea of Deepseek-r1:
 
-[https://trite-song-d6a.notion.site/Deepseek-R1-for-Everyone-1860af77bef3806c9db5e5c2a256577d](https://www.notion.so/1860af77bef3806c9db5e5c2a256577d?pvs=21)
+[https://trite-song-d6a.notion.site/Deepseek-R1-for-Everyone-1860af77bef3806c9db5e5c2a256577d](https://www.notion.so/1860af77bef3806c9db5e5c2a256577d?)
 
 Take care :)

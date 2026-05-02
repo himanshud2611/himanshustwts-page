@@ -6,15 +6,15 @@ tags: [model-review,architecture]
 
 hey there!
 
-Imagine you’re watching a cooking video on YouTube, and the chef suddenly flips a pancake in the air while shouting, “Check this out!” You pause, curious, and ask your model, “What’s the chef doing right now?” 
+Imagine you’re watching a cooking video on YouTube, and the chef suddenly flips a pancake in the air while shouting, “Check this out!” You pause, curious, and ask your model, “What’s the chef doing right now?”
 
 Without missing a beat, it replies—in a smooth, natural voice—“The chef’s flipping a pancake like a pro!” while typing out the same answer on your screen. It’s what **Qwen2.5-Omni**, a slick new multimodal model, brings to the table.
 
-Qwen released their flagship multimodal model Qwen2.5-Omni. This is the model which **Sees, Hears, and Talks** Back—All in Real-Time. Hope you’ve guessed the modalities - it comprises of text, image, audio and video (pretty much everything, no?)
+Qwen released their flagship multimodal model Qwen2.5-Omni. This is the model which **Sees, Hears, and Talks** Back—All in Real-Time. Hope you’ve guessed the modalities - it comprises text, image, audio and video (pretty much everything, no?)
 
-There is video description of the model, checkout:
+There is video description of the model, check out:
 
-[Qwen2.5-Omni-7B: Voice Chat + Video Chat! Powerful New Opensource end-to-end multimodal model](https://youtu.be/yKcANdkRuNI)
+[Qwen2.5-Omni-7B: Voice Chat + Video Chat! Powerful New open-source end-to-end multimodal model](https://youtu.be/yKcANdkRuNI)
 
 In this blog, I’m diving into the novelties that make Qwen2.5-Omni stand out: **TMRoPE** (Time-aligned Multimodal Rotary Position Embedding) and the **Thinker-Talker architecture**. We’ll break them down intuitively to make it pop. Let’s get into it.
 
@@ -26,7 +26,7 @@ Architecture
 
 Let’s look at the architecture above. Qwen2.5-Omni is a unified model that can **perceive** text, images, audio, and video, then **generate** text and natural speech—all in a streaming fashion.
 
-That means it doesn’t sit around waiting for the whole video to finish; it processes and responds as the data flows in. 
+That means it doesn’t sit around waiting for the whole video to finish; it processes and responds as the data flows in.
 
 Picture this: you’re on a video call, and the model is listening, watching, and chatting back without lag. **That’s the goal**.
 
@@ -34,7 +34,7 @@ Here, both audio and visual encoders utilize a block-wise processing approach.
 
 ![image.png](/qwen25/image1.png)
 
-The paper lays out how it pulls off this entire workflow, and there’re two big innovations: **TMRoPE** and **Thinker-Talker**. 
+The paper lays out how it pulls off this entire workflow, and there’re two big innovations: **TMRoPE** and **Thinker-Talker**.
 
 Let’s unpack them with a cooking show example to keep it real.
 
@@ -42,15 +42,15 @@ Let’s unpack them with a cooking show example to keep it real.
 
 ## **TMRoPE**
 
-Imagine our cooking show again. The chef says, “Now we chop the onions” while the video shows a close-up of a knife slicing through an onion, and subtitles flash “Chop chop!” at the bottom. For an AI to get this, it needs to know **when** everything happens. 
+Imagine our cooking show again. The chef says, “Now we chop the onions” while the video shows a close-up of a knife slicing through an onion, and subtitles flash “Chop chop!” at the bottom. For an AI to get this, it needs to know **when** everything happens.
 
 Text has order (word 1, word 2, etc.), but audio and video? They’re messy—sound waves stretch over time, and video frames tick by at different rates. How do you make sense of it all?
 
-Traditional transformers use positional embeddings to track order, but they’re built for text, not this multimodal madness. Qwen2.5-Omni needed a way to align everything—audio, video, text—on a single timeline. 
+Traditional transformers use positional embeddings to track order, but they’re built for text, not this multimodal madness. Qwen2.5-Omni needed a way to align everything—audio, video, text—on a single timeline.
 
 It stands for **Time-aligned Multimodal Rotary Position Embedding**.
 
-It’s an extension of the **Rotary Position Embedding (RoPE)** method, which is commonly used in transformer models to encode the position of tokens in a sequence (e.g., words in a sentence). 
+It’s an extension of the **Rotary Position Embedding (RoPE)** method, which is commonly used in transformer models to encode the position of tokens in a sequence (e.g., words in a sentence).
 
 RoPE uses a mathematical trick involving rotations to represent positions, which helps transformers understand the relative positions of tokens without needing to learn position embeddings explicitly.
 
@@ -83,7 +83,7 @@ Every token (a word, a sound sample, a video frame pixel) gets a position in thr
 
 This syncs everything to a common clock. When the chef says “chop” at 2 seconds, TMRoPE ensures the model knows the onion-slicing frame and the subtitle “Chop chop!” are happening right then too.
 
-TMRoPE builds on Rotary Position Embedding (RoPE), which uses rotations in high-dimensional space to encode positions. For a token’s embedding vector $x$ at position $(t, h, w)$. TMRoPE applies a rotation based on all three coords. The rotation angle $\theta$ scales with dimension d: 
+TMRoPE builds on Rotary Position Embedding (RoPE), which uses rotations in high-dimensional space to encode positions. For a token’s embedding vector $x$ at position $(t, h, w)$, TMRoPE applies a rotation based on all three coords. The rotation angle $\theta$ scales with dimension d:
 
 $$
 \theta_d = 10000^{- \frac{2d}{D}}
@@ -95,13 +95,13 @@ $$
 \mathbf{x'} = \begin{bmatrix} \cos(t \cdot \theta_d) & -\sin(t \cdot \theta_d) \\ \sin(t \cdot \theta_d) & \cos(t \cdot \theta_d) \end{bmatrix} \cdot \mathbf{x}
 $$
 
-For video, it’s a triple whammy—rotations for t, h, and w — but the idea’s the same: twist the embedding so the model “feels” where and when it is. 
+For video, it’s a triple whammy—rotations for t, h, and w — but the idea’s the same: twist the embedding so the model “feels” where and when it is.
 
 This lets model connect the chef’s “chop” to the exact onion-slicing moment.
 
 ## Thinker-Talker
 
-So now, the problem is model understands the scene—great, but how does it **respond** with both text and speech without tripping over itself? And in real-time? That’s where the **Thinker-Talker architecture** comes in.
+So now, the problem is that the model understands the scene—great, but how does it **respond** with both text and speech without tripping over itself? And in real-time? That’s where the **Thinker-Talker architecture** comes in.
 
 Thinker-Talker splits the job into two parts:
 
@@ -115,7 +115,7 @@ They run in parallel, streaming style. Thinker starts typing the answer while Ta
 > 2. **Talker**: Grabs Thinker’s hidden states (fancy math vectors) and partial text, predicts speech tokens, and starts saying, “The chef is…”
 > By the time Thinker finishes with “onions,” Talker’s already mid-sentence, adjusting on the fly. It’s like a live translator who starts speaking before the speaker’s done.
 
-Thinker is a transformer decoder, so it’s all about attention. For input tokens $X = [x_1, x_2, x_3 ...]$ with TMRoPE positions, it computes attention scores: 
+Thinker is a transformer decoder, so it’s all about attention. For input tokens $X = [x_1, x_2, x_3 ...]$ with TMRoPE positions, it computes attention scores:
 
 $$
 Attention(Q, K, V) = \operatorname{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) V
@@ -170,7 +170,7 @@ where $W$ is a learned weight matrix. The dual-track design means Talker can lea
 
 ---
 
-There are further training stages they’ve talked about for Trainer i.e. In-Context learning, DPO and Multi-Speaker Finetuning. You can look about these in paper.
+There are further training stages they’ve talked about for Trainer i.e. In-Context learning, DPO and Multi-Speaker Finetuning. You can read about these in the paper.
 
 Paper: https://arxiv.org/pdf/2504.00509
 

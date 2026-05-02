@@ -10,15 +10,15 @@ date: 5 Oct 2024
 
 Hi! Hope you’re doing good :)
 
-In this blog, I will dive deep into SigLIP (Lucas Beyer et al). I’ll try to bring an intuition about it’s significance, how SigLIP differs from CLIP Model (will discuss CLIP in detail as well).
+In this blog, I will dive deep into SigLIP (Lucas Beyer et al). I’ll try to bring an intuition about its significance, how SigLIP differs from CLIP Model (will discuss CLIP in detail as well).
 
-My focus will be articulating this blog in points so you can have a better understanding about the flow and it’s implications.
+My focus will be articulating this blog in points so you can have a better understanding about the flow and its implications.
 
 ### Focus of the Paper
 
 - Language Image Pre training
 - Contrastive Learning with Softmax Normalization
-- Not require a global view of the pairwise similarities for normalization.
+- Does not require a global view of the pairwise similarities for normalization.
 - Batch size efficiency
 
 ## Understanding Contrastive Pre-training
@@ -27,9 +27,9 @@ Contrastive pre-training in CLIP (Contrastive Language-Image Pre-training) is a 
 
 ### CLIP : An Idea
 
-So CLIP is a combined image and text embedding model trained on 400 million image-text pairs using a self-supervised approach. 
+So CLIP is a combined image and text embedding model trained on 400 million image-text pairs using a self-supervised approach.
 
-It aligns both text and images into the **same embedding space**, meaning that, for instance, an image of a Ayanokoji and the phrase “an image of Ayanokoji” will have similar embeddings and be positioned close together in the vector space. 
+It aligns both text and images into the **same embedding space**, meaning that, for instance, an image of Ayanokoji and the phrase “an image of Ayanokoji” will have similar embeddings and be positioned close together in the vector space.
 
 This is highly significant as it enables the creation of many-many applications, such as searching an image database using a text description or finding corresponding text from an image
 
@@ -56,7 +56,7 @@ This is highly significant as it enables the creation of many-many applications,
 ![image.png](/siglip/image_1.png)
 
 - Note that due to the **asymmetry of the softmax loss**, the normalization is independently performed two times: across images and across texts
-- CLIP (softmax) loss is **asymmetric** with two terms. The first term finds the best text match for a given query image while the second term finds the best image match for a given query text.
+- CLIP (softmax) loss is **asymmetric** with two terms. The first term finds the best text match for a given query image while the second term finds the best image match for a given query text.
 
 ![image.png](/siglip/image_2.png)
 
@@ -68,7 +68,7 @@ This is highly significant as it enables the creation of many-many applications,
 TLDR of announcement by Google.
 
 > *This way, the model can be trained by considering each image-text pair independently rather than requiring a global view of all pairs within a batch. This allows to train with larger batch sizes and obtain a higher performance at smaller ones. The model gets state-of-the-art performance on zero-shot image classification and image-text retrieval tasks*
-> 
+>
 - It is more memory-efficient and can handle larger batch sizes effectively. For example, a SigLiT model (using sigmoid loss) can be trained with a batch size of up to one million.
 - Importantly, the sigmoid loss is symmetric, requires just a single
 pass, and a typical implementation requires less memory
@@ -95,7 +95,7 @@ Objective function:
 ![image.png](/siglip/image_4.png)
 
 - Note that due to the asymmetry of the Softmax loss, the normalization is independently performed two times: across images and across texts
-- CLIP (softmax) loss requires a **global normalization factor** (denominator) which introduces quadratic memory complexity — specifically, an *N*N* pairwise similarity matrix.
+- CLIP (softmax) loss requires a **global normalization factor** (denominator) which introduces quadratic memory complexity — specifically, an N×N pairwise similarity matrix.
 
 1. Sigmoid Loss for language image pre training
 
@@ -107,7 +107,7 @@ Objective function:
 - How does it happen?
 - It processes every text-image independently, turning learning problem to binary classification problem.
 
-> Another way to understand the difference between CLIP and SigLIP is to inspect their problem formulations. Given a query image *I*, CLIP solves a **multi-class classification** problem and assigns the image *I* to its corresponding positive text *T* out of all other negative texts within a mini-batch*.* Contrary, **SigLIP solves a **binary classification** problem with a positive label for a matching pair (*I , T* ) and a negative label for all other pairs. Accordingly, CLIP computes global normalization factors (see denominator) while SigLIP doesn’t.
+> Another way to understand the difference between CLIP and SigLIP is to inspect their problem formulations. Given a query image *I*, CLIP solves a **multi-class classification** problem and assigns the image *I* to its corresponding positive text *T* out of all other negative texts within a mini-batch. Contrary, **SigLIP** solves a **binary classification** problem with a positive label for a matching pair (*I , T* ) and a negative label for all other pairs. Accordingly, CLIP computes global normalization factors (see denominator) while SigLIP doesn’t.
 
 
 - The sigmoid loss, however, is particularly amenable to
@@ -115,14 +115,14 @@ a memory efficient, fast, and numerically stable implementation.
 - **Reasoning:** Contrastive Training uses data parallelism, meaning the data is split across multiple devices (like GPUs) to speed up computation.
 - the loss requires gathering all embeddings from all devices, which is expensive in terms of memory and computation. It involves creating a large matrix of pairwise similarities between all data points.
 
-> Of course, a single all-gather operation is cheaper than two. Yet, an all-gather operation is still expensive because all GPUs stay idle while waiting to receive all features before computing the loss (Eq. 2). Imagine a mini-batch distributed on 256 GPUs; every GPU will wait till it receive features from all other 255 GPUs before computing the loss. This is a lot of waiting time! So, the paper proposes an efficient “chunked” implementation to avoid all-gather altogether.
-> 
+> Of course, a single all-gather operation is cheaper than two. Yet, an all-gather operation is still expensive because all GPUs stay idle while waiting to receive all features before computing the loss (Eq. 2). Imagine a mini-batch distributed on 256 GPUs; every GPU will wait till it receives features from all other 255 GPUs before computing the loss. This is a lot of waiting time! So, the paper proposes an efficient “chunked” implementation to avoid all-gather altogether.
+>
 
 
 ### Efficient “Chunked” Implementation
 
 Key Idea - Per-Device Batches:
-Instead of working with the entire dataset at once, this method processes data in smaller batches on each device. 
+Instead of working with the entire dataset at once, this method processes data in smaller batches on each device.
 
 The batch size per device is denoted as **b = |B|/D**, where |B| is the total batch size and D is the number of devices.
 
@@ -179,7 +179,7 @@ This image illustrates a distributed training process for SigLIP across multiple
 4. The final cross-device sum brings all the distributed calculations together for a complete loss value.
 
 > This approach enables training on larger datasets and with larger batch sizes than would be possible on a single device, while still maintaining the benefits of considering all possible image-text pairings in the loss function.
- 
+
 
 ## Conclusion/Summary
 
@@ -189,21 +189,21 @@ Here is an intuitive breakdown of the conclusion in bullet points:
 - **Performance comparison**: Sigmoid loss outperformed the softmax baseline, particularly for smaller batch sizes.
 - **Memory efficiency**: Sigmoid loss is more memory-efficient, enabling larger training batch sizes without additional resource requirements.
 - **Optimal batch size**: A modest batch size of 32k yielded nearly optimal performance in contrastive learning.
-- **Further investigations (***as mentioned in paper***)**
+- **Further investigations** (*as mentioned in paper*)
     - Understand the bias term introduced in sigmoid loss.
     - Explore robustness to data noise.
     - Analyze the effect of positive and negative pairs ratio.
 
 ---
 
-Thanks for reading the blog. I’ve took references from the above mentioned papers, some articles of SigLIP and Beyer’s session on SigLIP at Cohere AI!
+Thanks for reading the blog. I’ve taken references from the above mentioned papers, some articles of SigLIP and Beyer’s session on SigLIP at Cohere AI!
 
 <br/>
 
 You can also watch Paper Reading Session at AI4Bharat, I presented on 13th September.
 
-Lucas Beyer’s Community Talk on SigLIP [Click Here](https://youtu.be/Nk9YnMHB6hU?si=tl22u2tGrqmCdpix)
+Lucas Beyer’s Community Talk on SigLIP [Click Here](https://youtu.be/Nk9YnMHB6hU)
 
-AI4Bharat Paper Reading Session on SigLIP - [Click Here](https://youtu.be/m5WTjzpMsjs?si=1iOxOoD08JVOES9i)
+AI4Bharat Paper Reading Session on SigLIP - [Click Here](https://youtu.be/m5WTjzpMsjs)
 
 See you soon!

@@ -16,23 +16,23 @@ as you all know python lacks static typing (type of variables aren't declared un
 x = 10
 ```
 
-and now in java 
+and now in java
 
-```java 
+```java
 int x = 10;
 ```
 
 we can infer python overwrites variables as well from here. meaning, if 4 (int) is assigned to a variable x, we can also assign "four" (string) to x. basically, 4 got overwritten by "four".
 
-it may look easier as we get started but cause a lots of problem later on.
+it may look easier as we get started but causes a lot of problems later on.
 
-as the application get bigger it becomes harder to keep track of all variables and what type they should be.
+as the application gets bigger it becomes harder to keep track of all variables and what type they should be.
 
 let's discuss an example code-
 
 ```python
 smith = Person("smith", 24)
-smith = Person("smith, "24")
+smith = Person("smith", "24")
 ```
 
 the biggest downside with this approach is it allows us to create invalid objects.
@@ -43,10 +43,10 @@ Python has a lot of tools already to solve this kind of problem like dataclass, 
 
 First, we're going to look over pydantic then we'll compare with existing tools.
 what pydantic is?
-in most simpler terms, it is data validation library in python. You may find using pydantic in top python libraries like huggingface/transformer, fastapi, langchain, airflow etc.
+in simpler terms, it is data validation library in python. You may find using pydantic in top python libraries like huggingface/transformer, fastapi, langchain, airflow etc.
 It has varied benefits:
 
-- ide type hints 
+- ide type hints
 - data validation
 - json serialization
 
@@ -105,7 +105,7 @@ print(user_json_str)
 user_json_obj = user1.dict()
 print(user_json_obj)
 
-# if you've json string and want to convertit back into pydantic model
+# if you've json string and want to convert it back into pydantic model
 json_str = {"name":"xyz","email":"abc@gmail.com","account_id":2345}
 user3 = User.model_validate(json_str)
 print(user3)
@@ -134,10 +134,10 @@ import json
 product1_dict = asdict(product1)
 product1_json = json.dumps(product1_dict)
 new_product1_dict = json.loads(product1_json)
-new_product1 = Product(**new_product1_dict)
+new_product1 = myProduct(**new_product1_dict)
 ```
 
-- if we have a complex data model, need a lot of JSON Serialization and has a lot of external APIs we will go with pydantic. i guess this makes sense now.\
+- if we have a complex data model, need a lot of JSON Serialization and has a lot of external APIs we will go with pydantic. i guess this makes sense now.
 
 this is all about pydantic in brief. refer official doc for further use cases.
 

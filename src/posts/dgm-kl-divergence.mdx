@@ -4,24 +4,24 @@ date: 13 November 2025
 tags: [deep-learning, diffusion, generative-models]
 ---
 
-I've been trying to get into rabbit holes of diffusion generative modelling from quite some time. I started drafting this blog few months back but didn't get time to finish it up. This is some raw effort to understand KLD in diffusion generative models from ground up and beyond.
+I've been trying to get into rabbit holes of diffusion generative modelling for quite some time. I started drafting this blog few months back but didn't get time to finish it up. This is some raw effort to understand KLD in diffusion generative models from ground up and beyond.
 
 ### Introducing DGMs..
 
-DGMs take as input a large collection of real-world examples (e.g., images,text) drawn from an unknown and complex distribution p_data and output a trained neural network that parameterizes an approximate distribution $p_{\phi}$.
+DGMs take as input a large collection of real-world examples (e.g., images, text) drawn from an unknown and complex distribution p_data and output a trained neural network that parameterizes an approximate distribution $p_{\phi}$.
 
 Before we can learn from data, we must first decide what "learning" even means.
 
 Consider the fundamental challenge: you observe a finite set of samples— images, sentences or molecular structures drawn from some unknown process. Your task is to build a model that **captures** this process well enough to generate new, plausible samples. But what does "well enough" mean? How do you measure the gap between your model and reality when reality itself is inaccessible, known only through its samples?
 
-This is not merely a practical challenge but an epistemological one. You cannot directly compare your **model's distribution $p_{\phi}(x)$**  against the true **data distribution $p_{data}(x)$** because $p_{data}(x)$exists only as an abstraction.
+This is not merely a practical challenge but an epistemological one. You cannot directly compare your **model's distribution $p_{\phi}(x)$**  against the true **data distribution $p_{data}(x)$** because $p_{data}(x)$ exists only as an abstraction.
 
 ![image.png](/dgm-kl-divergence/image.png)
 
 ### Goal of DGM.
 
 > The sheer goal of DGM is to learn a tractable probability distribution from a finite dataset. These data points are observations assumed to be sampled from an unknown and complex true distribution $p_{data}(x)$. Since the **form** of $p_{data}(x)$ is unknown, we cannot draw new samples from it directly.
-> 
+>
 
 But what even is this *form*?
 
@@ -61,7 +61,7 @@ In information theory, a **divergence** is a functional **D(p||q)** that quantif
 This essay examines KL divergence from first principles: what it measures, why it cannot be computed directly, and how its decomposition into entropy and cross-entropy enables practical optimization.
 
 > **KL divergence measures how much information is lost when you approximate one distribution with another.** It's not a distance (it's asymmetric), but rather a **directed divergence**.
-> 
+>
 
 Let's start from what are we actually trying to do?
 
@@ -88,7 +88,7 @@ We want to adjust φ so that $p_{\phi}$ becomes as close as possible to $p_{data
 
 This is where **KL divergence** comes in. KL divergence measures: "How different are two probability distributions?"
 
-The formula is: 
+The formula is:
 
 $$
 D_{\text{KL}}(p_{\text{data}} \,\|\, p_{\phi})= \int p_{\text{data}}(x)\,\log\!\left[\frac{p_{\text{data}}(x)}{p_{\phi}(x)}\right]\, dx
@@ -96,7 +96,7 @@ $$
 
 Let's observe this a bit.
 
-**Think of it as a weighted average.** For every possible x in the world , 
+**Think of it as a weighted average.** For every possible x in the world,
 
 - Check: What's the ratio $p_{data}(x)$ / $p_{\phi}(x)$?
 - Take the log of that ratio.
@@ -271,7 +271,7 @@ We've arrived at a remarkable equivalence: minimizing KL divergence from data is
 
 **Forward KL**, $D_{\text{KL}}(p_{\text{data}} \,\|\, p_{\phi})$ weights errors by the true distribution. It explodes to infinity when your model assigns zero probability where data exists. This forces **mode covering.** Your model must explain everything it observes, even if imperfectly. It would rather be vaguely right everywhere than precisely right somewhere.
 
-**Reverse KL**, $D_{\text{KL}}(p_{\phi} \,\|\, p_{data})$, weights errors by your model's distribution. It permits ignoring data modes entirely but harshly penalizes hallucination. This induces **mode seeking. Y**our model learns to concentrate on a subset of the data it can explain well, sacrificing coverage for precision.
+**Reverse KL**, $D_{\text{KL}}(p_{\phi} \,\|\, p_{data})$, weights errors by your model's distribution. It permits ignoring data modes entirely but harshly penalizes hallucination. This induces **mode seeking.** Your model learns to concentrate on a subset of the data it can explain well, sacrificing coverage for precision.
 
 Even with perfect minimization of KL divergence, we face a more fundamental problem: **our samples are finite.** The expectation $\mathbb{E}_{x \sim p_{\text{data}}}\!\left[\log p_{\phi}(x)\right]$ is estimated from N observations. We are not actually minimizing divergence from $p_{data}$, we are minimizing divergence from our empirical sample distribution.
 
@@ -285,4 +285,4 @@ X: [@himanshustwts](https://x.com/himanshustwts)
 
 Email: himanshu.dubey8853@gmail.com
 
-PS: Checkout [Ground Zero](https://x.com/groundzero_twt) for deep tech podcasts with interesting folks in AI and more (coming soon).
+PS: Check out [Ground Zero](https://x.com/groundzero_twt) for deep tech podcasts with interesting folks in AI and more (coming soon).

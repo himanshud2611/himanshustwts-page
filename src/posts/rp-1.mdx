@@ -4,7 +4,7 @@ date: 15 Sep 2024
 tags: [ai, talks, papers]
 ---
 
-hi, i saw this paper someone posted on TL. the paper title catches the curiosity. so without a further a due, let's go through the paper and discuss what it describes about :)
+hi, i saw this paper someone posted on TL. the paper title catches the curiosity. so without further ado, let's go through the paper and discuss what it describes about :)
 
 **Paper Title**: Physics of Language Models: Part 2.1, Grade-School Math and the Hidden Reasoning Process
 
@@ -16,21 +16,21 @@ primarily, it is focussing on mathematical reasoning abilities of LMs. Like, a q
 
 here, authors have designed a synthetic dataset (**iGSM**) and trained GPT2 models on this. luckily (as it is always expected), they observed the models achieve high accuracy suggesting they learn reasoning skills rather than memorizing templates.
 
-they also talk about probing techniques, (probing is actually training a small classifier on top of pre-trained models) through which models mentally preprocess the problem , identify a necessary **parameter** before generating a solution. it was expected till here until they found model these models learn skills beyond those needed for solving the problems. A signal of general intelligence!! seems interesting, right?
+they also talk about probing techniques, (probing is actually training a small classifier on top of pre-trained models) through which models mentally preprocess the problem, identify a necessary **parameter** before generating a solution. it was expected till here until they found these models learn skills beyond those needed for solving the problems. A signal of general intelligence!! seems interesting, right?
 
 <br/>
 
 let's see what's going under the hood and how these models learn and develop reasoning skills for solving grad-school maths problems. as described above, iGSM was introduced to investigate these mechanisms in controlled environment, unlike previous internet-based datasets. this actually facilitates us to control factors like reasoning length and problem complexity. i'll not go much into training part, you can absolutely read it in paper. i'm trying to build a foundation on what's happening beneath.
 
-- these models have capability of** "length generalisation" **by the virtue of which it has achieved high accuracy even on problems with higher reasoning lengths than seen during training.
+- these models have capability of **"length generalisation"**by the virtue of which it has achieved high accuracy even on problems with higher reasoning lengths than seen during training.
 - these models do advanced planning by identifying necessary parameters (mentioned in first para) before generating solutions. this is pretty much similar to human-like problem solving strategies. so we can conclude that model doesn't rely on brute-force calculations but instead formulates a plan based on problem's structure aka level-1 reasoning skill.
 - this was interesting part for me, as we humans do **"backward thinking"** to solve maths problems the models need not to be explicitly taught in this context. what's the last problem you did by backward thinking approach?
 - next in the queue is, these models may develop reasoning skills beyond those necessary for the task at hand. the logic here is actually the model learned to identify dependencies between all parameters, not just those required to answer the specific question aka level-2 reasoning skill.
-- the depth of these models correlates with its reasoning capabilities. deeper models have layered structure that demonstrates better perf on problems with longer reasoning chains.
+- the depth of these models correlates with their reasoning capabilities. deeper models have layered structure that demonstrates better perf on problems with longer reasoning chains.
 
 ### Probing Techniques
 
-This reveal insights into the model's internal reasoning processes, including its ability to plan ahead, identify necessary parameters, track computed values, and potentially even learn reasoning skills beyond those explicitly present in the training data.
+This reveals insights into the model's internal reasoning processes, including its ability to plan ahead, identify necessary parameters, track computed values, and potentially even learn reasoning skills beyond those explicitly present in the training data.
 
 here, *V(ariable)-probing* was introduced to examine the internal reasoning processes of a model trained on grade-school math problems. This technique builds upon standard linear probing, which involves freezing a pretrained language model and adding a trainable linear classifier on top of a specific hidden layer (usually the last one).
 
@@ -51,7 +51,7 @@ The probing techniques revealed systematic errors in the model's "mental process
 
 - misclassifying parameters as unnecessary: The models sometimes compute unnecessary parameters due to incorrectly predicting a parameter as necessary for solving the problem, even when it wasn't.
 
-- incorrectly identifying parameters as ready for computation: it is the case when model believes a specific parameter is ready to be calculated but in reality it's prerequisite parameters haven't been determined yet.
+- incorrectly identifying parameters as ready for computation: it is the case when model believes a specific parameter is ready to be calculated but in reality its prerequisite parameters haven't been determined yet.
 
 ---
 

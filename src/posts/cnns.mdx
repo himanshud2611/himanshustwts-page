@@ -5,7 +5,7 @@ description: A comprehensive guide to understanding Convolutional Neural Network
 date: 30 Sep 2024
 ---
 
-Hi all, 
+Hi all,
 
 I hope you're equally excited as I am to embark on this journey of unraveling CNNs from the ground up. Today, we're diving deep into the heart of convolutional neural networks, armed with nothing but our mathematical intuition.
 What you all need is a flavour of Linear Algebra (how matrix operations are performed), Calculus and a little focus to read and understand this article. You can trust me, I'll not let you feel bored till the end of article. Without a further due, let's start!
@@ -19,7 +19,7 @@ In this article, we will cover following modules (this is basically the content 
 5. **Sigmoid Activation**
 6. **Solving MNIST**
 
-Feeling overwhelmed while looking the content above? Don't worry, just go through the article and leave the rest on me.
+Feeling overwhelmed while looking at the content above? Don't worry, just go through the article and leave the rest on me.
 
 ### 1. Convolution Operation
 
@@ -42,7 +42,7 @@ This is analogous to the mathematical operation performed by the kernel.
 1. As you move, you're creating a new "map" of what you've observed.
 - This new map is the output of the convolution operation, often called a feature map.
 
-This is very fundamental operation in convolution. We perform the same operation between input & kernel that will further produce the output (another matrix).
+This is a very fundamental operation in convolution. We perform the same operation between input & kernel that will further produce the output (another matrix).
 
 ![Untitled](/cnns/image.png)
 
@@ -50,14 +50,14 @@ The values inside the output matrix are obtained by sliding the kernel on top of
 
 Example: sliding kernel on top left of input matrix produce output as:
 
-1*1 + 6*2 + 5 *(-1) +* 3*0 = 8
+1*1 + 6*2 + 5 * (-1) + 3 * 0 = 8
 
 Likewise, we can map the kernel matrix over input and verify the output matrix.
 
 Here’s an interesting observation in sizes of above matrices!!
 
 > Y = I - K + 1
-> 
+>
 > - It refers to the output size of a convolutional operation, where:
 > Y is the output size
 > I is the input size
@@ -80,7 +80,7 @@ i.e. new kernel matrix will be (rotating the previous matrix by 180 deg)
 We can formulate convolution as :
 
 > conv(I, K) = I  *  rot180(K) OR   I * K = I  * rot180(K), where I*K represent the Convolution!
-> 
+>
 
 So, the Convolution between I and K is cross-correlation between I and rotated version of K.
 
@@ -90,7 +90,7 @@ What we’ve seen above is called VALID Cross-Correlation!  It is basically calc
 
 There is another way we can perform this operation called, FULL Cross-Correlation.
 
-In this version, we calculate the product as soon as there is intersection between kernel and input matrix. Obviously, in this case size of output matrix is bigger than previous one. 
+In this version, we calculate the product as soon as there is intersection between kernel and input matrix. Obviously, in this case size of output matrix is bigger than previous one.
 
 One instance is shown here,
 
@@ -104,7 +104,7 @@ Let’s move forward to module 2, it is very interesting .
 
 Convolutional layer takes in 3-D block of data as an input (depth=3). The layer has trainable parameters amongst the kernels (can be multiple).
 
-Each kernel is also a 3-D block that extends full depth of input. With each kernel we associate a bias matrix that will have same shape as output matrices. 
+Each kernel is also a 3-D block that extends full depth of input. With each kernel we associate a bias matrix that will have same shape as output matrices.
 
 Finally, the layer will produce a 3-D block of data as output. (depth of output will be as number of kernels we have.
 
@@ -114,9 +114,9 @@ Let’s visualize this with a diagram.
 
 Now the question arises, **how the output is actually produced?**
 
-Let’s try to find out. 
+Let’s try to find out.
 
-Take each matrix in first kernel and compute cross-correlation with the input data. Sum three results and add up the first bias. This will produce the first bias.
+Take each matrix in first kernel and compute cross-correlation with the input data. Sum three results and add up the first bias. This will produce the first output.
 
 Let’s visualize this operation,
 
@@ -134,10 +134,10 @@ Let’s generalize the above notation with “n” input matrices and “d” as
 
 The above set of operations is known as Forward-Propagation of the convolutional layer.
 
-We could write this more concisely using mathematical notation (Forward-Propagation Equation) 
+We could write this more concisely using mathematical notation (Forward-Propagation Equation)
 
 $$
-Yi = Bi + \sum_{j=1}^{n}Xj * Kij         
+Yi = Bi + \sum_{j=1}^{n}Xj * Kij
 $$
 
 where, i = 1 …..d
@@ -233,13 +233,13 @@ Kernel size is the size of each matrix inside each kernel
 Depth is number of kernels we want.
 
 Biases have same shape as output (we’ve seen this before)
- 
+
 
 ### Convolutional Layer - Backpropagation
 
 Now, in order to update the kernels and biases, we need to compute their gradients.
 
-We are given derivative of E (error of the NN) and we need to compute two things, 
+We are given derivative of E (error of the NN) and we need to compute two things,
 
 a) derivative of E w.r.t trainable parameters of the layer i.e. Kernels and Biases.
 
@@ -247,19 +247,19 @@ b) derivative of E w.r.t input of the layer, so that the previous layer can take
 
 ![Untitled](/cnns/image7.png)
 
-Remember the equation of forward propagation, 
+Remember the equation of forward propagation,
 
 $$
-Yi = Bi + \sum_{j=1}^{n}Xj * Kij         
+Yi = Bi + \sum_{j=1}^{n}Xj * Kij
 $$
 
 Let’s expand this again, but this time we will keep it simplified.
 
 $$
-Yi = Bi + X_1 * Ki_1        
+Yi = Bi + X_1 * Ki_1
 $$
 
-can be shown as, 
+can be shown as,
 
 ![Untitled](/cnns/image8.png)
 
@@ -273,11 +273,11 @@ Using chain rule, we’ll get
 
 ![Untitled](/cnns/image10.png)
 
-From forward propagation equation, we can see k11 appears inside every equation. 
+From forward propagation equation, we can see k11 appears inside every equation.
 
 A quick question, How do I write x11 in above image?
 
-See, if we find derivative of y11 w.r.t k11 in forward-propagation equation we’ll get x11. 
+See, if we find derivative of y11 w.r.t k11 in forward-propagation equation we’ll get x11.
 
 Likewise, we can formulate this equation for all other 3 equations.
 
@@ -295,7 +295,7 @@ Helper Equation 1
 
 So, we just figured out if  **Y = B + X * K,** then we know how to compute the kernel gradient.
 
-Remember, this is the simplified version (as we’ve talked above). 
+Remember, this is the simplified version (as we’ve talked above).
 
 The actual equation was,
 
@@ -313,7 +313,7 @@ It will be very tempting to use the chain rule and explain it like this:
 
 Quick question, why solving this equation is tempting or not feasible one?
 
-Because, terms like 
+Because, terms like
 
 ```math
 \frac{\partial Y_1}{\partial K_{21}}
@@ -385,7 +385,7 @@ $$
 
 But the goal is to find derivative of E w.r.t B
 
-Let’s start with an example, computing the derivate of E w.r.t B1 (using helper equation -2)
+Let’s start with an example, computing the derivative of E w.r.t B1 (using helper equation -2)
 
 $$
 \frac{\partial E}{\partial B_{1}} = \frac{\partial E}{\partial Y_{1}}
@@ -411,9 +411,9 @@ We are given derivative of E w.r.t output and we need to calculate derivative of
 
 let’s compute derivative of E w.r.t derivative of x11,
 
-![Untitled(/cnns/image22.png)
+![Untitled](/cnns/image22.png)
 
-How? 
+How?
 
 x11 appears in the first equation of forward propagation and all other derivatives w.r.t x11 are 0 for other equations (w.r.t x11)
 
@@ -429,7 +429,7 @@ Here comes the very interesting part (it was goosebumps for me when I was learni
 
 The operation is a full cross correlation except that the kernel has been rotated  by 180 degrees!! Remember, we’d talked about this before?
 
-!![Untitled](/cnns/image24.png)
+![Untitled](/cnns/image24.png)
 
 So, we’ve figured out that input gradient is equal to the output gradient  fully cross-correlated with 180 degrees rotated kernel. Isn’t this the very definition of what the convolution is!!!
 
@@ -453,7 +453,7 @@ $$
 \frac{\partial E}{\partial X_j} &= \frac{\partial E}{\partial Y_1} *_{full} K_{1j} + \cdots + \frac{\partial E}{\partial Y_d} *_{full} K_{dj}\end{aligned}
 $$
 
-Surprised, how did we get this. Look over the forward propagation equation, we’ve just find the derivative of all equation w.r.t Xj
+Surprised, how did we get this. Look over the forward propagation equation, we’ve just found the derivative of all equation w.r.t Xj
 
 If we generalize above equation, we’ll get:
 
@@ -488,7 +488,7 @@ class Convolutional(Layer):
             for j in range(self.input_depth):
                 self.output[i] += signal.correlate2d(self.input[j], self.kernels[i, j], "valid")
         return self.output
-        
+
 #--BACKWARD METHOD STARTS HERE---
     def backward(self, output_gradient, learning_rate):
         kernels_gradient = np.zeros(self.kernels_shape)
@@ -506,9 +506,9 @@ class Convolutional(Layer):
 
 The above code is just the implementation of what we’ve seen till now. If you’re feeling overwhelmed, let me break it down with very intuitive explanation.
 
-We start by initializing empty arrays for the kernel gradient and input gradients. 
+We start by initializing empty arrays for the kernel gradient and input gradients.
 Next, we compute the derivative of E w.r.t Kij  inside two nested for loops. We translated the mathematical formula into code mentioning the mode to be “valid” convolution.
-Next, we compute the input gradient. We specifically have chosen convolved2d method and mentioned mode to be “full”, which represent the full convolution.
+Next, we compute the input gradient. We specifically have chosen convolve2d method and mentioned mode to be “full”, which represent the full convolution.
 Next, we compute the bias gradient. We don’t have to calculate it since it is equal to the output gradient which is given as parameter to the backward method.
 The last step is to update the kernels and biases using gradient descent and return the input gradient.
 
@@ -517,7 +517,7 @@ You noticed something? Just 35 lines of code for entire convolutional layer.
 
 If we want to use this layer in practice we need to implement few more things.
 
-Our goal is solve the MNIST dataset.
+Our goal is to solve the MNIST dataset.
 
 It is the dataset for hand-written digits from 0 to 9, here is the sample.
 
@@ -527,7 +527,7 @@ The goal is to make a neural network capable of telling what number is written o
 
 What the code we’ve seen above isn’t optimized yet. Maybe due to compute issues, it might take a while to train a neural network on the whole dataset which contains whole 60,000 images.
 
-For a while, let’s limit this classification to only two digits. 0 and 1. 
+For a while, let’s limit this classification to only two digits. 0 and 1.
 
 ### Reshape Layer
 
@@ -555,7 +555,7 @@ class Reshape(Layer):
         return np.reshape(output_gradient, self.input_shape)
 ```
 
-The reshape layer like all the other layers inherits from the base layer class, it’s constructor takes in the shape of input and the shape of output. Forward method reshapes the input to the output.
+The reshape layer like all the other layers inherits from the base layer class, its constructor takes in the shape of input and the shape of output. Forward method reshapes the input to the output.
 
 The backward method reshapes the output to the input shape.
 
@@ -565,7 +565,7 @@ Why do we need this?
 
 It’s because we decided to make a classification on two digits . This loss works significantly good for this task.
 
-We’re given desired output of the neural network, each of the values inside the vector must either be 0 or 1. (Binary Classification). **(Y*)**
+We’re given desired output of the neural network, each of the values inside the vector must either be 0 or 1. (Binary Classification). (Y*)
 
 Then we’re given actual output of NN. **(Y)**
 

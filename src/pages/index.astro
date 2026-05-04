@@ -5,55 +5,18 @@ import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
 import ExternalLinkIcon from "../components/ExternalLinkIcon.astro";
 import Newsletter from "../components/Newsletter.astro";
-import { Icon } from "astro-icon/components";
 
 const title = "Himanshu";
 
 const experience = [
     {
-        role: "Research DevRel",
-        company: "Smallest AI",
-        companyUrl: "https://smallest.ai",
-        iconPath: "/smallest.png",
-        date: "Mar 2026 - Apr 2026",
+        role: "Research x Product",
+        company: "Upsurge",
+        companyUrl: "https://upsurge.io",
+        iconPath: "/upsurge-logo.jpg",
+        date: "Feb 2025 - Feb 2026",
         description:
-            "amazing team solving a hard problem! i think we are in some generational simulation atp, can't miss on the moment. decided to leave!",
-    },
-    {
-        role: "Product & Growth",
-        company: "Anannas AI",
-        companyUrl: "https://anannas.ai",
-        iconPath: "/anannas.webp",
-        date: "Sep 2025 - Feb 2026",
-        description:
-            "Access 300+ models at optimized latency and cost through a single API.",
-    },
-    {
-        role: "Product & Growth",
-        company: "Bhindi AI",
-        companyUrl: "https://bhindi.io",
-        iconPath: "/bindiai.webp",
-        date: "Mar 2025 - Oct 2025",
-        description:
-            "We are eliminating the friction between user intent and workflow execution.",
-    },
-    {
-        role: "Grants & Community",
-        company: "Upsurge Grants",
-        companyUrl: "https://grants.upsurge.io",
-        iconPath: "/upsurge.webp",
-        date: "Aug 2025 - Feb 2026",
-        description:
-            "We offer non-dilutive microgrants for builders in deeptech.",
-    },
-    {
-        role: "AI Research",
-        company: "Bluebrain",
-        companyUrl: "https://x.com/BluebrainAI",
-        iconPath: "/bluebrain.webp",
-        date: "Feb 2025 - May 2025",
-        description:
-            "Learning, building, and iterating at the intersection of AI and real-world challenges.",
+            "Founding Team: Bluebrain, Bhindi AI, Anannas AI, Mogra, Upsurge Grants",
     },
     {
         role: "ML Engineer",
@@ -111,7 +74,10 @@ const experience = [
             <p
                 class="text-lg max-w-[480px] leading-relaxed text-gruvbox-light/90 dark:text-gruvbox-dark/90"
             >
-                nice to meet you. i am himanshu, working across ai product x research.
+                I am Co-founder of <a href="https://physera.ai" target="_blank" rel="noopener noreferrer" class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium">Physera<ExternalLinkIcon /></a>. We are building systems that (perceive + reason + decide) as humans do, under the constraints humans face. Essentially, we are working at the intersection of model efficiency and behavioural simulations while building environments that are multimodal.
+                <br />
+                I host podcasts with interesting people in AI and Tech at <a href="https://www.groundzeroai.in/" target="_blank" rel="noopener noreferrer" class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium">Ground Zero<ExternalLinkIcon /></a>.
+                <br />
                 <br />
                 my <a href="https://x.com/himanshustwts/highlights" target="_blank" rel="noopener noreferrer" class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium">X highlights<ExternalLinkIcon /></a> might be insightful for you.
             </p>
@@ -165,20 +131,9 @@ const experience = [
             </div>
         </div>
 
-        {/* Work Experience */}
-        <Section title="what i do">
-            <div class="space-y-6">
-                <p>
-                    At <a
-                        href="https://www.groundzeroai.in/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
-                        >Ground Zero<ExternalLinkIcon /></a
-                    >, I host podcasts with interesting people in AI and Tech. We recently launched SIGNALS and Community Blogs.
-                </p>
-                {/* Past Life Accordion */}
-                <button
+        {/* Past Life Accordion */}
+        <div class="space-y-6">
+            <button
                     id="previous-life-toggle"
                     class="flex items-center gap-1 text-left font-medium hover:opacity-80 transition-opacity cursor-pointer decoration-dotted underline"
                 >
@@ -199,8 +154,9 @@ const experience = [
                     </svg>
                 </button>
 
-                <div
-                    id="previous-life-content"
+
+            <div
+                id="previous-life-content"
                     class="hidden overflow-hidden transition-all duration-300"
                 >
                     <div
@@ -254,7 +210,8 @@ const experience = [
                     </div>
                 </div>
 
-                <script>
+
+            <script>
                     const toggle = document.getElementById('previous-life-toggle');
                     const content = document.getElementById('previous-life-content');
                     const arrow = document.getElementById('previous-life-arrow');
@@ -264,126 +221,20 @@ const experience = [
                     });
                 </script>
             </div>
-        </Section>
+        </div>
 
         {/* Newsletter Section */}
         <Section title="stay in the loop" class="mt-12">
             <Newsletter />
         </Section>
 
-        {/* Content Creation */}
-        <Section title="find me online">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div
-                    class="group relative p-6 bg-neutral-900/[0.02] dark:bg-neutral-900/[0.05] rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 transition-colors"
-                >
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-3">
-                            <Icon
-                                name="tabler:brand-x"
-                                class="w-5 h-5 text-gruvbox-light/70 dark:text-gruvbox-dark/70"
-                            />
-                            <h3 class="font-medium">Writing & Discussions</h3>
-                        </div>
-                        <p
-                            class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70"
-                        >
-                            Follow my thoughts and insights about AI/ML,
-                            architectures, and tech on Twitter.
-                        </p>
-                        <div class="flex items-center gap-2">
-                            <a
-                                href="https://twitter.com/himanshustwts"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-gruvbox-light-accent dark:text-gruvbox-dark-accent border border-current rounded-lg hover:bg-gruvbox-light-accent/5 dark:hover:bg-gruvbox-dark-accent/5 transition-colors"
-                            >
-                                @himanshustwts<ExternalLinkIcon />
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="group relative p-6 bg-neutral-900/[0.02] dark:bg-neutral-900/[0.05] rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 transition-colors"
-                >
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-3">
-                            <Icon
-                                name="tabler:video"
-                                class="w-5 h-5 text-gruvbox-light/70 dark:text-gruvbox-dark/70"
-                            />
-                            <h3 class="font-medium">Podcasts & Videos</h3>
-                        </div>
-                        <p
-                            class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70"
-                        >
-                            Check out AI/ML deep dives and conversations with
-                            interesting people in tech.
-                        </p>
-                        <div class="flex items-center gap-2">
-                            <a
-                                href="/podcasts"
-                                class="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-gruvbox-light-accent dark:text-gruvbox-dark-accent border border-current rounded-lg hover:bg-gruvbox-light-accent/5 dark:hover:bg-gruvbox-dark-accent/5 transition-colors"
-                            >
-                                Watch episodes
-                                <Icon
-                                    name="tabler:player-play"
-                                    class="w-4 h-4"
-                                />
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </Section>
+        <p class="mt-10 text-lg leading-relaxed text-gruvbox-light/90 dark:text-gruvbox-dark/90">
+            Send an email: <a
+                href="mailto:himanshu@physera.ai"
+                class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
+                >himanshu@physera.ai<ExternalLinkIcon /></a
+            >
+        </p>
 
-        {/* Connect Section */}
-        <Section title="let's connect">
-            <p class="mb-4">
-                Want to discuss AI, collaborate on projects, or just chat about
-                tech? Feel free to reach out!
-            </p>
-            <div class="flex flex-wrap gap-4">
-                <a
-                    href="mailto:himanshu.dubey8853@gmail.com"
-                    class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
-                >
-                    Email me<ExternalLinkIcon />
-                </a>
-                <span class="text-gruvbox-light/70 dark:text-gruvbox-dark/70"
-                    >•</span
-                >
-                <a
-                    href="https://cal.com/himanshustwts"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
-                >
-                    Schedule a call<ExternalLinkIcon />
-                </a>
-            </div>
-        </Section>
-
-        <div class="text-sm text-gruvbox-light/70 dark:text-gruvbox-dark/70 -mt-10">
-            <p class="mt-2">
-                feel free to DM me on <a
-                    href="https://twitter.com/himanshustwts"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-colors mr-1"
-                    ><svg
-                        class="w-4 h-4 -mr-1 ml-1 mb-1 inline"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            fill="currentColor"
-                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                        ></path>
-                    </svg>
-                    <ExternalLinkIcon />
-                </a> for quick chats!
-            </p>
-            <p class="text-base mt-6">cyaa!</p>
-        </div>
     </div>
 </Layout>

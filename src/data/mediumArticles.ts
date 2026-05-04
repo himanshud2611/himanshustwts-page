@@ -1,0 +1,52 @@
+export const mediumarticles = [
+  {
+    slug: "how-you-can-run-minimax-25-and-glm",
+    title: "How you can run Minimax-2.5 and GLM-5 in Claude Code",
+    date: "21 Feb 2026",
+    tags: ["ai", "model-review", "medium"],
+    redirect: "https://himanshustwts.substack.com/p/how-you-can-run-minimax-25-and-glm"
+  },
+  {
+    slug: "i-tried-to-understand-kimi-k25-from",
+    title: "I tried to understand Kimi K2.5 from First Principles.",
+    date: "31 Jan 2026",
+    tags: ["ai", "model-review", "medium"],
+    redirect: "https://himanshustwts.substack.com/p/i-tried-to-understand-kimi-k25-from"
+  },
+  {
+    slug: "the-harness-is-the-product",
+    title: "The Harness is the Product",
+    date: "15 Jan 2026",
+    tags: ["product", "ai", "medium"],
+    redirect: "https://himanshustwts.substack.com/p/the-harness-is-the-product"
+  },
+  {
+    slug: "agent-security-might-be-a-thing",
+    title: "agent security might be a thing!",
+    date: "12 Jan 2026",
+    tags: ["ai", "security", "medium"],
+    redirect: "https://himanshustwts.substack.com/p/agent-security-might-be-a-thing"
+  },
+  {
+    slug: "my-ml-internship-interview-experience-at-an-us-based-startup-selected",
+    title: "My ML Internship Interview Experience at an US-based Startup (Selected)",
+    date: "14 Oct 2024",
+    description: "Sharing my experience of the ML internship interview process at a US-based startup, including the challenges faced and how I overcame them.",
+    tags: ["ml", "talks", "medium"],
+    redirect: "https://medium.com/@himanshusarticles/my-ml-internship-interview-experience-at-an-us-based-startup-selected-56a5ff7fa046"
+  },
+  {
+    slug: "my-internship-interview-experience-at-trust-lab-iit-bombay-selected",
+    title: "My Internship Interview Experience at Trust Lab, IIT Bombay (Selected)",
+    date: "May 28 2024",
+    tags: ["ml", "talks", "medium"],
+    redirect: "https://medium.com/@himanshusarticles/my-internship-interview-experience-at-trust-lab-iit-bombay-selected-8d1ca0ccf1df"
+  },
+  {
+    slug: "research-internship-at-iits-nits-iiits-and-other-top-research-institutes",
+    title: "Research Internship at IITs, NITs, IIITs and other Top Research Institutes",
+    date: "May 12 2024",
+    tags: ["ml", "talks", "medium"],
+    redirect: "https://medium.com/@himanshusarticles/research-internship-at-iits-nits-iiits-and-other-top-research-institutes-fd7e567f71e0"
+  }
+];

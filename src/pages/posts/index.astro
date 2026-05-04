@@ -2,9 +2,8 @@
 export const prerender = true;
 
 import Layout from '../../layouts/Layout.astro';
-import path from 'path';
 
-import { mediumarticles } from '../m/[...slug].astro';
+import { mediumarticles } from '../../data/mediumArticles';
 
 interface PostData {
   slug: string;
@@ -15,10 +14,9 @@ interface PostData {
   [key: string]: any;
 }
 
-const posts = await Astro.glob('../../posts/**/*.mdx');
-const postData: PostData[] = posts.map((post): PostData => {
-  const relativePath = path.relative(path.resolve('src/posts'), post.file);
-  const slug = relativePath.replace('.mdx', '');
+const posts = import.meta.glob('../../posts/**/*.mdx', { eager: true });
+const postData: PostData[] = Object.entries(posts).map(([file, post]: [string, any]): PostData => {
+  const slug = file.replace('../../posts/', '').replace(/\.mdx$/, '');
   
   return {
     slug,
@@ -32,7 +30,7 @@ const mediumPosts: PostData[] = mediumarticles.map(article => ({
   description: article.description || '',
   date: article.date,
   redirect: article.redirect,
-  tags: article.tags
+    tags: article.tags
 }));
 
 const allPosts = [...postData, ...mediumPosts];
@@ -70,10 +68,6 @@ const sortedPosts = allPosts.sort((a, b) => {
           </div>
         </div>
       </div>
-    </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="mb-6">
@@ -99,7 +93,7 @@ const sortedPosts = allPosts.sort((a, b) => {
   
   <div id="postsContainer" class="posts-list flex flex-wrap w-full">
     {sortedPosts.map((post) => (
-      <a href={ post.tags.includes("medium") ? `/${post.slug}` : `/posts/${post.slug}`} class="post-item w-full dark:hover:text-gruvbox-dark-bg hover:text-gruvbox-light-bg md:w-1/2 dark:hover:bg-gruvbox-dark-accent hover:bg-gruvbox-light-accent p-4" data-title={post.title} data-description={post.description} data-tags={post.tags?.join(' ')}>
+      <a href={ post.tags?.includes("medium") ? `/${post.slug}` : `/posts/${post.slug}`} class="post-item w-full dark:hover:text-gruvbox-dark-bg hover:text-gruvbox-light-bg md:w-1/2 dark:hover:bg-gruvbox-dark-accent hover:bg-gruvbox-light-accent p-4" data-title={post.title} data-description={post.description} data-tags={post.tags?.join(' ')}>
         <h2>{post.title}</h2>
         <time>{post.date}</time>
         {post.description && <p class="mt-2 text-sm break-keep">{post.description}</p>}

@@ -3,7 +3,6 @@ export const prerender = true;
 
 import Layout from '../../layouts/Layout.astro';
 import type { GetStaticPaths } from 'astro';
-import path from 'path';
 
 interface PostProps {
   post: {
@@ -18,20 +17,24 @@ interface PostProps {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await Astro.glob('../../posts/**/*.mdx');
+  const posts = import.meta.glob('../../posts/**/*.mdx', { eager: true });
   
-  return posts.map((post) => {
-    const relativePath = path.relative(path.resolve('src/posts'), post.file);
-    const slug = relativePath.replace('.mdx', '').replace(/\\/g, '/');
+  return Object.entries(posts).map(([file, module]: [string, any]) => {
+    const slug = file.replace('../../posts/', '').replace(/\.mdx$/, '');
     
     return {
       params: { slug },
-      props: { post }
+      props: {
+        post: {
+          Content: module.default,
+          frontmatter: module.frontmatter,
+          file
+        }
+      }
     };
   });
 };
 
-const { slug } = Astro.params;
 const { post }: PostProps = Astro.props;
 const { Content, frontmatter } = post;
 

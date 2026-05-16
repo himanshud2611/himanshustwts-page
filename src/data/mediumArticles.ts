@@ -1,5 +1,19 @@
 export const mediumarticles = [
   {
+    slug: "this-conversation-might-change-how",
+    title: "This Conversation Might Change How You See Autonomous Research!",
+    date: "16 May 2026",
+    tags: ["ai", "medium"],
+    redirect: "https://himanshustwts.substack.com/p/this-conversation-might-change-how"
+  },
+  {
+    slug: "i-talked-with-arcee-ai-for-100-minutes",
+    title: "I Talked with Arcee AI for 100 Minutes and Everyone Needs to Know This",
+    date: "10 Apr 2026",
+    tags: ["ai", "medium"],
+    redirect: "https://himanshustwts.substack.com/p/i-talked-with-arcee-ai-for-100-minutes"
+  },
+  {
     slug: "how-you-can-run-minimax-25-and-glm",
     title: "How you can run Minimax-2.5 and GLM-5 in Claude Code",
     date: "21 Feb 2026",

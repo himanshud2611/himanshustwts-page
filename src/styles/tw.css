@@ -8,9 +8,9 @@
   --font-text: "Newsreader", serif;
   --font-code: "Geist Mono", monospace;
 
-  --color-gruvbox-light-bg: #f9f5d7;
-  --color-gruvbox-light-bg-alt: #f2e5bc;
-  --color-gruvbox-light-bg-lighter: #ada384;
+  --color-gruvbox-light-bg: #ffffff;
+  --color-gruvbox-light-bg-alt: #f5f5f5;
+  --color-gruvbox-light-bg-lighter: #a0a0a0;
   --color-gruvbox-light-accent: #427b58;
   --color-gruvbox-light-danger: #9d0006;
   --color-gruvbox-light-warning: #b57614;

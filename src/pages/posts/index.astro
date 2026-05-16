@@ -42,8 +42,8 @@ const sortedPosts = allPosts.sort((a, b) => {
 });
 ---
 <Layout title="All Posts" wide={true}>
-  <div class="mb-8 relative overflow-hidden rounded-xl bg-gradient-to-r from-gruvbox-light-accent/5 to-gruvbox-light/5 dark:from-gruvbox-dark-accent/10 dark:to-gruvbox-dark/10 border border-gruvbox-light-accent/20 dark:border-gruvbox-dark-accent/20">
-    <div class="relative p-4 sm:p-6">
+  <div class="mb-8">
+    <div class="p-4 sm:p-6">
       <div class="flex flex-col sm:flex-row sm:items-start gap-4">
         <img 
           src="/gradientlogs.webp" 
@@ -51,7 +51,7 @@ const sortedPosts = allPosts.sort((a, b) => {
           class="w-10 h-10 rounded-lg"
         />
         <div class="flex-1">
-          <h2 class="text-lg font-medium mb-2">Subscribe to GradientLogs ✨</h2>
+          <h2 class="text-lg font-medium mb-2">Subscribe to GradientLogs</h2>
           <p class="text-gruvbox-light/70 dark:text-gruvbox-dark/70 mb-4 text-sm sm:text-base">Deep dives into ML architectures and thoughts on culture, art, and everything in between.</p>
           <div class="flex justify-start">
             <a 
@@ -79,24 +79,15 @@ const sortedPosts = allPosts.sort((a, b) => {
     />
   </div>
   
-  <div class="mb-6">
-    <div class="flex flex-wrap gap-2">
-      <button class="tag-filter px-3 py-1 border cursor-pointer dark:hover:text-gruvbox-dark-bg dark:hover:bg-gruvbox-dark-accent hover:text-gruvbox-light-bg border-gruvbox-light-accent dark:border-gruvbox-dark-accent hover:bg-gruvbox-light-accent transition-colors" data-tag="">All</button>
-      <button class="tag-filter px-3 py-1 border cursor-pointer dark:hover:text-gruvbox-dark-bg dark:hover:bg-gruvbox-dark-accent hover:text-gruvbox-light-bg border-gruvbox-light-accent dark:border-gruvbox-dark-accent hover:bg-gruvbox-light-accent transition-colors" data-tag="medium">Medium</button>
-      <button class="tag-filter px-3 py-1 border cursor-pointer dark:hover:text-gruvbox-dark-bg dark:hover:bg-gruvbox-dark-accent hover:text-gruvbox-light-bg border-gruvbox-light-accent dark:border-gruvbox-dark-accent hover:bg-gruvbox-light-accent transition-colors" data-tag="ai">AI</button>
-      <button class="tag-filter px-3 py-1 border cursor-pointer dark:hover:text-gruvbox-dark-bg dark:hover:bg-gruvbox-dark-accent hover:text-gruvbox-light-bg border-gruvbox-light-accent dark:border-gruvbox-dark-accent hover:bg-gruvbox-light-accent transition-colors" data-tag="ml">ML</button>
-      <button class="tag-filter px-3 py-1 border cursor-pointer dark:hover:text-gruvbox-dark-bg dark:hover:bg-gruvbox-dark-accent hover:text-gruvbox-light-bg border-gruvbox-light-accent dark:border-gruvbox-dark-accent hover:bg-gruvbox-light-accent transition-colors" data-tag="model-review">Model Review</button>
-      <button class="tag-filter px-3 py-1 border cursor-pointer dark:hover:text-gruvbox-dark-bg dark:hover:bg-gruvbox-dark-accent hover:text-gruvbox-light-bg border-gruvbox-light-accent dark:border-gruvbox-dark-accent hover:bg-gruvbox-light-accent transition-colors" data-tag="dl">Deep Learning</button>
-      <button class="tag-filter px-3 py-1 border cursor-pointer dark:hover:text-gruvbox-dark-bg dark:hover:bg-gruvbox-dark-accent hover:text-gruvbox-light-bg border-gruvbox-light-accent dark:border-gruvbox-dark-accent hover:bg-gruvbox-light-accent transition-colors" data-tag="architecture">Architecture</button>
-    </div>
-  </div>
   
-  <div id="postsContainer" class="posts-list flex flex-wrap w-full">
+  <div id="postsContainer" class="posts-list flex flex-col w-full">
     {sortedPosts.map((post) => (
-      <a href={ post.tags?.includes("medium") ? `/${post.slug}` : `/posts/${post.slug}`} class="post-item w-full dark:hover:text-gruvbox-dark-bg hover:text-gruvbox-light-bg md:w-1/2 dark:hover:bg-gruvbox-dark-accent hover:bg-gruvbox-light-accent p-4" data-title={post.title} data-description={post.description} data-tags={post.tags?.join(' ')}>
-        <h2>{post.title}</h2>
-        <time>{post.date}</time>
-        {post.description && <p class="mt-2 text-sm break-keep">{post.description}</p>}
+      <a href={ post.tags?.includes("medium") ? `/${post.slug}` : `/posts/${post.slug}`} class="post-item w-full dark:hover:text-gruvbox-dark-bg hover:text-gruvbox-light-bg dark:hover:bg-gruvbox-dark-accent hover:bg-gruvbox-light-accent py-4 px-4 border-b border-gruvbox-light-bg-lighter/30 dark:border-gruvbox-dark-bg-lighter/30" data-title={post.title} data-description={post.description} data-tags={post.tags?.join(' ')}>
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+          <h2 class="text-base">{post.title}</h2>
+          <time class="text-sm text-gruvbox-light/50 dark:text-gruvbox-dark/50 shrink-0">{post.date}</time>
+        </div>
+        {post.description && <p class="mt-1 text-sm text-gruvbox-light/60 dark:text-gruvbox-dark/60">{post.description}</p>}
       </a>
     ))}
   </div>
@@ -104,12 +95,9 @@ const sortedPosts = allPosts.sort((a, b) => {
   <script>
     const searchInput = document.getElementById('searchInput') as HTMLInputElement;
     const postsContainer = document.getElementById('postsContainer') as HTMLElement;
-    const tagFilters = document.querySelectorAll('.tag-filter') as NodeListOf<HTMLButtonElement>;
     const allPosts = Array.from(postsContainer.querySelectorAll('.post-item')) as HTMLElement[];
     
-    let activeTag = '';
-    
-    function filterPosts() {
+    searchInput.addEventListener('input', () => {
       const searchTerm = searchInput.value.toLowerCase().trim();
       
       allPosts.forEach(post => {
@@ -117,41 +105,13 @@ const sortedPosts = allPosts.sort((a, b) => {
         const description = post.getAttribute('data-description')?.toLowerCase() || '';
         const tags = post.getAttribute('data-tags')?.toLowerCase() || '';
         
-        const matchesSearch = !searchTerm || 
-                             title.includes(searchTerm) || 
-                             description.includes(searchTerm) || 
-                             tags.includes(searchTerm);
+        const matches = !searchTerm || 
+                        title.includes(searchTerm) || 
+                        description.includes(searchTerm) || 
+                        tags.includes(searchTerm);
         
-        const matchesTag = !activeTag || tags.includes(activeTag.toLowerCase());
-        
-        post.style.display = (matchesSearch && matchesTag) ? 'block' : 'none';
-      });
-    }
-    
-    // Search input event
-    searchInput.addEventListener('input', filterPosts);
-    
-    tagFilters.forEach(button => {
-      button.addEventListener('click', (e) => {
-        tagFilters.forEach(btn => btn.classList.remove('bg-gruvbox-light-accent'));
-        tagFilters.forEach(btn => btn.classList.remove('dark:bg-gruvbox-dark-accent'));
-        tagFilters.forEach(btn => btn.classList.remove('dark:text-gruvbox-dark-bg'));
-        tagFilters.forEach(btn => btn.classList.remove('text-gruvbox-light-bg'));
-        
-        (e.target as HTMLButtonElement).classList.add('bg-gruvbox-light-accent');
-        (e.target as HTMLButtonElement).classList.add('text-gruvbox-light-bg');
-        (e.target as HTMLButtonElement).classList.add('dark:bg-gruvbox-dark-accent');
-        (e.target as HTMLButtonElement).classList.add('dark:text-gruvbox-dark-bg');
-        
-        activeTag = (e.target as HTMLButtonElement).getAttribute('data-tag') || '';
-        filterPosts();
+        post.style.display = matches ? 'block' : 'none';
       });
     });
-    
-    // Set "All" as default active
-    tagFilters[0].classList.add('bg-gruvbox-light-accent');
-    tagFilters[0].classList.add('text-gruvbox-light-bg');
-    tagFilters[0].classList.add('dark:bg-gruvbox-dark-accent');
-    tagFilters[0].classList.add('dark:text-gruvbox-dark-bg');
   </script>
 </Layout>

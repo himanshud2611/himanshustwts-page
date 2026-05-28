@@ -12,7 +12,6 @@ const navLinks = [
   { href: "/posts", text: "Posts" },
   { href: "/podcasts", text: "Podcasts", badge: "new" },
   { href: "/community", text: "Community" },
-  { href: "https://www.youtube.com/@Ground_ZeroYT", text: "YouTube", external: true },
 ];
 ---
 
@@ -28,12 +27,7 @@ const navLinks = [
                         target={link.external ? "_blank" : undefined}
                         rel={link.external ? "noopener noreferrer" : undefined}
                     >
-                        {link.text === "YouTube" ? (
-                            <>
-                                <span class="hidden sm:inline">YouTube</span>
-                                <span class="sm:hidden">YT</span>
-                            </>
-                        ) : link.text}
+                        {link.text}
                         
                         {link.badge && (
                             <span class="text-[10px] leading-none px-1.5 py-0.5 font-medium bg-amber-500 dark:bg-orange-600 text-white shadow-[0_0_10px_rgba(245,158,11,0.5)] dark:shadow-[0_0_8px_rgba(234,88,12,0.5)] rounded-full -translate-y-1 -translate-x-0.5">{link.badge}</span>

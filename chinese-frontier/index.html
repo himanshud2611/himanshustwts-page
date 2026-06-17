@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A clean catalog of Chinese AI research techniques, labs, and primary sources."
+    />
+    <title>Chinese AI Research Catalog</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <h1>Chinese AI Research Catalog</h1>
+        <p>
+          A clean table of Chinese AI research techniques and primary sources.
+          Filter by company or vertical.
+          <span class="curator-inline">Curated by <a href="https://x.com/himanshustwts" target="_blank" rel="noreferrer">@himanshustwts</a></span>
+        </p>
+      </header>
+
+      <section class="filters" aria-label="Catalog filters">
+        <label>
+          <span>Search</span>
+          <input id="search" type="search" placeholder="GRPO, DeepSeek, multimodal, safety..." />
+        </label>
+        <label>
+          <span>Company</span>
+          <select id="company-filter"></select>
+        </label>
+        <label>
+          <span>Vertical</span>
+          <select id="vertical-filter"></select>
+        </label>
+        <button id="reset-filters" type="button">Reset</button>
+      </section>
+
+      <div class="table-status">
+        <span id="result-count">Loading catalog...</span>
+        <span>Updated <span class="underlined">weekly</span></span>
+      </div>
+
+      <section class="table-shell" aria-label="Chinese AI research catalog">
+        <table>
+          <thead>
+            <tr>
+              <th>Lab</th>
+              <th>Technique / Research</th>
+              <th>Vertical</th>
+              <th>Description</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody id="catalog-table"></tbody>
+        </table>
+      </section>
+
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

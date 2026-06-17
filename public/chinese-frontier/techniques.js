@@ -1,0 +1,551 @@
+const techniqueItems = [
+  {
+    id: "deepseek-moe",
+    title: "DeepSeekMoE",
+    lab: "DeepSeek",
+    year: 2024,
+    date: "Jan 2024",
+    vertical: "Architecture",
+    openness: "Paper + open models",
+    model: "Sparse MoE with fine-grained experts and shared expert isolation",
+    edge: "Splits experts more finely while isolating shared knowledge to reduce redundancy.",
+    tags: ["MoE", "expert specialization", "sparse compute", "training cost"],
+    summary: "DeepSeekMoE is the sparse backbone behind DeepSeek's efficiency story: activate a small subset of parameters while encouraging expert specialization.",
+    cost: "DeepSeek reports MoE variants approaching dense-model quality with substantially less computation, and V2/V3 scale this idea to frontier models.",
+    alpha: "If you want to understand the China open-model cost curve, start here: expert specialization is the mechanism that lets capability grow faster than active compute.",
+    links: [
+      { label: "Paper", url: "https://arxiv.org/html/2401.06066" },
+      { label: "DeepSeek-V2", url: "https://arxiv.org/abs/2405.04434" }
+    ]
+  },
+  {
+    id: "deepseek-mla",
+    title: "Multi-head Latent Attention (MLA)",
+    lab: "DeepSeek",
+    year: 2024,
+    date: "May 2024",
+    vertical: "Inference",
+    openness: "Paper + open models",
+    model: "Latent KV-cache compression for attention",
+    edge: "Compresses keys and values into a latent representation to cut memory and raise throughput.",
+    tags: ["attention", "KV cache", "inference", "long context"],
+    summary: "MLA is DeepSeek's major inference-side attention idea, used in V2/V3 to reduce KV-cache pressure while preserving model quality.",
+    cost: "DeepSeek-V2 reports a 93.3% KV-cache reduction and 5.76x maximum generation throughput over DeepSeek 67B.",
+    alpha: "MLA matters because serving cost is often the deployment bottleneck; cheaper KV state makes long context and high-volume inference more viable.",
+    links: [
+      { label: "DeepSeek-V2", url: "https://arxiv.org/abs/2405.04434" },
+      { label: "DeepSeek-V3", url: "https://arxiv.org/html/2412.19437" }
+    ]
+  },
+  {
+    id: "deepseek-grpo",
+    title: "Group Relative Policy Optimization (GRPO)",
+    lab: "DeepSeek",
+    year: 2024,
+    date: "Feb 2024",
+    vertical: "Reinforcement Learning",
+    openness: "Paper",
+    model: "Critic-free PPO variant introduced in DeepSeekMath",
+    edge: "Samples multiple responses per prompt and uses group-normalized rewards instead of a value model.",
+    tags: ["RL", "reasoning", "math", "critic-free", "verifiable rewards"],
+    summary: "GRPO is the DeepSeek RL method that later became central to R1-style reasoning: it removes PPO's critic model and estimates advantage from relative group scores.",
+    cost: "Removing the critic lowers memory and training complexity, making RL on math/code-style verifiable tasks easier to scale.",
+    alpha: "GRPO is one of the most copyable Chinese research exports: simple enough for open-source replication, strong enough to change reasoning-model training.",
+    links: [
+      { label: "DeepSeekMath", url: "https://arxiv.org/html/2402.03300" },
+      { label: "Nature R1", url: "https://www.nature.com/articles/s41586-025-09422-z" }
+    ]
+  },
+  {
+    id: "deepseek-r1-zero",
+    title: "Pure RL For Reasoning (R1-Zero)",
+    lab: "DeepSeek",
+    year: 2025,
+    date: "Jan 2025",
+    vertical: "Reinforcement Learning",
+    openness: "Paper + open weights",
+    model: "RL directly on base model without supervised reasoning traces",
+    edge: "Lets reasoning behaviors emerge from correctness rewards rather than human-written chains.",
+    tags: ["R1", "RL", "emergence", "reasoning", "verifiable rewards"],
+    summary: "R1-Zero showed that a base model can develop reflection, verification, and longer reasoning through RL alone on verifiable tasks.",
+    cost: "It reduces dependence on expensive human-labeled reasoning trajectories, though the refined R1 adds cold-start data for readability and stability.",
+    alpha: "This is the research shock: reasoning can be incentivized rather than fully demonstrated, which changes how labs think about post-training data.",
+    links: [
+      { label: "Nature R1", url: "https://www.nature.com/articles/s41586-025-09422-z" },
+      { label: "Review", url: "https://arxiv.org/html/2503.11486" }
+    ]
+  },
+  {
+    id: "deepseek-r1-distillation",
+    title: "Reasoning Distillation",
+    lab: "DeepSeek",
+    year: 2025,
+    date: "Jan 2025",
+    vertical: "Post-training",
+    openness: "Open weights",
+    model: "Distill R1 reasoning into smaller dense models",
+    edge: "Transfers long reasoning behavior from a frontier model into cheaper deployable checkpoints.",
+    tags: ["distillation", "reasoning", "small models", "open weights"],
+    summary: "DeepSeek released distilled R1 variants to show that the post-trained reasoning behavior could be compressed into smaller model families.",
+    cost: "Distillation makes strong reasoning accessible without serving the full frontier MoE model.",
+    alpha: "This is a practical alpha loop: use a strong open reasoner to generate data, then compress the behavior into models you can actually run.",
+    links: [
+      { label: "Nature R1", url: "https://www.nature.com/articles/s41586-025-09422-z" },
+      { label: "DeepSeek GitHub", url: "https://github.com/deepseek-ai" }
+    ]
+  },
+  {
+    id: "deepseek-mtp",
+    title: "Multi-Token Prediction (MTP)",
+    lab: "DeepSeek",
+    year: 2024,
+    date: "Dec 2024",
+    vertical: "Pre-training",
+    openness: "Paper",
+    model: "Auxiliary objective predicting multiple future tokens",
+    edge: "Improves model capability and can support faster speculative-style decoding.",
+    tags: ["pre-training", "prediction objective", "speculative decoding", "V3"],
+    summary: "DeepSeek-V3 uses MTP as a training objective to improve benchmark performance beyond the basic next-token objective.",
+    cost: "The technique adds a training signal without requiring a different user-facing model interface.",
+    alpha: "MTP is part of the broader move from architecture-only scaling to objective design: better targets can unlock quality at the same inference shape.",
+    links: [{ label: "DeepSeek-V3", url: "https://arxiv.org/html/2412.19437" }]
+  },
+  {
+    id: "deepseek-loss-free-balance",
+    title: "Auxiliary-Loss-Free Load Balancing",
+    lab: "DeepSeek",
+    year: 2024,
+    date: "Dec 2024",
+    vertical: "Architecture",
+    openness: "Paper",
+    model: "MoE routing balance without an auxiliary loss",
+    edge: "Adjusts expert routing bias directly to balance load without gradient interference.",
+    tags: ["MoE", "routing", "load balancing", "V3"],
+    summary: "DeepSeek-V3 replaces classic auxiliary balancing losses with a loss-free routing adjustment to avoid hurting model quality.",
+    cost: "The method targets a core MoE tax: overloaded experts waste capacity, but auxiliary losses can fight the main language-model objective.",
+    alpha: "This is a subtle but important MoE research direction: better routing control can improve both training stability and final capability.",
+    links: [{ label: "DeepSeek-V3", url: "https://arxiv.org/html/2412.19437" }]
+  },
+  {
+    id: "deepseek-fp8-dualpipe",
+    title: "FP8 Training + DualPipe",
+    lab: "DeepSeek",
+    year: 2024,
+    date: "Dec 2024",
+    vertical: "Training Systems",
+    openness: "Paper",
+    model: "Low-precision training and pipeline communication overlap",
+    edge: "Uses FP8 mixed precision and overlaps forward/backward computation with communication.",
+    tags: ["FP8", "pipeline parallelism", "systems", "training efficiency"],
+    summary: "DeepSeek-V3's systems contribution is not just model architecture: it includes FP8 training practice and DualPipe-style pipeline scheduling.",
+    cost: "The goal is higher hardware utilization and less pipeline bubble/communication overhead during frontier-scale MoE training.",
+    alpha: "This is why DeepSeek felt surprising: the efficiency came from stacking many small systems wins, not one isolated algorithm.",
+    links: [{ label: "DeepSeek-V3", url: "https://arxiv.org/html/2412.19437" }]
+  },
+  {
+    id: "deepseek-math-corpus",
+    title: "DeepSeekMath Corpus Recipe",
+    lab: "DeepSeek",
+    year: 2024,
+    date: "Feb 2024",
+    vertical: "Data",
+    openness: "Paper",
+    model: "120B math-related tokens on top of DeepSeek-Coder",
+    edge: "Builds a math-specialized model from code + math + natural-language continuation.",
+    tags: ["data", "math", "Common Crawl", "code", "domain specialization"],
+    summary: "DeepSeekMath continued training from DeepSeek-Coder on a curated mixture of math, code, arXiv, and natural-language data.",
+    cost: "The work investigates which data sources actually improve math reasoning, including the limited value of some arXiv-heavy assumptions.",
+    alpha: "The lesson is vertical data discipline: specialize from a strong code base, measure sources, then add RL.",
+    links: [{ label: "DeepSeekMath", url: "https://arxiv.org/html/2402.03300" }]
+  },
+  {
+    id: "deepseek-coder-data",
+    title: "DeepSeek-Coder Data Pipeline",
+    lab: "DeepSeek",
+    year: 2024,
+    date: "2024",
+    vertical: "Data",
+    openness: "Paper + open weights",
+    model: "Code-specialized pre-training family",
+    edge: "Uses code-heavy pre-training to create a base for math and reasoning transfer.",
+    tags: ["code", "pre-training", "data pipeline", "specialization"],
+    summary: "DeepSeek-Coder is important less as a model name and more as a reusable substrate for later math and reasoning models.",
+    cost: "Code pre-training creates structured reasoning priors that can be reused by math and RL pipelines.",
+    alpha: "Code models are becoming reasoning foundations; tracking code data recipes is as important as tracking chat benchmarks.",
+    links: [
+      { label: "DeepSeek-Coder", url: "https://github.com/deepseek-ai/DeepSeek-Coder" },
+      { label: "DeepSeekMath", url: "https://arxiv.org/html/2402.03300" }
+    ]
+  },
+  {
+    id: "glm-autoregressive-blank",
+    title: "GLM Autoregressive Blank Infilling",
+    lab: "Tsinghua / Zhipu",
+    year: 2022,
+    date: "2022",
+    vertical: "Pre-training",
+    openness: "Paper + open weights",
+    model: "General Language Model objective",
+    edge: "Combines autoregressive generation with blank infilling for flexible understanding/generation.",
+    tags: ["GLM", "objective", "bilingual", "pre-training"],
+    summary: "The GLM line begins with a pre-training objective that supports both generation and infilling, later scaling into GLM-130B and ChatGLM.",
+    cost: "The early GLM work provided a Chinese-English foundation before the 2023-2025 open-weight acceleration.",
+    alpha: "This is the historical root: many later GLM agent models sit on a long-running objective and bilingual scaling program.",
+    links: [
+      { label: "GLM family paper", url: "https://arxiv.org/html/2406.12793" },
+      { label: "GLM-130B", url: "https://github.com/THUDM/GLM-130B" }
+    ]
+  },
+  {
+    id: "glm-all-tools",
+    title: "GLM-4 All Tools Agent Pipeline",
+    lab: "Zhipu / Z.ai",
+    year: 2024,
+    date: "Jan 2024",
+    vertical: "Agents",
+    openness: "Paper + product",
+    model: "Tool-using GLM-4 variant",
+    edge: "Plans tasks and calls browser, Python, image, and other tools to solve multi-step requests.",
+    tags: ["agents", "tool use", "planning", "alignment"],
+    summary: "GLM-4 All Tools aligned a model toward autonomous tool use before the later open agentic-model wave became mainstream.",
+    cost: "The paper also describes GLM-4-Air as a lower-latency/lower-cost version of GLM-4.",
+    alpha: "GLM's agent work is useful because it connects model behavior to actual workflow products, not isolated reasoning scores.",
+    links: [
+      { label: "ChatGLM paper", url: "https://arxiv.org/html/2406.12793" },
+      { label: "ChatGLM", url: "https://chatglm.cn/" }
+    ]
+  },
+  {
+    id: "glm-tall-narrow-moe",
+    title: "Tall-Narrow MoE For Reasoning",
+    lab: "Zhipu / Z.ai",
+    year: 2025,
+    date: "Jul 2025",
+    vertical: "Architecture",
+    openness: "Open weights",
+    model: "GLM-4.5: 355B total, 32B active",
+    edge: "Reduces width and increases depth because deeper models performed better on reasoning.",
+    tags: ["MoE", "reasoning", "QK-Norm", "GQA", "MTP"],
+    summary: "GLM-4.5 chooses a deeper, narrower MoE design with GQA, partial RoPE, high attention-head count, QK-Norm, and an MTP layer.",
+    cost: "The architecture keeps 32B active parameters while targeting ARC tasks: agentic, reasoning, and coding.",
+    alpha: "This is an important counterpoint to pure scale: model shape can be tuned for reasoning capacity, not just loss.",
+    links: [
+      { label: "GLM-4.5 paper", url: "https://arxiv.org/abs/2508.06471" },
+      { label: "GLM-4.5 repo", url: "https://github.com/zai-org/GLM-4.5" }
+    ]
+  },
+  {
+    id: "glm-slime",
+    title: "slime RL Infrastructure",
+    lab: "Zhipu / Z.ai",
+    year: 2025,
+    date: "Jul 2025",
+    vertical: "Training Systems",
+    openness: "Open source",
+    model: "Flexible RL infrastructure for large-scale models",
+    edge: "Decouples training and rollout engines for scalable synchronous/asynchronous RL.",
+    tags: ["RL infra", "SGLang", "Megatron", "rollouts", "agents"],
+    summary: "Z.ai open-sourced slime to support the large-scale RL needed for GLM-4.5 reasoning, coding, deep search, and tool-use training.",
+    cost: "The infrastructure is designed to improve GPU utilization while handling expensive multi-turn agentic rollouts.",
+    alpha: "For long-horizon agents, the real moat may be rollout infrastructure: the lab that can generate and score more trajectories learns faster.",
+    links: [
+      { label: "GLM-4.5 blog", url: "https://z.ai/blog/glm-4.5" },
+      { label: "GLM-4.5 paper", url: "https://arxiv.org/abs/2508.06471" }
+    ]
+  },
+  {
+    id: "glm-curriculum-rl",
+    title: "Difficulty-Curriculum RL For ARC",
+    lab: "Zhipu / Z.ai",
+    year: 2025,
+    date: "Jul 2025",
+    vertical: "Reinforcement Learning",
+    openness: "Paper + blog",
+    model: "GLM-4.5 post-training",
+    edge: "Single-stage 64K-context RL with difficulty curriculum, dynamic temperature, and adaptive clipping.",
+    tags: ["RL", "curriculum", "reasoning", "coding", "deep search"],
+    summary: "GLM-4.5's post-training emphasizes agentic coding, deep search, tool use, and STEM reasoning through stable RL variants.",
+    cost: "The blog states they found full-context single-stage RL stronger than progressive scheduling for reasoning.",
+    alpha: "This is the type of detail worth tracking: RL stability tricks often become tomorrow's default recipes.",
+    links: [
+      { label: "GLM-4.5 blog", url: "https://z.ai/blog/glm-4.5" },
+      { label: "GLM-4.5 paper", url: "https://arxiv.org/abs/2508.06471" }
+    ]
+  },
+  {
+    id: "kimi-partial-rollouts",
+    title: "Partial Rollouts",
+    lab: "Moonshot AI",
+    year: 2025,
+    date: "Jan 2025",
+    vertical: "Reinforcement Learning",
+    openness: "Paper",
+    model: "Kimi k1.5 long-context RL",
+    edge: "Pauses long unfinished trajectories and resumes them in later RL iterations.",
+    tags: ["RL", "long-CoT", "rollouts", "replay buffer", "efficiency"],
+    summary: "Kimi k1.5 uses partial rollouts to make long-chain-of-thought RL practical under fixed token budgets.",
+    cost: "The method prevents long trajectories from monopolizing rollout workers and avoids regenerating completed trajectory prefixes.",
+    alpha: "This is directly relevant to long-horizon agents: training on long tasks requires scheduler and replay design, not only better rewards.",
+    links: [{ label: "Kimi k1.5", url: "https://arxiv.org/html/2501.12599" }]
+  },
+  {
+    id: "kimi-long2short",
+    title: "Long2Short Reasoning Transfer",
+    lab: "Moonshot AI",
+    year: 2025,
+    date: "Jan 2025",
+    vertical: "Post-training",
+    openness: "Paper",
+    model: "Kimi k1.5 short-CoT optimization",
+    edge: "Transfers long-CoT capability into shorter, cheaper reasoning behavior.",
+    tags: ["long-CoT", "short-CoT", "RL", "model merging", "length penalty"],
+    summary: "Kimi presents long2short methods such as length-penalty RL, model merging, and rejection sampling to improve short-CoT models with long-CoT learning.",
+    cost: "The goal is to retain reasoning quality while reducing answer length and inference cost.",
+    alpha: "Reasoning quality alone is not enough; token efficiency becomes a product and serving advantage.",
+    links: [{ label: "Kimi k1.5", url: "https://arxiv.org/html/2501.12599" }]
+  },
+  {
+    id: "kimi-muonclip",
+    title: "MuonClip Optimizer",
+    lab: "Moonshot AI",
+    year: 2025,
+    date: "Jul 2025",
+    vertical: "Training Systems",
+    openness: "Paper",
+    model: "Kimi K2 pre-training optimizer",
+    edge: "Adds QK-clip to Muon to prevent attention-logit instability.",
+    tags: ["optimizer", "QK-clip", "training stability", "MoE"],
+    summary: "Kimi K2 introduces MuonClip to get Muon's token efficiency while avoiding QK/logit explosions during trillion-parameter MoE training.",
+    cost: "Moonshot reports K2 was pre-trained on 15.5T tokens with zero loss spikes.",
+    alpha: "Optimizer stability is becoming a frontier capability; fewer loss spikes means fewer wasted giant training runs.",
+    links: [
+      { label: "Kimi K2", url: "https://arxiv.org/html/2507.20534" },
+      { label: "Project page", url: "https://moonshotai.github.io/Kimi-K2/" }
+    ]
+  },
+  {
+    id: "kimi-agentic-data",
+    title: "Agentic Data Synthesis",
+    lab: "Moonshot AI",
+    year: 2025,
+    date: "Jul 2025",
+    vertical: "Agents",
+    openness: "Paper + open weights",
+    model: "Kimi K2 post-training",
+    edge: "Generates multi-step tool-use tasks and trajectories across real and synthetic environments.",
+    tags: ["agents", "synthetic data", "tool use", "coding", "environments"],
+    summary: "Kimi K2's agentic capabilities are trained with large-scale synthesized tool-use data before reinforcement learning.",
+    cost: "Synthetic environments scale supervision for tasks where manual demonstrations would be slow and expensive.",
+    alpha: "This is the likely next race: who can create diverse, high-quality agent environments and trajectories at scale.",
+    links: [
+      { label: "Kimi K2", url: "https://arxiv.org/html/2507.20534" },
+      { label: "Project page", url: "https://moonshotai.github.io/Kimi-K2/" }
+    ]
+  },
+  {
+    id: "kimi-self-critique-rl",
+    title: "Self-Critique Rubric Reward",
+    lab: "Moonshot AI",
+    year: 2025,
+    date: "Jul 2025",
+    vertical: "Reinforcement Learning",
+    openness: "Paper",
+    model: "Kimi K2 general RL",
+    edge: "Combines verifiable rewards with model-generated rubric feedback for subjective tasks.",
+    tags: ["RLVR", "self-critique", "rubric reward", "alignment", "agents"],
+    summary: "Kimi K2 extends RL beyond math/code correctness by using self-critique rubric rewards for open-ended qualities like helpfulness, creativity, depth, and safety.",
+    cost: "It reduces dependence on purely human preference scoring while still bootstrapping from curated preference data.",
+    alpha: "This is a bridge from verifiable RL to general agent alignment, where many tasks do not have a single exact answer.",
+    links: [{ label: "Kimi K2", url: "https://arxiv.org/html/2507.20534" }]
+  },
+  {
+    id: "minimax-lightning-attention",
+    title: "Lightning Attention",
+    lab: "MiniMax",
+    year: 2025,
+    date: "Jan 2025",
+    vertical: "Architecture",
+    openness: "Paper + open weights",
+    model: "MiniMax-01 / MiniMax-M1 hybrid attention",
+    edge: "I/O-aware linear attention mixed with periodic softmax attention.",
+    tags: ["attention", "linear attention", "long context", "MoE"],
+    summary: "MiniMax combines Lightning Attention, softmax attention, and MoE to support million-token context and long reasoning.",
+    cost: "MiniMax-M1 reports 25% of DeepSeek-R1's FLOPs at 100K generation length and native 1M context.",
+    alpha: "MiniMax is the clearest bet that long generation needs a different attention economics than standard transformers.",
+    links: [
+      { label: "MiniMax-M1", url: "https://arxiv.org/html/2506.13585" },
+      { label: "MiniMax-01", url: "https://github.com/MiniMax-AI/MiniMax-01" }
+    ]
+  },
+  {
+    id: "minimax-lasp",
+    title: "LASP+ And Varlen Ring Attention",
+    lab: "MiniMax",
+    year: 2025,
+    date: "Jan 2025",
+    vertical: "Training Systems",
+    openness: "Paper",
+    model: "MiniMax-01 long-context training stack",
+    edge: "Parallelizes linear-attention sequence computation and reduces redundancy for packed long sequences.",
+    tags: ["LASP+", "ring attention", "sequence parallelism", "long context"],
+    summary: "MiniMax-01 uses LASP+, varlen ring attention, and custom kernels to make hybrid attention train and serve efficiently at long sequence lengths.",
+    cost: "Secondary summaries of the paper report over 75% MFU on H20 for tailored Lightning Attention inference kernels.",
+    alpha: "The hidden work in long-context models is parallelism: attention ideas only matter if the hardware path is efficient.",
+    links: [
+      { label: "MiniMax-01 summary", url: "https://www.emergentmind.com/papers/2501.08313" },
+      { label: "MiniMax-01 repo", url: "https://github.com/MiniMax-AI/MiniMax-01" }
+    ]
+  },
+  {
+    id: "minimax-cispo",
+    title: "CISPO",
+    lab: "MiniMax",
+    year: 2025,
+    date: "Jun 2025",
+    vertical: "Reinforcement Learning",
+    openness: "Paper + open weights",
+    model: "Clipped Importance Sampling Policy Optimization",
+    edge: "Clips importance-sampling weights instead of token updates to preserve rare critical reasoning tokens.",
+    tags: ["RL", "policy optimization", "test-time compute", "reasoning"],
+    summary: "MiniMax-M1 introduces CISPO for efficient RL scaling with hybrid attention and long reasoning budgets.",
+    cost: "The method targets variance and stability while avoiding the token-clipping behavior that can discard important rare reasoning steps.",
+    alpha: "CISPO is worth tracking alongside GRPO: labs are now inventing RL algorithms around the failure modes of long reasoning.",
+    links: [
+      { label: "MiniMax-M1", url: "https://arxiv.org/html/2506.13585" },
+      { label: "GitHub", url: "https://github.com/MiniMax-AI/MiniMax-M1" }
+    ]
+  },
+  {
+    id: "qwen-hybrid-thinking",
+    title: "Hybrid Thinking Mode",
+    lab: "Alibaba Qwen",
+    year: 2025,
+    date: "Apr 2025",
+    vertical: "Post-training",
+    openness: "Open weights",
+    model: "Qwen3 unified thinking/non-thinking models",
+    edge: "One model can switch between deep reasoning and fast direct responses.",
+    tags: ["thinking budget", "reasoning", "tool use", "deployment"],
+    summary: "Qwen3 fuses thinking and non-thinking behavior into one model, with chat-template controls and thinking budgets.",
+    cost: "A single hybrid model reduces deployment complexity versus serving separate instruct and reasoning checkpoints.",
+    alpha: "This is a product-facing research idea: reasoning budget becomes a controllable parameter, not a fixed model choice.",
+    links: [
+      { label: "Qwen3 report", url: "https://arxiv.org/html/2505.09388" },
+      { label: "Qwen concepts", url: "https://qwen.readthedocs.io/en/latest/getting_started/concepts.html" }
+    ]
+  },
+  {
+    id: "qwen-agent-tool-use",
+    title: "Structured Tool Calling For Agents",
+    lab: "Alibaba Qwen",
+    year: 2025,
+    date: "2025",
+    vertical: "Agents",
+    openness: "Open source",
+    model: "Qwen3 + Qwen-Agent",
+    edge: "Uses tool-call templates, parsers, and reasoning content for multi-turn tool workflows.",
+    tags: ["agents", "tool calling", "MCP", "Hermes template", "reasoning"],
+    summary: "Qwen3 emphasizes agent tool use, including structured thinking content before tool calls and support through Qwen-Agent.",
+    cost: "For simple calls, thinking can be disabled; for complex orchestration, the reasoning budget can be enabled only when useful.",
+    alpha: "This is the practical bridge between reasoning models and agent frameworks: model format and parser reliability matter.",
+    links: [
+      { label: "Qwen concepts", url: "https://qwen.readthedocs.io/en/latest/getting_started/concepts.html" },
+      { label: "Thinking docs", url: "https://docs.qwencloud.com/developer-guides/text-generation/thinking" }
+    ]
+  },
+  {
+    id: "seed-coder-data",
+    title: "Model-Centric Code Data Curation",
+    lab: "ByteDance Seed",
+    year: 2025,
+    date: "Jun 2025",
+    vertical: "Data",
+    openness: "Open weights",
+    model: "Seed-Coder 8B family",
+    edge: "Lets code models help curate, filter, and improve their own training data.",
+    tags: ["code", "data curation", "self-improvement", "DPO", "LongCoT"],
+    summary: "Seed-Coder is a compact but important research line on using LLMs to build better code pre-training data.",
+    cost: "ByteDance validates the pipeline at 8B scale with 6T code-focused tokens before expensive frontier scaling.",
+    alpha: "Data engines may be more reusable than checkpoints: a better curation loop can feed every future model.",
+    links: [
+      { label: "Paper", url: "https://arxiv.org/abs/2506.03524" },
+      { label: "Hugging Face", url: "https://huggingface.co/ByteDance-Seed/Seed-Coder-8B-Base" }
+    ]
+  },
+  {
+    id: "ernie-heterogeneous-moe",
+    title: "Heterogeneous Multimodal MoE",
+    lab: "Baidu ERNIE",
+    year: 2025,
+    date: "Jun 2025",
+    vertical: "Multimodal",
+    openness: "Open weights",
+    model: "ERNIE 4.5 model family",
+    edge: "Shares parameters across modalities while preserving modality-specific experts.",
+    tags: ["multimodal", "MoE", "PaddlePaddle", "MFU", "Apache-2.0"],
+    summary: "ERNIE 4.5's main research contribution is a modality-aware MoE family released with the PaddlePaddle training and deployment stack.",
+    cost: "Baidu reports 47% MFU for its largest ERNIE 4.5 language model pre-training.",
+    alpha: "Baidu's signal is full-stack industrialization: model, framework, toolkit, inference, and open release together.",
+    links: [
+      { label: "Official blog", url: "https://ernie.baidu.com/blog/posts/ernie4.5/" },
+      { label: "GitHub", url: "https://github.com/PaddlePaddle/ERNIE" }
+    ]
+  },
+  {
+    id: "hunyuan-routing",
+    title: "Mixed Expert Routing + KV Compression",
+    lab: "Tencent Hunyuan",
+    year: 2024,
+    date: "Nov 2024",
+    vertical: "Architecture",
+    openness: "Open weights",
+    model: "Hunyuan-Large / Hunyuan-MoE-A52B",
+    edge: "Combines large-scale synthetic data, MoE routing, KV-cache compression, and expert-specific LR.",
+    tags: ["MoE", "routing", "KV cache", "synthetic data", "long context"],
+    summary: "Hunyuan-Large contributes practical MoE scaling techniques from Tencent's production model environment.",
+    cost: "The model has 389B total parameters, 52B active parameters, and up to 256K context.",
+    alpha: "Tencent is useful to track because its research is tightly connected to high-volume consumer and enterprise deployments.",
+    links: [
+      { label: "Paper", url: "https://arxiv.org/html/2411.02265" },
+      { label: "GitHub", url: "https://github.com/Tencent-Hunyuan/Tencent-Hunyuan-Large" }
+    ]
+  },
+  {
+    id: "pangu-ascend",
+    title: "Ascend-Native Frontier Training",
+    lab: "Huawei Pangu",
+    year: 2025,
+    date: "Apr 2025",
+    vertical: "Training Systems",
+    openness: "Reports",
+    model: "Pangu Ultra dense and MoE reports",
+    edge: "Trains 100B+ dense and giant MoE models on Huawei Ascend NPUs.",
+    tags: ["Ascend", "MindSpore", "training stability", "MoE", "hardware"],
+    summary: "Pangu Ultra is strategically important because it explores frontier-scale training recipes on domestic Chinese hardware and software stacks.",
+    cost: "Reports cover a 135B dense model on 8,192 Ascend NPUs and a 718B MoE training recipe on Ascend systems.",
+    alpha: "If China is compute-constrained by GPU access, Ascend-native training recipes become a major research frontier.",
+    links: [
+      { label: "Dense report", url: "https://arxiv.org/abs/2504.07866" },
+      { label: "GitHub", url: "https://github.com/pangu-tech/pangu-ultra" }
+    ]
+  },
+  {
+    id: "opencompass-eval",
+    title: "OpenCompass Evaluation Stack",
+    lab: "Shanghai AI Lab",
+    year: 2023,
+    date: "2023 onward",
+    vertical: "Evaluation",
+    openness: "Open source",
+    model: "Universal LLM evaluation framework",
+    edge: "Standardizes Chinese and global evaluation across knowledge, reasoning, code, long context, and subjective tasks.",
+    tags: ["evaluation", "C-Eval", "CMMLU", "MMLU", "leaderboard"],
+    summary: "OpenCompass is not a model but a research instrument: it shapes what domestic labs measure and optimize.",
+    cost: "Shared evaluation infrastructure reduces duplicated benchmarking and improves comparability across open and proprietary models.",
+    alpha: "Track evaluators because benchmarks become incentives; incentives become model behavior.",
+    links: [
+      { label: "Docs", url: "https://opencompass.readthedocs.io/" },
+      { label: "Paper", url: "https://arxiv.org/html/2605.19276" }
+    ]
+  }
+];

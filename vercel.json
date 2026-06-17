@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/chinese-frontier",
+      "destination": "/chinese-frontier/",
+      "permanent": true
+    }
+  ]
+}

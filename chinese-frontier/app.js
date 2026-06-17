@@ -27,6 +27,33 @@ const companyLogos = {
 
 let catalogItems = [];
 
+function reorderTopLabs(items) {
+  const topLabOrder = [
+    "DeepSeek",
+    "Alibaba / Qwen",
+    "Moonshot AI / Kimi",
+    "Zhipu",
+    "MiniMax",
+    "ByteDance Seed"
+  ];
+
+  const pinnedItems = [];
+  const usedIndices = new Set();
+
+  for (const lab of topLabOrder) {
+    const idx = items.findIndex((item, i) =>
+      !usedIndices.has(i) && item.company.includes(lab)
+    );
+    if (idx !== -1) {
+      pinnedItems.push(items[idx]);
+      usedIndices.add(idx);
+    }
+  }
+
+  const rest = items.filter((_, i) => !usedIndices.has(i));
+  return [...pinnedItems, ...rest];
+}
+
 async function init() {
   try {
     const response = await fetch("./catalog.md", { cache: "no-store" });
@@ -36,6 +63,7 @@ async function init() {
 
     const markdown = await response.text();
     catalogItems = parseCatalog(markdown);
+    catalogItems = reorderTopLabs(catalogItems);
     populateFilters();
     bindEvents();
     render();

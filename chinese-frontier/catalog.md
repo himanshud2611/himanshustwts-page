@@ -127,6 +127,7 @@
 ### Tencent Hunyuan
 - **Hunyuan-Large mixed expert routing** — Architecture. 389B total / 52B active MoE with mixed expert routing, KV-cache compression, expert-specific LR, and large synthetic data. (arXiv:2411.02265, https://arxiv.org/abs/2411.02265)
 - **Hunyuan-A13B fine-grained MoE** — Architecture. 80B total / 13B active fine-grained MoE model optimized for efficient reasoning and general use. (GitHub, https://github.com/Tencent-Hunyuan/Hunyuan-A13B)
+- **Hy3 production agent model** — Agents. 295B total / 21B active MoE with 256K context and no-think, low-think, and high-think modes; the production revision targets coding agents, long documents, search QA, and multi-step execution. (Tencent Cloud, https://cloud.tencent.com/announce/detail/2384)
 - **Hunyuan-DiT** — Multimodal. Multi-resolution diffusion transformer with fine-grained Chinese text understanding. (arXiv:2405.08748, https://arxiv.org/abs/2405.08748)
 - **HunyuanVideo** — Multimodal. Large video-generation system and open model line. (arXiv:2412.03603, https://arxiv.org/abs/2412.03603)
 - **HunyuanVideo 1.5** — Multimodal. Adds SSTA, glyph-aware text encoding, and video super-resolution network. (arXiv:2511.18870, https://arxiv.org/abs/2511.18870)
@@ -207,6 +208,7 @@
 - **MiMo speculative MTP** — Inference. MiMo adds an MTP layer for speculative decoding, with reported high acceptance rate. (GitHub, https://github.com/XiaomiMiMo/MiMo)
 - **MiMo-VL-7B** — Multimodal. Native-resolution ViT + MLP projector + MiMo-7B language backbone for compact visual reasoning. (arXiv:2506.03569, https://arxiv.org/abs/2506.03569)
 - **Mixed On-policy Reinforcement Learning (MORL)** — Reinforcement Learning. MiMo-VL post-training framework integrating rewards across perception, grounding, reasoning, and preference alignment. (GitHub, https://github.com/XiaomiMiMo/MiMo-VL)
+- **Hybrid-SWA serving: GCache + KV-cache-affinity routing** — Inference. MiMo-V2.5 production serving combines layer-wise KV prefetch, SWA-aware prefix-cache trees, RDMA distributed caching, and cache-affinity routing for Hybrid SWA + sparse MoE + multimodal inputs. (arXiv:2607.13095, https://arxiv.org/abs/2607.13095)
 
 ### Meituan LongCat
 - **LongCat-Flash dynamic activation MoE** — Architecture. 560B MoE with zero-computation experts and dynamic 18.6B-31.3B activation depending on token/context demand. (arXiv:2509.01322, https://arxiv.org/abs/2509.01322)
@@ -214,6 +216,9 @@
 - **LongCat-Flash-Thinking** — Reinforcement Learning. Reasoning model trained with DORA distributed RL, formal reasoning, agentic reasoning, and tool-use techniques. (GitHub, https://github.com/meituan-longcat/LongCat-Flash-Thinking)
 - **Dual-path tool reasoning** — Agents. LongCat-Flash-Thinking retains high-quality queries that genuinely require tool assistance to strengthen adaptive tool use. (GitHub, https://github.com/meituan-longcat/LongCat-Flash-Thinking)
 - **LongCat-Video** — Multimodal. Open video generation model line with technical reports for video and avatar generation. (GitHub, https://github.com/meituan-longcat/LongCat-Video)
+- **LongCat-2.0 sparse attention + N-gram Embedding** — Architecture. Open 1.6T MoE with ~48B average active parameters and 1M context; LongCat Sparse Attention reduces redundant long-context indexing, while a 135B N-gram embedding path expands capacity beyond experts. (Meituan, https://tech.meituan.com/2026/07/12/LongCat-2.0-Open-source.html)
+- **LongCat-2.0 MOPD multi-teacher distillation** — Post-training. Online distillation uses agent, reasoning, and interaction teachers, then merges them through MOPD for execution, reasoning, and aligned interaction. (Meituan, https://tech.meituan.com/2026/07/12/LongCat-2.0-Open-source.html)
+- **LongCat-2.0 domestic-chip serving stack** — Training Systems. ScMoE, Super Kernel, weight prefetch, layer-wise KV transfer, prefill/decode disaggregation, and asynchronous expert-parallel balancing support trillion-scale serving on domestic accelerators. (Meituan, https://tech.meituan.com/2026/07/12/LongCat-2.0-Open-source.html)
 
 ### SenseTime / SenseNova
 - **SenseNova V6 / V6.5 multimodal reasoning** — Multimodal. Commercial multimodal model system using multimodal chain-of-thought, global memory, reinforcement learning, and later interleaved image-text thought chains. (SenseTime, https://www.sensetime.com/en/news-detail/51169566?categoryId=1072; SenseTime V6.5, https://www.sensetime.com/en/news-detail/51169861)
@@ -240,6 +245,10 @@
 
 **Moonshot AI**
 - See MuonClip under Pre-training. Kimi K2 uses a 1T-param MoE (32B active) with reduced attention heads optimized for inference. (GitHub: https://github.com/MoonshotAI/Kimi-K2; tech report arXiv:2507.20534, https://arxiv.org/abs/2507.20534)
+
+**Meituan LongCat**
+- **LongCat Sparse Attention (LSA)** — Jun/Jul 2026. LSA uses flow-aware, cross-layer, and hierarchical indexing to reduce fragmented memory access and redundant index work for million-token training and inference. (Meituan, https://tech.meituan.com/2026/07/12/LongCat-2.0-Open-source.html)
+- **N-gram Embedding as a capacity path** — Jun/Jul 2026. LongCat-2.0 adds a 135B N-gram embedding path outside its MoE experts; Meituan says this gives more return than expanding experts when MoE sparsity is already near 97%. (Meituan, https://tech.meituan.com/2026/07/12/LongCat-2.0-Open-source.html)
 
 **Zhipu AI**
 - **GLM-4.5 depth-over-width MoE** — Aug 2025. 355B total / 32B active MoE; prioritizes depth, 96 attention heads/layer, QK-Norm, GQA, MTP, and the Muon optimizer. (arXiv:2508.06471, https://arxiv.org/abs/2508.06471)
@@ -296,6 +305,9 @@
 
 **Moonshot AI**
 - **Kimi k1.5 (RL scaling for reasoning)** — Jan 2025. Long-context RL scaling + an online policy mirror descent variant; deliberately avoids MCTS, value functions, and process reward models; introduces long2short distillation. Matches OpenAI o1 (77.5 AIME, 96.2 MATH-500, 94th-percentile Codeforces). (arXiv:2501.12599, https://arxiv.org/abs/2501.12599)
+
+**Meituan LongCat**
+- **MOPD multi-teacher online distillation** — Jun/Jul 2026. LongCat-2.0 separates teachers for agentic execution, reasoning, and interaction/alignment, then merges them through MOPD to combine execution, reasoning, and precise interaction. (Meituan, https://tech.meituan.com/2026/07/12/LongCat-2.0-Open-source.html)
 
 **Zhipu AI**
 - **slime RL infrastructure** — Aug 2025. Open-source RL infra with decoupled, agent-first design; flexible hybrid (synchronous co-located + asynchronous decoupled) training; three modules (Megatron training, SGLang+Router rollout, Data Buffer). Powered GLM-4.5. (arXiv:2508.06471; GitHub https://github.com/zai-org/GLM-4.5)
@@ -355,6 +367,12 @@
 
 **Moonshot AI / Zhipu** — Kimi K2 and GLM-4.5/4.6/4.7 are agent-native foundation models (see Architecture/RL sections); GLM-4.7's blog reports 73.8% on SWE-bench and improvements on Terminal-Bench 2.0.
 
+**Tencent Hunyuan**
+- **Hy3 production agent rollout** — Jul 2026. The 295B-total / 21B-active MoE adds selectable no-think, low-think, and high-think modes and targets coding agents, long-document understanding, search QA, and multi-step workflows. (Tencent Cloud, https://cloud.tencent.com/announce/detail/2384)
+
+**Alibaba / Qwen**
+- **Qwen Code agent runtime** — Jun/Jul 2026. The coding-agent runtime added nested delegation, durable scheduled loops, worktree-isolated concurrent tasks, in-turn user steering, and permission-aware built-in web search/fetch. This is agent-system engineering, not a new Qwen foundation-model architecture. (Qwen, https://qwenlm.github.io/qwen-code-docs/en/blog/updates/weekly-update-2026-07-23/)
+
 ---
 ### VERTICAL 7: LONG-CONTEXT & EFFICIENCY / INFERENCE / SERVING
 
@@ -363,6 +381,12 @@
 - **DeepSeek-V3.2-Exp continued training for DSA** — late 2025. Trains a lightning indexer (1000 warm-up steps, 2.1B tokens) then full sparse adaptation (15000 steps of 480×128K-token sequences, 943.7B tokens, selecting 2048 KV tokens/query). (arXiv:2512.02556)
 
 **MiniMax** — Lightning attention enables M1 to use ~25% of DeepSeek-R1's FLOPs at 100K generation length. (arXiv:2506.13585)
+
+**Meituan LongCat**
+- **LongCat-2.0 domestic-chip serving stack** — Jun/Jul 2026. The open inference stack combines ScMoE core-level parallelism, Super Kernel, weight prefetch, layer-wise KV transfer, prefill/decode disaggregation, and asynchronous expert-parallel balancing. (Meituan, https://tech.meituan.com/2026/07/12/LongCat-2.0-Open-source.html)
+
+**Xiaomi MiMo**
+- **Hybrid-SWA serving: GCache + KV-cache-affinity routing** — Jul 2026. MiMo-V2.5 couples layer-wise KV prefetch, SWA-aware prefix-cache trees, RDMA distributed caching, and cache-affinity routing to make Hybrid SWA + sparse MoE + multimodal serving efficient in production. (arXiv:2607.13095, https://arxiv.org/abs/2607.13095)
 
 ---
 ### VERTICAL 8: EMBEDDINGS & RETRIEVAL

@@ -28,6 +28,15 @@ const companyLogos = {
 let catalogItems = [];
 
 function reorderTopLabs(items) {
+  const latestCatalogTitles = new Set([
+    "Hy3 production agent model",
+    "Hybrid-SWA serving: GCache + KV-cache-affinity routing",
+    "LongCat-2.0 sparse attention + N-gram Embedding",
+    "LongCat-2.0 MOPD multi-teacher distillation",
+    "LongCat-2.0 domestic-chip serving stack"
+  ]);
+  const latestItems = items.filter((item) => latestCatalogTitles.has(item.title));
+  const olderItems = items.filter((item) => !latestCatalogTitles.has(item.title));
   const topLabOrder = [
     "DeepSeek",
     "Alibaba / Qwen",
@@ -41,17 +50,17 @@ function reorderTopLabs(items) {
   const usedIndices = new Set();
 
   for (const lab of topLabOrder) {
-    const idx = items.findIndex((item, i) =>
+    const idx = olderItems.findIndex((item, i) =>
       !usedIndices.has(i) && item.company.includes(lab)
     );
     if (idx !== -1) {
-      pinnedItems.push(items[idx]);
+      pinnedItems.push(olderItems[idx]);
       usedIndices.add(idx);
     }
   }
 
-  const rest = items.filter((_, i) => !usedIndices.has(i));
-  return [...pinnedItems, ...rest];
+  const rest = olderItems.filter((_, i) => !usedIndices.has(i));
+  return [...latestItems, ...pinnedItems, ...rest];
 }
 
 async function init() {

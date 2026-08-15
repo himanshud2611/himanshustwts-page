@@ -44,13 +44,12 @@ const leftItems = [
     ]
   },
   {
-    title: "ClaudeBuzz",
-    subtitle: "Curated showcase of impressive projects made with Claude",
-    image: "/content-images/claudebuzz.png",
-    type: "logo",
+    title: "Network School x Devfolio",
+    subtitle: "Evolution of AI Session",
+    image: "/content-images/netowkr-school-wide-logo.jpg",
+    type: "cover",
     links: [
-        { label: "Website", url: "https://www.claudebuzz.com" },
-        { label: "Twitter", url: "https://x.com/claudebuzzcom" }
+      { label: "Listen to Broadcast", url: "https://x.com/i/broadcasts/1lPKqvAlNWdGb" }
     ]
   },
   {
@@ -69,16 +68,6 @@ const leftItems = [
     type: "logo",
     links: [
       { label: "LinkedIn Post", url: "https://www.linkedin.com/posts/himanshud2611_id-the-pleasure-being-part-of-the-speaker-activity-7365666508481441793-9c8C?utm_source=share&utm_medium=member_desktop&rcm=ACoAADjR6_0BtCzfvYosbFlqFq9KeAq8YcaIFsQ" }
-    ]
-  },
-  {
-    title: "Lightspeed x Devfolio",
-    subtitle: "Hackathon Mentor",
-    image: "/content-images/devfolio-logo.png",
-    type: "logo",
-    links: [
-      { label: "Announcement", url: "https://x.com/himanshustwts/status/1936508489041596784?s=20" },
-      { label: "Hack Picks", url: "https://x.com/devfolio/status/1946205107772858394?s=20" },
     ]
   },
   {
@@ -103,12 +92,13 @@ const leftItems = [
 
 const rightItems = [
   {
-    title: "Network School x Devfolio",
-    subtitle: "Evolution of AI Session",
-    image: "/content-images/netowkr-school-wide-logo.jpg",
-    type: "cover",
+    title: "Lightspeed x Devfolio",
+    subtitle: "Hackathon Mentor",
+    image: "/content-images/devfolio-logo.png",
+    type: "logo",
     links: [
-      { label: "Listen to Broadcast", url: "https://x.com/i/broadcasts/1lPKqvAlNWdGb" }
+      { label: "Announcement", url: "https://x.com/himanshustwts/status/1936508489041596784?s=20" },
+      { label: "Hack Picks", url: "https://x.com/devfolio/status/1946205107772858394?s=20" }
     ]
   },
   {
@@ -137,11 +127,11 @@ const featuredItems = [...leftItems, ...rightItems];
     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
       {featuredItems.map((item) => (
         <div class="group flex flex-col gap-3">
-          <div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
+          <div class={`relative w-full overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900 ${item.type === 'feature' ? 'aspect-[1008/622]' : 'aspect-[4/3]'}`}>
             <img 
               src={item.image} 
               alt={item.title} 
-              class={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${item.type === 'feature' ? 'object-cover' : 'object-contain'} ${item.title === 'ClaudeBuzz' ? 'scale-[2.2]' : ''}`}
+              class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
             />
             <div class="absolute top-3 right-3 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               {item.links.map((link) => (

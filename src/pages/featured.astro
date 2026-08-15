@@ -1,0 +1,181 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ExternalLinkIcon from "../components/ExternalLinkIcon.astro";
+import { Icon } from "astro-icon/components";
+
+const title = "Featured x Content";
+
+const leftItems = [
+  {
+    title: "Guest at ETN Show",
+    subtitle: "Conversation on Anthropic watermarking, Riemann Hypothesis, Commercial applications of AI Research etc.",
+    image: "/assets/codex-clipboard-71c65ea5-73e2-4cb3-a5fc-326467b91ef2.png",
+    type: "feature",
+    links: [
+      { label: "Watch Conversation", url: "https://www.youtube.com/live/djzSuxDLtyA?si=Udw5tcc1VOTPtUAu&t=5951" }
+    ]
+  },
+  {
+    title: "Conference Host at Lossfunk",
+    subtitle: "The Future of Science Communication.",
+    image: "/assets/lossfunk-session-img.jpeg",
+    type: "logo",
+    links: [
+      { label: "Watch Session", url: "https://youtu.be/EroTTDbMrOk?si=oy3y1H1r2VOTP4At&t=191" }
+    ]
+  },
+  {
+    title: "Wall Street Journal",
+    subtitle: "Interview with Wall Street Journal",
+    image: "/wsj.png",
+    type: "logo",
+    links: [
+      { label: "Read Article", url: "https://www.wsj.com/tech/ai/ai-model-reliability-hallucinations-a3bc0497" }
+    ]
+  },
+  {
+    title: "GroundZero",
+    subtitle: "Shaping the frontier with occasional conversations and notes",
+    image: "/content-images/g0-logo.jpg",
+    type: "logo",
+    links: [
+        { label: "Website", url: "https://groundzeroai.in" },
+        { label: "Twitter", url: "https://x.com/groundzero_twt" }
+    ]
+  },
+  {
+    title: "ClaudeBuzz",
+    subtitle: "Curated showcase of impressive projects made with Claude",
+    image: "/content-images/claudebuzz.png",
+    type: "logo",
+    links: [
+        { label: "Website", url: "https://www.claudebuzz.com" },
+        { label: "Twitter", url: "https://x.com/claudebuzzcom" }
+    ]
+  },
+  {
+    title: "AI4Bharat",
+    subtitle: "Session on SigLIP",
+    image: "/content-images/ai4bharat-logo.png",
+    type: "logo",
+    links: [
+      { label: "Watch Video", url: "https://youtu.be/m5WTjzpMsjs?si=9JMRcrzubt6GxAz_" }
+    ]
+  },
+  {
+    title: "Hackerrank",
+    subtitle: "Speaker Session",
+    image: "/content-images/hackerrank.png",
+    type: "logo",
+    links: [
+      { label: "LinkedIn Post", url: "https://www.linkedin.com/posts/himanshud2611_id-the-pleasure-being-part-of-the-speaker-activity-7365666508481441793-9c8C?utm_source=share&utm_medium=member_desktop&rcm=ACoAADjR6_0BtCzfvYosbFlqFq9KeAq8YcaIFsQ" }
+    ]
+  },
+  {
+    title: "Lightspeed x Devfolio",
+    subtitle: "Hackathon Mentor",
+    image: "/content-images/devfolio-logo.png",
+    type: "logo",
+    links: [
+      { label: "Announcement", url: "https://x.com/himanshustwts/status/1936508489041596784?s=20" },
+      { label: "Hack Picks", url: "https://x.com/devfolio/status/1946205107772858394?s=20" },
+    ]
+  },
+  {
+    title: "BITS Pilani Goa",
+    subtitle: "Talk/Workshop",
+    image: "/content-images/bits-logo-wide.webp",
+    type: "logo-wide",
+    links: [
+      { label: "LinkedIn Post", url: "https://www.linkedin.com/posts/himanshud2611_last-week-i-got-to-do-a-talk-workshop-at-activity-7373189866463039488-BJbN?utm_source=share&utm_medium=member_desktop&rcm=ACoAADjR6_0BtCzfvYosbFlqFq9KeAq8YcaIFsQ" }
+    ]
+  },
+  {
+    title: "TON Pod",
+    subtitle: "Chat with TON about UpsurgeLabs and GroundZero",
+    image: "/content-images/ton-pod.jpg",
+    type: "logo-wide",
+    links: [
+      { label: "Watch Video", url: "https://www.youtube.com/live/jIgQ1kuSXIk?si=d6RTdcMH-f3mXgg4&t=990" }
+    ]
+  }
+];
+
+const rightItems = [
+  {
+    title: "Network School x Devfolio",
+    subtitle: "Evolution of AI Session",
+    image: "/content-images/netowkr-school-wide-logo.jpg",
+    type: "cover",
+    links: [
+      { label: "Listen to Broadcast", url: "https://x.com/i/broadcasts/1lPKqvAlNWdGb" }
+    ]
+  },
+  {
+    title: "Bizpodroohie",
+    subtitle: "Podcast Appearance",
+    image: "/content-images/bizpodroohie-yt-thumbnail.jpg",
+    type: "cover",
+    links: [
+      { label: "Watch Episode", url: "https://youtu.be/9lx0oZJ-ylg?si=RhlsGU1fvDoz-t_e" }
+    ]
+  }
+];
+
+const featuredItems = [...leftItems, ...rightItems];
+---
+
+<Layout title={title}>
+  <div class="space-y-12 max-w-3xl">
+    <div class="space-y-4">
+      <h1 class="text-3xl md:text-4xl font-medium">Featured x Content</h1>
+      <p class="text-lg text-gruvbox-light/70 dark:text-gruvbox-dark/70">
+        Interviews, talks, sessions, mentorship, and other featured engagements.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+      {featuredItems.map((item) => (
+        <div class="group flex flex-col gap-3">
+          <div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
+            <img 
+              src={item.image} 
+              alt={item.title} 
+              class={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${item.type === 'feature' ? 'object-cover' : 'object-contain'} ${item.title === 'ClaudeBuzz' ? 'scale-[2.2]' : ''}`}
+            />
+            <div class="absolute top-3 right-3 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {item.links.map((link) => (
+                <a 
+                  href={link.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="flex items-center justify-center p-2 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full text-gruvbox-light dark:text-gruvbox-dark hover:scale-110 transition-transform shadow-sm border border-neutral-200 dark:border-neutral-800"
+                  title={link.label}
+                >
+                  {link.url.includes('youtube.com') || link.url.includes('youtu.be') ? (
+                    <Icon name="tabler:brand-youtube" class="w-4 h-4" />
+                  ) : link.url.includes('x.com') || link.url.includes('twitter.com') ? (
+                    <Icon name="tabler:brand-x" class="w-4 h-4" />
+                  ) : (
+                    <ExternalLinkIcon />
+                  )}
+                </a>
+              ))}
+            </div>
+            {item.links.length > 0 && (
+              <a href={item.links[0].url} target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-10" aria-label={item.links[0].label}></a>
+            )}
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-medium text-gruvbox-light dark:text-gruvbox-dark leading-tight group-hover:text-gruvbox-light-accent dark:group-hover:text-gruvbox-dark-accent transition-colors">
+              {item.title}
+            </h3>
+            <p class="text-sm text-gruvbox-light/60 dark:text-gruvbox-dark/60">
+              {item.subtitle}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>

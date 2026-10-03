@@ -2,9 +2,7 @@
 export const prerender = true;
 
 import Layout from "../layouts/Layout.astro";
-import Section from "../components/Section.astro";
 import ExternalLinkIcon from "../components/ExternalLinkIcon.astro";
-import Newsletter from "../components/Newsletter.astro";
 
 const title = "Himanshu";
 
@@ -38,12 +36,12 @@ const experience = [
     },
     {
         role: "Research Intern",
-        company: "IITB Trust Lab",
+        company: "IIT Bombay Trust Lab",
         companyUrl: "https://trustlab.iitb.ac.in/",
         iconPath: "/trustlab.webp",
         date: "Jun 2024 - Aug 2024",
         description:
-            "Collaborated on 'Domain Knowledge based Q/A for LLMs', optimizing and fine-tuning LLMs for open-ended medical question answering.",
+            "My first adventure to model post-training at scale! Collaborated on the research project - Domain Knowledge based Q/A for LLMs, optimizing and fine-tuning Llama models for open-ended medical question answering.",
     },
 ];
 ---
@@ -62,82 +60,46 @@ const experience = [
                     />
                     <h1 class="text-4xl font-medium">himanshu</h1>
                 </div>
-                <div class="flex items-center gap-4 mt-1">
-                    <a
-                        href="/posts"
-                        class="inline-flex items-center text-sm text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
-                    >
-                        Writings
-                        <ExternalLinkIcon />
-                    </a>
-                    <a
-                        href="/chinese-frontier"
-                        class="inline-flex items-center text-sm text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium underline underline-offset-4"
-                    >
-                        Chinese Frontier
-                        <ExternalLinkIcon />
-                    </a>
-                </div>
             </div>
 
             <p
                 class="text-lg max-w-[480px] leading-relaxed text-gruvbox-light/90 dark:text-gruvbox-dark/90"
             >
-                I am Co-founder of <a href="https://physera.ai" target="_blank" rel="noopener noreferrer" class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium">Physera<ExternalLinkIcon /></a>. We are building systems that (perceive + reason + decide) as humans do, under the constraints humans face. Essentially, we are working at the intersection of model efficiency and behavioural simulations while building environments that are multimodal.
+                I am Co-founder at <a href="https://physera.ai/" target="_blank" rel="noopener noreferrer" class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium">Physera<ExternalLinkIcon /></a>. Physera is a research and product lab building systems that (perceive + reason + decide) as humans do, under the constraints humans face. Essentially, we are working at the intersection of model efficiency and behavioural simulations while building environments that are multimodal.
                 <br />
-                I host podcasts with interesting people in AI and Tech at <a href="https://www.groundzeroai.in/" target="_blank" rel="noopener noreferrer" class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium">Ground Zero<ExternalLinkIcon /></a>.
-                <br />
-                <br />
-                my <a href="https://x.com/himanshustwts/highlights" target="_blank" rel="noopener noreferrer" class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium">X highlights<ExternalLinkIcon /></a> might be insightful for you.
+                We recently released <a href="https://physera.ai/research/animation" target="_blank" rel="noopener noreferrer" class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium">Animation Bench<ExternalLinkIcon /></a>.
             </p>
 
-            <div class="flex flex-wrap gap-6 text-sm">
-                <a
-                    href="https://twitter.com/himanshustwts"
-                    class="inline-flex items-center text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                        <path
-                            fill="currentColor"
-                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                        ></path>
-                    </svg>
-                    <span>@himanshustwts</span>
-                    <ExternalLinkIcon />
-                </a>
-                <a
-                    href="https://x.com/groundzero_twt"
-                    class="inline-flex items-center text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                        <path
-                            fill="currentColor"
-                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                        ></path>
-                    </svg>
-                    <span>Ground Zero</span>
-                    <ExternalLinkIcon />
-                </a>
-                <a
-                    href="https://www.linkedin.com/in/himanshud2611/"
-                    class="inline-flex items-center text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                        <path
-                            fill="currentColor"
-                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                        ></path>
-                    </svg>
-                    <span>LinkedIn</span>
-                    <ExternalLinkIcon />
-                </a>
-            </div>
+            <ul class="my-0 max-w-2xl list-disc space-y-3 pl-5 text-lg leading-relaxed text-gruvbox-light/90 marker:text-black dark:text-gruvbox-dark/90 dark:marker:text-gruvbox-dark">
+                <li>
+                    I occasionally write on AI and culture. Read my writings <a
+                        href="/posts"
+                        class="font-medium text-gruvbox-light-accent transition-opacity hover:opacity-80 dark:text-gruvbox-dark-accent"
+                    >here<ExternalLinkIcon /></a>.
+                </li>
+                <li>
+                    I host podcasts with interesting people in AI on <a
+                        href="https://www.groundzeroai.in/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="font-medium text-gruvbox-light-accent transition-opacity hover:opacity-80 dark:text-gruvbox-dark-accent"
+                    >Ground Zero<ExternalLinkIcon /></a>. I had privilege to host my friends in AI research like Will Brown, tokenbender, Daniel Han, Vik, Ludwig, Kalomaze and many more. I can promise you will love those convos.
+                </li>
+                <li>
+                    I am most active on <a
+                        href="https://twitter.com/himanshustwts"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="font-medium text-gruvbox-light-accent transition-opacity hover:opacity-80 dark:text-gruvbox-dark-accent"
+                    >X<ExternalLinkIcon /></a>. Please feel free to reach out.
+                </li>
+                <li>
+                    I am grateful to be <a
+                        href="/featured"
+                        class="font-medium text-gruvbox-light-accent transition-opacity hover:opacity-80 dark:text-gruvbox-dark-accent"
+                    >featured<ExternalLinkIcon /></a> at some amazing places.
+                </li>
+            </ul>
         </div>
 
         {/* Past Life Accordion */}
@@ -162,7 +124,6 @@ const experience = [
                         />
                     </svg>
                 </button>
-
 
             <div
                 id="previous-life-content"
@@ -219,7 +180,6 @@ const experience = [
                     </div>
                 </div>
 
-
             <script>
                     const toggle = document.getElementById('previous-life-toggle');
                     const content = document.getElementById('previous-life-content');
@@ -230,15 +190,9 @@ const experience = [
                     });
                 </script>
             </div>
-        </div>
-
-        {/* Newsletter Section */}
-        <Section title="stay in the loop" class="mt-12">
-            <Newsletter />
-        </Section>
 
         <p class="mt-10 text-lg leading-relaxed text-gruvbox-light/90 dark:text-gruvbox-dark/90">
-            Send an email: <a
+            You can email me: <a
                 href="mailto:himanshu@physera.ai"
                 class="text-gruvbox-light-accent dark:text-gruvbox-dark-accent hover:opacity-80 transition-opacity font-medium"
                 >himanshu@physera.ai<ExternalLinkIcon /></a

@@ -9,6 +9,7 @@ import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   output: 'server',
+  devToolbar: { enabled: false },
   adapter: vercel({}),
   integrations: [icon(), mdx({
     remarkPlugins: [remarkMath],
